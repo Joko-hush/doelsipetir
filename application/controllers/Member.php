@@ -69,9 +69,6 @@ class Member extends CI_Controller
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->order_by('tmt', 'desc');
         $data['kepangkatan'] = $this->db->get_where('jb_kepangkatan')->result_array();
-        // $this->db->where('personil_id', $data['staff']['id']);
-        // $this->db->order_by('tmt', 'desc');
-        // $data['jabatan'] = $this->db->get('jb_jabatan')->result_array();
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->order_by('thn', 'desc');
         $data['dikum'] = $this->db->get('jb_dik_um')->result_array();
