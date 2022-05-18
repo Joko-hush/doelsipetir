@@ -94,6 +94,7 @@ class Member extends CI_Controller
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->order_by('thn', 'desc');
         $data['prestasi'] = $this->db->get('jb_prestasi')->result_array();
+        $data['jabatan'] = $this->db->get('m_jabatan')->result_array();
         $this->db->where('personil_id', $data['staff']['id']);
         $data['kk'] = $this->db->get('jb_kartu_keluarga')->row_array();
         if (!$data['kk']) {
@@ -1724,11 +1725,13 @@ class Member extends CI_Controller
     public function fungsional()
     {
         $data['title'] = 'DOELSIPETIR';
-        $data['judul'] = 'RIwayat Jabatan Fungsional';
+        $data['judul'] = 'Riwayat Jabatan Fungsional';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $this->db->where('isactive', 1);
         $data['jabatan'] = $this->db->get('m_jabatan')->result_array();
+        $this->db->where('KDSTAFF', $data['staff']['KDSTAFF']);
+        $data['jabatan_f'] = $this->db->get('jabatan_fungsional')->result_array();
 
 
         $this->form_validation->set_rules('nama', 'Nama Jabatan', 'trim|required');
@@ -1737,6 +1740,124 @@ class Member extends CI_Controller
             $this->load->view('member/layout/jb_header', $data);
             $this->load->view('member/layout/jb_nav', $data);
             $this->load->view('member/input/fungsional', $data);
+            $this->load->view('member/layout/jb_footer', $data);
+        } else {
+            $id = $this->input->post('id');
+            $jabatan = $this->input->post('nama');
+            $skep = $this->input->post('skep');
+            $tmt = $this->input->post('tmt');
+            list($j_id, $name) = explode(',', $jabatan);
+
+            $upload_image = $_FILES['image']['name'];
+
+
+            if ($upload_image) {
+                $config['allowed_types']    = 'gif|jpg|png|pdf|jpeg';
+                $config['max_size']         = '5000';
+                $config['upload_path']      = './assets/img/dosier/';
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('image')) {
+                    $new_image = $this->upload->data('file_name');
+                    $this->db->set('doc', $new_image);
+                    $data = [
+                        'jabatan_id' => $j_id,
+                        'nama' => $name,
+                        'skep' => $skep,
+                        'tmt' => $tmt,
+                        'isactive' => 1,
+                        'KDSTAFF' => $id,
+                        'created_at' => time(),
+                        'updated_at' => time()
+                    ];
+                    $this->db->insert('jabatan_fungsional', $data);
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan fungsional berhasil ditambahkan</div>');
+                    redirect('member/fungsional');
+                } else {
+                    echo $this->upload->display_errors();
+                }
+            }
+        }
+    }
+    public function hapusFungsional()
+    {
+        $id = $this->input->get('id');
+        $this->db->delete('jabatan_fungsional', ['id' => $id]);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan fungsional berhasil dihapus</div>');
+        redirect('member/fungsional');
+    }
+    public function editFungsional()
+    {
+        $id = $this->input->get('id');
+        $data['title'] = 'DOELSIPETIR';
+        $data['judul'] = 'Edit Riwayat Jabatan Fungsional';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $this->db->where('id', $id);
+        $data['jabatan_f'] = $this->db->get('jabatan_fungsional')->row_array();
+        $this->db->where('isactive', 1);
+        $data['jabatan'] = $this->db->get('m_jabatan')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama Jabatan', 'trim|required');
+        $this->form_validation->set_rules('skep', 'Skep Jabatan', 'trim|required');
+        $this->form_validation->set_rules('tmt', 'TMT Jabatan', 'trim|required');
+        if ($this->form_validation->run() == false) {
+
+            $this->load->view('member/layout/jb_header', $data);
+            $this->load->view('member/layout/jb_nav', $data);
+            $this->load->view('member/input/editFungsional', $data);
+            $this->load->view('member/layout/jb_footer', $data);
+        } else {
+            $id = $this->input->post('id');
+            $jabatan = $this->input->post('nama');
+            list($j_id, $name) = explode(',', $jabatan);
+            $skep = $this->input->post('skep');
+            $tmt = $this->input->post('tmt');
+            $upload_image = $_FILES['image']['name'];
+
+
+            if ($upload_image) {
+                $config['allowed_types']    = 'gif|jpg|png|pdf|jpeg';
+                $config['max_size']         = '5000';
+                $config['upload_path']      = './assets/img/dosier/';
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('image')) {
+                    $new_image = $this->upload->data('file_name');
+                    $this->db->set('doc', $new_image);
+                    $this->db->set('updated_at', time());
+                    $this->db->set('skep', $skep);
+                    $this->db->set('tmt', $tmt);
+                    $this->db->set('jabatan_id', $j_id);
+                    $this->db->set('nama', $name);
+
+                    $this->db->where('id', $id);
+                    $this->db->update('jabatan_fungsional');
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan fungsional berhasil diubah</div>');
+                    redirect('member/fungsional');
+                } else {
+                    echo $this->upload->display_errors();
+                }
+            }
+        }
+    }
+    public function struktural()
+    {
+        $data['title'] = 'DOELSIPETIR';
+        $data['judul'] = 'Riwayat Jabatan Struktural';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $this->db->where('KDSTAFF', $data['staff']['KDSTAFF']);
+        $data['jabatan_f'] = $this->db->get('jabatan_struktural')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama Jabatan', 'trim|required');
+        $this->form_validation->set_rules('skep', 'skep/sprint Jabatan', 'trim|required');
+        if ($this->form_validation->run() == false) {
+            $this->load->view('member/layout/jb_header', $data);
+            $this->load->view('member/layout/jb_nav', $data);
+            $this->load->view('member/input/jabstruk', $data);
             $this->load->view('member/layout/jb_footer', $data);
         } else {
             $upload_image = $_FILES['image']['name'];

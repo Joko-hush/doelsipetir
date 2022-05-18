@@ -33,8 +33,6 @@
 
     <meta name="theme-color" content="#fff" />
 
-
-
     <link rel="manifest" href="<?= base_url() ?>app.webmanifest">
 
     <!-- Google Fonts -->
@@ -55,14 +53,8 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
-
-
-
     <!-- Template Main CSS File -->
     <link href="<?= base_url('assets') ?>/css/style.css" rel="stylesheet">
-
-
-
 </head>
 
 <body>

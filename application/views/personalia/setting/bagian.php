@@ -46,16 +46,16 @@
                                 <tr>
                                     <td class="text-center"><?= $n++; ?></td>
                                     <td>
-                                        <?= $b['nama']; ?>
+                                        <?= $b['bagian']; ?>
                                     </td>
                                     <td>
                                         <?php
                                         $this->db->where('id', $b['bidang_id']);
                                         $bid = $this->db->get('m_bidang')->row_array();
-                                        $bi = $bid['nama'];
+                                        $bi = $bid['bidang'];
                                         $this->db->where('id', $b['eselon_id']);
                                         $es = $this->db->get('m_eselon')->row_array();
-                                        $e = $es['nama'];
+                                        $e = $es['eselon'];
                                         ?>
                                         <?= $bi; ?>
                                     </td>
@@ -104,7 +104,7 @@
                         <select name="bidang" id="bidang" class="form-control">
                             <option value="">pilih bidang</option>
                             <?php foreach ($bidang as $bid) : ?>
-                                <option value="<?= $bid['id']; ?>"><?= $bid['nama']; ?></option>
+                                <option value="<?= $bid['id']; ?>"><?= $bid['bidang']; ?></option>
                             <?php endforeach; ?>
                         </select>
 
@@ -114,7 +114,7 @@
                         <select name="eselon" id="eselon" class="form-control">
                             <option value="">pilih eselon</option>
                             <?php foreach ($eselon as $s) : ?>
-                                <option value="<?= $s['id']; ?>"><?= $s['nama']; ?></option>
+                                <option value="<?= $s['id']; ?>"><?= $s['eselon']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

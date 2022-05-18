@@ -44,7 +44,7 @@
                                 <tr>
                                     <td class="text-center"><?= $n++; ?></td>
                                     <td>
-                                        <?= $p['nama']; ?>
+                                        <?= $p['eselon']; ?>
                                     </td>
                                     <td class="text-center">
                                         <a class="btn btn-outline-danger btn-sm" onclick="return confirm('Yakin Hapus?')" href="<?= base_url('setting/hapusEselon') . '?id=' . $p['id']; ?>">Hapus</a>

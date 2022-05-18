@@ -45,13 +45,13 @@
                                 <tr>
                                     <td class="text-center"><?= $n++; ?></td>
                                     <td>
-                                        <?= $p['nama']; ?>
+                                        <?= $p['bidang']; ?>
                                     </td>
                                     <td>
                                         <?php
                                         $this->db->where('id', $p['eselon_id']);
                                         $es = $this->db->get('m_eselon')->row_array();
-                                        $e = $es['nama'];
+                                        $e = $es['eselon'];
                                         ?>
                                         <?= $e; ?>
                                     </td>
@@ -97,7 +97,7 @@
                         <select name="eselon" id="eselon" class="form-control">
                             <option value="">pilih eselon</option>
                             <?php foreach ($eselon as $s) : ?>
-                                <option value="<?= $s['id']; ?>"><?= $s['nama']; ?></option>
+                                <option value="<?= $s['id']; ?>"><?= $s['eselon']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

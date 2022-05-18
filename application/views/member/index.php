@@ -15,7 +15,7 @@
 
         <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
             <div class="col-xl-2 col-md-4">
-                <a href="<?= base_url('Absensi/masuk'); ?>">
+                <a href="<?= base_url('absensi'); ?>">
                     <div class="icon-box rounded shadow">
                         <i class="ri-map-pin-user-fill"></i>
                         <h3>Absensi

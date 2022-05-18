@@ -244,6 +244,37 @@
                                 <div class="col-md-8"><input class="form-control" type="email" name="email" id="email" value="<?= $staff['email']; ?>"></div>
                             </div>
                             <div class="row form-group">
+                                <div class="col text-left"><label for="jabatan">Jabatan</label></div>
+                                <div class="col-md-8">
+                                    <select class="form-control" type="jabatan" name="jabatan" id="email">
+                                        <?php if ($staff['jabatan'] == null) : ?>
+                                            <option value="-">-</option>
+                                        <?php else : ?>
+                                            <option value="<?= $staff['jabatan']; ?>">
+                                                <?php
+                                                $this->db->where('id', $staff['jabatan']);
+                                                $jbtn = $this->db->get('m_jabatan')->row_array();
+                                                $this->db->where('id', $jbtn['subbagian_id']);
+                                                $subbagian = $this->db->get('m_subbagian')->row_array();
+                                                $sb = $subbagian['nama'];
+                                                $j = $jbtn['nama'];
+                                                echo $j . ' | ' . $sb;
+                                                ?>
+                                            </option>
+                                        <?php endif; ?>
+                                        <?php foreach ($jabatan as $j) : ?>
+                                            <?php
+                                            $this->db->where('id', $j['subbagian_id']);
+                                            $subbagian = $this->db->get('m_subbagian')->row_array();
+                                            $sb = $subbagian['nama'];
+                                            ?>
+                                            <option value="<?= $j['id']; ?>"><?= $j['nama'] . ' | ' . $sb; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row form-group">
                                 <div class="col text-left"><label for="image">Foto</label></div>
                                 <div class="col-md-1"><img class="img img-thumbnail rounded-circle" width="96" src="<?= base_url('assets/img/dosier/') . $staff['image']; ?>" alt="avatar personil"></div>
                                 <div class="col-md-7"><input class="form-control" type="file" name="image" id="image"></div>

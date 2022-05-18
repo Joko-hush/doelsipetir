@@ -47,13 +47,13 @@
                                 <tr>
                                     <td><?= $n++; ?></td>
                                     <td>
-                                        <?= $b['nama']; ?>
+                                        <?= $b['subbagian']; ?>
                                     </td>
                                     <td>
                                         <?php
                                         $this->db->where('id', $b['bagian_id']);
                                         $bid = $this->db->get('m_bagian')->row_array();
-                                        $ba = $bid['nama'];
+                                        $ba = $bid['bagian'];
                                         ?>
                                         <?= $ba; ?>
                                     </td>
@@ -61,10 +61,10 @@
                                         <?php
                                         $this->db->where('id', $b['bidang_id']);
                                         $bid = $this->db->get('m_bidang')->row_array();
-                                        $bi = $bid['nama'];
+                                        $bi = $bid['bidang'];
                                         $this->db->where('id', $b['eselon_id']);
                                         $es = $this->db->get('m_eselon')->row_array();
-                                        $e = $es['nama'];
+                                        $e = $es['eselon'];
                                         ?>
                                         <?= $bi; ?>
                                     </td>
@@ -112,7 +112,7 @@
                         <select name="bagian" id="bagian" class="form-control">
                             <option value="">pilih bagian</option>
                             <?php foreach ($bagian as $ba) : ?>
-                                <option value="<?= $ba['id'] . ', ' . $ba['bidang_id'] . ', ' . $ba['eselon_id']; ?>"><?= $ba['nama']; ?></option>
+                                <option value="<?= $ba['id'] . ', ' . $ba['bidang_id'] . ', ' . $ba['eselon_id']; ?>"><?= $ba['bagian']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

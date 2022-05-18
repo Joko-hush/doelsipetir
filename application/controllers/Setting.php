@@ -31,7 +31,7 @@ class Setting extends CI_Controller
             $this->load->view('layout/footer_pers', $data);
         } else {
             $nama = $this->input->post('nama');
-            $this->db->insert('m_eselon', ['nama' => $nama]);
+            $this->db->insert('m_eselon', ['eselon' => $nama]);
             $this->session->set_flashdata('message', '<div class="alert alert-success mt-2" role="alert">Eselon baru ditambahkan.</div>');
             redirect('setting/masterEselon');
         }
@@ -69,7 +69,7 @@ class Setting extends CI_Controller
         } else {
             $nama = $this->input->post('nama');
             $eselon = $this->input->post('eselon');
-            $this->db->insert('m_bidang', ['eselon_id' => $eselon, 'nama' => $nama]);
+            $this->db->insert('m_bidang', ['eselon_id' => $eselon, 'bidang' => $nama]);
             $this->session->set_flashdata('message', '<div class="alert alert-success mt-2" role="alert">Bidang baru ditambahkan.</div>');
             redirect('setting/masterBidang');
         }
@@ -114,7 +114,7 @@ class Setting extends CI_Controller
 
                 'eselon_id' => $eselon,
                 'bidang_id' => $bidang,
-                'nama' => $nama
+                'bagian' => $nama
             ];
             $this->db->insert('m_bagian', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success mt-2" role="alert">bagian baru ditambahkan.</div>');
@@ -161,7 +161,7 @@ class Setting extends CI_Controller
                 'eselon_id' => $eselon,
                 'bidang_id' => $bidang,
                 'bagian_id' => $bagian,
-                'nama' => $nama
+                'subbagian' => $nama
             ];
             $this->db->insert('m_subbagian', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success mt-2" role="alert">bagian baru ditambahkan.</div>');
@@ -203,10 +203,18 @@ class Setting extends CI_Controller
         } else {
             $nama = $this->input->post('nama');
             $sbagian = $this->input->post('sbagian');
+            $lead = $this->input->post('lead');
+            if ($lead == '1') {
+                $lead = 1;
+            } else {
+                $lead = 0;
+            }
+
             $data = [
                 'nama' => $nama,
                 'subbagian_id' => $sbagian,
-                'isactive' => 1
+                'isactive' => 1,
+                'leader' => $lead
             ];
             $this->db->insert('m_jabatan', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success mt-2" role="alert">Jabatan Kerja berhasil ditambahkan.</div>');

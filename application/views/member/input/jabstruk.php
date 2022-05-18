@@ -32,34 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($jabatan_f as $jf) : ?>
-                                <?php
-                                $this->db->where('id', $jf['jabatan_id']);
-                                $x = $this->db->get('m_jabatan')->row_array();
-                                $this->db->where('id', $x['subbagian_id']);
-                                $a = $this->db->get('m_subbagian')->row_array();
-                                $sb = $a['subbagian'];
-                                $this->db->where('id', $a['bagian_id']);
-                                $b = $this->db->get('m_bagian')->row_array();
-                                $nb = $b['bagian'];
-                                ?>
-                                <tr>
-                                    <td><?= $jf['nama']; ?></td>
-                                    <td><?= $sb; ?></td>
-                                    <td><?= $nb; ?></td>
-                                    <td><?= $jf['skep']; ?></td>
-                                    <td>
-                                        <a href="<?= base_url('member/editFungsional') . '?id=' . $jf['id']; ?>" class="btn btn-outline-warning" onclick="return confirm('Apakah Anda akan mengubah data jabatan ini?')">
-                                            Edit
-                                        </a>
-                                        |
-                                        <a href="<?= base_url('member/hapusFungsional') . '?id=' . $jf['id']; ?>" class="btn btn-outline-danger" onclick="return confirm('Apakah Anda akan menghapus data jabatan ini?')">
-                                            Hapus
-                                        </a>
-                                    </td>
 
-                                </tr>
-                            <?php endforeach; ?>
                         </tbody>
 
                     </table>
@@ -99,20 +72,11 @@
                                     <h5>Tambahkan Riwayat Jabatan Fungsional.</h5>
                                 </div>
                                 <?php echo form_open_multipart('member/fungsional'); ?>
-                                <input type="hidden" name="id" value="<?= $staff['KDSTAFF']; ?>">
+                                <input type="hidden" name="id" value="<?= $staff['id']; ?>">
                                 <div class="row form-group mt-3">
                                     <div class="col text-left"><label for="nama">Nama Jabatan</label></div>
                                     <div class="col-md-8">
-                                        <select name="nama" id="nama" class="form-control">
-                                            <option value="">Pilih Jabatan</option>
-                                            <?php foreach ($jabatan as $j) : ?>
-                                                <?php
-                                                $this->db->where('id', $j['subbagian_id']);
-                                                $bagian = $this->db->get('m_subbagian')->row_array();
-                                                ?>
-                                                <option value="<?= $j['id'] . ',' . $j['nama']; ?>"><?= $j['nama'] . ' | ' . $bagian['subbagian']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Jabatan sesuai skep">
                                     </div>
                                 </div>
                                 <div class="row form-group mt-3">

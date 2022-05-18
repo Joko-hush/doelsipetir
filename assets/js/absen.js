@@ -130,39 +130,3 @@ function captureimagedd() {
 		);
 	});
 }
-
-function captureimagedl() {
-	var latitude = $(".latitude").html();
-	// play sound effect
-	shutter.play();
-	// take snapshot and get image data
-	Webcam.snap(function (data_uri) {
-		// display results in page
-		Webcam.upload(
-			data_uri,
-			"../absensi/action?action=absendl&latitude=" + latitude + "",
-			function (code, text) {
-				$data = "" + text + "";
-				var results = $data.split("/");
-				$results = results[0];
-				$results2 = results[1];
-				if ($results == "success") {
-					swal({
-						title: "Berhasil!",
-						text: $results2,
-						icon: "success",
-						timer: 3500,
-					});
-					setTimeout("location.href = './masuk';", 3500);
-				} else {
-					swal({
-						title: "Oops!",
-						text: text,
-						icon: "error",
-						timer: 3500,
-					});
-				}
-			}
-		);
-	});
-}
