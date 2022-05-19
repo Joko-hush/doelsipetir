@@ -8,13 +8,15 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->helper('cookie');
-        //  $cookie = $this->cookie('email');
-        // var_dump($cookie); die;
     }
     public function index()
     {
-        if ($this->session->userdata('email')) {
-            $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $cookie = $this->input->cookie('always', true);
+        $session = $this->session->userdata('email');
+        if ($cookie) {
+            $email = $cookie;
+
+            $user = $this->db->get_where('user', ['email' => $email])->row_array();
             if ($user['role_id'] == 1) {
                 redirect('admin');
             } elseif ($user['role_id'] == 3) {
@@ -22,17 +24,28 @@ class Auth extends CI_Controller
             } else {
                 redirect('member');
             }
-        }
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
-        $this->form_validation->set_rules('password', 'Password', 'required|trim');
-
-        if ($this->form_validation->run() == false) {
-            $data['title'] = 'Login Page';
-            $this->load->view('templates/auth_header', $data);
-            $this->load->view('auth/login');
-            $this->load->view('templates/auth_footer');
+        } elseif ($session) {
+            $email = $session;
+            $user = $this->db->get_where('user', ['email' => $email])->row_array();
+            if ($user['role_id'] == 1) {
+                redirect('admin');
+            } elseif ($user['role_id'] == 3) {
+                redirect('personalia');
+            } else {
+                redirect('member');
+            }
         } else {
-            $this->_login();
+            $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+            $this->form_validation->set_rules('password', 'Password', 'required|trim');
+
+            if ($this->form_validation->run() == false) {
+                $data['title'] = 'Login Page';
+                $this->load->view('templates/auth_header', $data);
+                $this->load->view('auth/login');
+                $this->load->view('templates/auth_footer');
+            } else {
+                $this->_login();
+            }
         }
     }
 
@@ -52,6 +65,13 @@ class Auth extends CI_Controller
                         'email' => $user['email'],
                         'role_id' => $user['role_id']
                     ];
+                    $cookie = array(
+                        'name'   => 'always',
+                        'value'  => $user['email'],
+                        'expire' => (60 * 60 * 24 * 365),
+                        'secure' => TRUE
+                    );
+                    $this->input->set_cookie($cookie);
                     $this->session->set_userdata($data);
                     if ($user['role_id'] == 1) {
                         redirect('admin');
@@ -60,16 +80,8 @@ class Auth extends CI_Controller
                     } else {
                         redirect('member');
                     }
-
-                    $cookie = array(
-                        'name'   => 'always',
-                        'value'  => $user['email'],
-                        'expire' => (60 * 60 * 24 * 365),
-                        'secure' => TRUE
-                    );
-
-                    set_cookie($cookie);
                 } else {
+
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong Password!</div>');
                     redirect('auth');
                 }
@@ -227,6 +239,7 @@ class Auth extends CI_Controller
     {
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role_id');
+        delete_cookie('always');
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out.</div>');
         redirect('auth');

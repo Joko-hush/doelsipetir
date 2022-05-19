@@ -26,6 +26,12 @@ class Absensi extends CI_Controller
         // $this->db->where('TGL_MASUK <=', $date2);
         $this->db->limit(5);
         $data['absen'] = $this->db->get_where('abs_kehadiran', ['KDSTAFF' => $data['user']['KDSTAFF']])->result_array();
+        if (!$data['staff']['jam_kerja_id']) {
+            $this->session->set_flashdata('message', '<div class="alert alert-info mt-2" role="alert">Saat ini Anda belum bisa melakukan Absensi karena belum memilih jam kerja.
+             Silahkan lengkapi terlebih dahulu.</div>');
+            redirect('member/inputdata');
+        }
+
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);
@@ -60,8 +66,11 @@ class Absensi extends CI_Controller
     public function lokasi()
     {
 
-        $latitude     = $_POST['latitude'];
-        $longitude    = $_POST['longitude'];
+        $latitude = $_GET['latitude'];
+        list($lat, $long) = explode(',', $latitude);
+        //    cek lokasi 
+        $latitude     = $lat;
+        $longitude    = $long;
 
         if (!empty($latitude) && !empty($longitude)) {
 

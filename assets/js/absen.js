@@ -117,7 +117,7 @@ function captureimagedd() {
 						icon: "success",
 						timer: 3500,
 					});
-					setTimeout("location.href = '../member';", 3500);
+					setTimeout("location.href = '../absensi';", 3500);
 				} else {
 					swal({
 						title: "Oops!",
@@ -125,6 +125,7 @@ function captureimagedd() {
 						icon: "error",
 						timer: 3500,
 					});
+					setTimeout("location.href = '../absensi';", 3500);
 				}
 			}
 		);
