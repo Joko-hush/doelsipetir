@@ -18,7 +18,7 @@
             </div>
             <div class="col-xl-2 col-md-4 mx-auto">
                 <div class="icon-box rounded shadow">
-                    <a type="button" href="<?= base_url('member/fungsional'); ?>">
+                    <a type="button" href="<?= base_url('member/struktural'); ?>">
                         <i class="ri-node-tree"></i>
                         <h3 class="text-white">
                             Jabatan Struktural

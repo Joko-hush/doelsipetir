@@ -16,7 +16,7 @@
                 <div class="text-center mb-2">
                     <h5>Silahkan isi data.</h5>
                 </div>
-                <?php echo form_open_multipart('member/editdikmilB'); ?>
+                <?php echo form_open_multipart('member/editFungsional'); ?>
                 <input type="hidden" name="id" value="<?= $jabatan_f['id']; ?>">
                 <div class="row form-group mt-3">
                     <div class="col text-left"><label for="nama">Nama Jabatan</label></div>

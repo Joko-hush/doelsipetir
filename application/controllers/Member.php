@@ -1716,6 +1716,9 @@ class Member extends CI_Controller
         $data['judul'] = 'Edit Jabatan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        // if ($data['staff']['pangkat'] == ' KHL') {
+        //     redirect('member/fungsional');
+        // }
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);
@@ -1815,8 +1818,6 @@ class Member extends CI_Controller
             $skep = $this->input->post('skep');
             $tmt = $this->input->post('tmt');
             $upload_image = $_FILES['image']['name'];
-
-
             if ($upload_image) {
                 $config['allowed_types']    = 'gif|jpg|png|pdf|jpeg';
                 $config['max_size']         = '5000';
@@ -1826,21 +1827,21 @@ class Member extends CI_Controller
 
                 if ($this->upload->do_upload('image')) {
                     $new_image = $this->upload->data('file_name');
-                    $this->db->set('doc', $new_image);
-                    $this->db->set('updated_at', time());
-                    $this->db->set('skep', $skep);
-                    $this->db->set('tmt', $tmt);
-                    $this->db->set('jabatan_id', $j_id);
-                    $this->db->set('nama', $name);
 
-                    $this->db->where('id', $id);
-                    $this->db->update('jabatan_fungsional');
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan fungsional berhasil diubah</div>');
-                    redirect('member/fungsional');
+                    $this->db->set('doc', $new_image);
                 } else {
                     echo $this->upload->display_errors();
                 }
             }
+            $this->db->set('updated_at', time());
+            $this->db->set('skep', $skep);
+            $this->db->set('tmt', $tmt);
+            $this->db->set('jabatan_id', $j_id);
+            $this->db->set('nama', $name);
+            $this->db->where('id', $id);
+            $this->db->update('jabatan_fungsional');
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan fungsional berhasil diubah</div>');
+            redirect('member/fungsional');
         }
     }
     public function struktural()
@@ -1850,10 +1851,11 @@ class Member extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $this->db->where('KDSTAFF', $data['staff']['KDSTAFF']);
-        $data['jabatan_f'] = $this->db->get('jabatan_struktural')->result_array();
+        $data['jabatan'] = $this->db->get('jabatan_struktural')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama Jabatan', 'trim|required');
         $this->form_validation->set_rules('skep', 'skep/sprint Jabatan', 'trim|required');
+        $this->form_validation->set_rules('tmt', 'TMT Jabatan', 'trim|required');
         if ($this->form_validation->run() == false) {
             $this->load->view('member/layout/jb_header', $data);
             $this->load->view('member/layout/jb_nav', $data);
@@ -1861,7 +1863,11 @@ class Member extends CI_Controller
             $this->load->view('member/layout/jb_footer', $data);
         } else {
             $upload_image = $_FILES['image']['name'];
-
+            $nama = $this->input->post('nama');
+            $skep = $this->input->post('skep');
+            $tmt = $this->input->post('tmt');
+            $tmt = $this->input->post('tmt');
+            $id = $this->input->post('id');
 
             if ($upload_image) {
                 $config['allowed_types']    = 'gif|jpg|png|pdf|jpeg';
@@ -1873,10 +1879,41 @@ class Member extends CI_Controller
                 if ($this->upload->do_upload('image')) {
                     $new_image = $this->upload->data('file_name');
                     $this->db->set('doc', $new_image);
+                    $data = [
+                        'nama' => $nama,
+                        'tmt' => $tmt,
+                        'skep' => $skep,
+                        'isactive' => 1,
+                        'KDSTAFF' => $id,
+                        'created_at' => time(),
+                        'updated_at' => time()
+                    ];
+                    $this->db->insert('jabatan_struktural', $data);
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan struktural berhasil disimpan</div>');
+                    redirect('member/struktural');
                 } else {
                     echo $this->upload->display_errors();
                 }
             }
         }
+    }
+    public function hapusStruktural()
+    {
+        $id = $this->input->get('id');
+        $this->db->delete('jabatan_struktural', ['id' => $id]);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan struktural berhasil dihapus</div>');
+        redirect('member/struktural');
+    }
+    public function editStruktural()
+    {
+        $id = $this->input->get('id');
+        $data['title'] = 'DOELSIPETIR';
+        $data['judul'] = 'Edit Riwayat Jabatan Fungsional';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $this->db->where('id', $id);
+        $data['jabatan_f'] = $this->db->get('jabatan_fungsional')->row_array();
+        $this->db->where('isactive', 1);
+        $data['jabatan'] = $this->db->get('m_jabatan')->result_array();
     }
 }

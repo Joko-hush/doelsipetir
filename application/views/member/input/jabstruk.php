@@ -7,7 +7,7 @@
 
         <div class="card card-success shadow-lg mb-3">
             <div class="card-header">
-                <h3 class="card-title">Riwayat Jabatan Fungsional</h3>
+                <h3 class="card-title">Riwayat Jabatan Struktural</h3>
 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -25,13 +25,29 @@
                         <thead class="text-center">
                             <tr>
                                 <th>Nama Jabatan</th>
-                                <th>Sub Bagian</th>
-                                <th>Bagian</th>
                                 <th>Skep</th>
+                                <th>TMT</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($jabatan as $j) : ?>
+                                <tr>
+                                    <td><?= $j['nama']; ?></td>
+                                    <td><?= $j['skep']; ?></td>
+                                    <td><?= $j['tmt']; ?></td>
+                                    <td>
+                                        <a href="<?= base_url('member/editStruktural') . '?id=' . $j['id']; ?>" class="btn btn-outline-warning" onclick="return confirm('Apakah Anda akan mengubah data jabatan ini?')">
+                                            Edit
+                                        </a>
+                                        |
+                                        <a href="<?= base_url('member/hapusStruktural') . '?id=' . $j['id']; ?>" class="btn btn-outline-danger" onclick="return confirm('Apakah Anda akan menghapus data jabatan ini?')">
+                                            Hapus
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            <?php endforeach; ?>
 
                         </tbody>
 
@@ -48,7 +64,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="fungsionalLabel">Riwayat Jabatan Fungsional</h5>
+                <h5 class="modal-title" id="fungsionalLabel">Riwayat Jabatan Struktural</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -56,7 +72,7 @@
                 <div class="col-md-12">
                     <div class="card card-success shadow-lg mb-3">
                         <div class="card-header">
-                            <h3 class="card-title">Riwayat Jabatan Fungsional</h3>
+                            <h3 class="card-title">Riwayat Jabatan Struktural</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -69,10 +85,10 @@
 
                             <div class="container-fluid p-5">
                                 <div class="text-center mb-2">
-                                    <h5>Tambahkan Riwayat Jabatan Fungsional.</h5>
+                                    <h5>Tambahkan Riwayat Jabatan Struktural.</h5>
                                 </div>
-                                <?php echo form_open_multipart('member/fungsional'); ?>
-                                <input type="hidden" name="id" value="<?= $staff['id']; ?>">
+                                <?php echo form_open_multipart('member/struktural'); ?>
+                                <input type="hidden" name="id" value="<?= $staff['KDSTAFF']; ?>">
                                 <div class="row form-group mt-3">
                                     <div class="col text-left"><label for="nama">Nama Jabatan</label></div>
                                     <div class="col-md-8">
