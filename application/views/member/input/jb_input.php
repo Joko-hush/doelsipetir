@@ -6,8 +6,11 @@
             <div class="col-xl-6 col-lg-8">
                 <h2><span>Dokumen Elektronik Absensi Personil Dustira</span></h2>
                 <h2><span id="typed"></span></h2>
-                <?= $this->session->flashdata('message'); ?>
-                <?php unset($_SESSION['message']); ?>
+                <div class="mt-3">
+
+                    <?= $this->session->flashdata('message'); ?>
+                    <?php unset($_SESSION['message']); ?>
+                </div>
             </div>
         </div>
         <div class="row gy-4 mt-3 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
@@ -254,9 +257,10 @@
                                                 <?php
                                                 $this->db->where('id', $staff['jabatan']);
                                                 $jbtn = $this->db->get('m_jabatan')->row_array();
+
                                                 $this->db->where('id', $jbtn['subbagian_id']);
                                                 $subbagian = $this->db->get('m_subbagian')->row_array();
-                                                $sb = $subbagian['nama'];
+                                                $sb = $subbagian['subbagian'];
                                                 $j = $jbtn['nama'];
                                                 echo $j . ' | ' . $sb;
                                                 ?>
@@ -266,7 +270,7 @@
                                             <?php
                                             $this->db->where('id', $j['subbagian_id']);
                                             $subbagian = $this->db->get('m_subbagian')->row_array();
-                                            $sb = $subbagian['nama'];
+                                            $sb = $subbagian['subbagian'];
                                             ?>
                                             <option value="<?= $j['id']; ?>"><?= $j['nama'] . ' | ' . $sb; ?></option>
                                         <?php endforeach; ?>
@@ -338,11 +342,27 @@
                             <input type="hidden" name="id" value="<?= $staff['id']; ?>">
                             <div class="row form-group mt-3">
                                 <div class="col text-left"><label for="no">No. KTP</label></div>
-                                <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no KTP" value="<?= $staff['ktp']; ?>"></div>
+                                <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no KTP" value="<?= $kartuKtp['noktp']; ?>"></div>
                             </div>
                             <div class="row form-group">
                                 <div class="col text-left"><label for="ktp">Upload Kartu</label></div>
-                                <div class="col-md-8"><input class="form-control" type="file" name="image" id="image"></div>
+                                <?php
+                                list($namaFileKtp, $extKtp) = explode('.', $kartuKtp['doc']);
+                                ?>
+                                <?php if ($extKtp == 'pdf') : ?>
+                                    <div class="col-md-4 text-center">
+                                        <a href="<?= base_url('assets/img/dosier/') . $kartuKtp['doc']; ?>" target="_blank()">
+                                            <iframe src="<?= base_url('assets/img/dosier/') . $kartuKtp['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                        </a>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="col-md-4 text-center">
+                                        <a href="<?= base_url('assets/img/dosier/') . $kartuKtp['doc']; ?>" target="_blank()">
+                                            <img src="<?= base_url('assets/img/dosier/') . $kartuKtp['doc']; ?>" alt="ktp" class="img img-thumbnail img-responsive">
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="col-md-4"><input class="form-control" type="file" name="image" id="image"></div>
                             </div>
                             <div class="row form-group">
                                 <button class="btn btn-primary" type="submit" name="submit">Simpan</button>
@@ -375,18 +395,27 @@
                             <input type="hidden" name="id" value="<?= $staff['id']; ?>">
                             <div class="row form-group mt-3">
                                 <div class="col text-left"><label for="no">No. NPWP</label></div>
-                                <?php if (!$npwp['npwp']) {
-                                    $npwp['npwp'] = '';
-                                } else {
-                                    $npwp['npwp'] = $npwp['npwp'];
-                                }
-                                ?>
                                 <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no npwp" value="<?= $npwp['npwp']; ?>"></div>
                             </div>
-
+                            <?php
+                            list($namaFileNpwp, $extNpwp) = explode('.', $npwp['doc']);
+                            ?>
                             <div class="row form-group">
                                 <div class="col text-left"><label for="image">Upload Kartu</label></div>
-                                <div class="col-md-8"><input class="form-control" type="file" name="image" id="image"></div>
+                                <?php if ($extNpwp == 'pdf') : ?>
+                                    <a href="<?= base_url('assets/img/dosier/') . $npwp['doc']; ?>" target="_blank()">
+                                        <div class="col-md-4 text-center">
+                                            <iframe src="<?= base_url('assets/img/dosier/') . $npwp['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                        </div>
+                                    </a>
+                                <?php else : ?>
+                                    <div class="col-md-4 text-center">
+                                        <a href="<?= base_url('assets/img/dosier/') . $npwp['doc']; ?>" target="_blank()">
+                                            <img src="<?= base_url('assets/img/dosier/') . $npwp['doc']; ?>" class="img img-thumbnail img-responsive">
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="col-md-4"><input class="form-control" type="file" name="image" id="image"></div>
                             </div>
                             <div class="row form-group">
                                 <button class="btn btn-primary" type="submit" name="submit">Simpan</button>
@@ -410,6 +439,9 @@
                             </div>
                             <!-- /.card-tools -->
                         </div>
+                        <?php
+                        list($namaFileBpjs, $extBpjs) = explode('.', $kartuBpjs['doc']);
+                        ?>
 
                         <div class="card-body">
                             <div class="text-center mb-2">
@@ -419,15 +451,29 @@
                             <input type="hidden" name="id" value="<?= $staff['id']; ?>">
                             <div class="row form-group mt-3">
                                 <div class="col text-left"><label for="no">No. bpjs</label></div>
-                                <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no NPWP"></div>
+                                <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no BPJS" value="<?= $kartuBpjs['bpjs']; ?>"></div>
                             </div>
                             <div class="row form-group mt-3">
                                 <div class="col text-left"><label for="fktp">FKTP</label></div>
-                                <div class="col-md-8"><input class="form-control" type="text" name="fktp" id="fktp" placeholder="KLINIK FKTP"></div>
+                                <div class="col-md-8"><input class="form-control" type="text" name="fktp" id="fktp" placeholder="KLINIK FKTP" value="<?= $kartuBpjs['fktp']; ?>"></div>
                             </div>
                             <div class="row form-group">
                                 <div class="col text-left"><label for="image">Upload Kartu</label></div>
-                                <div class="col-md-8"><input class="form-control" type="file" name="image" id="image"></div>
+                                <?php if ($extBpjs == 'pdf') : ?>
+                                    <div class="col-md-4 text-center">
+                                        <a href="<?= base_url('assets/img/dosier/') . $kartuBpjs['doc']; ?>" target="_blank()">
+                                            <iframe src="<?= base_url('assets/img/dosier/') . $kartuBpjs['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                        </a>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="col-md-4 text-center">
+                                        <a href="<?= base_url('assets/img/dosier/') . $kartuBpjs['doc']; ?>" target="_blank()">
+                                            <img src="<?= base_url('assets/img/dosier/') . $kartuBpjs['doc']; ?>" class="img img-thumbnail img-responsive">
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+
+                                <div class="col-md-4"><input class="form-control" type="file" name="image" id="image"></div>
                             </div>
                             <div class="row form-group">
                                 <button class="btn btn-primary" type="submit" name="submit">Simpan</button>
@@ -455,17 +501,29 @@
                             <input type="hidden" name="id" value="<?= $staff['id']; ?>">
                             <div class="row form-group mt-3">
                                 <div class="col text-left"><label for="no">No. Kartu Keluarga</label></div>
-                                <?php if (!$kk['no_kk']) {
-                                    $kk['no_kk'] = '';
-                                } else {
-                                    $kk['no_kk'] = $kk['no_kk'];
-                                }
-                                ?>
+
                                 <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no kk" value="<?= $kk['no_kk']; ?>"></div>
                             </div>
+                            <?php
+                            list($namaFileBpjs, $extBpjs) = explode('.', $kk['doc']);
+                            ?>
                             <div class="row form-group">
                                 <div class="col text-left"><label for="image">Upload Kartu</label></div>
-                                <div class="col-md-8"><input class="form-control" type="file" name="image" id="image"></div>
+                                <?php if ($extBpjs == 'pdf') : ?>
+                                    <div class="col-md-4 text-center">
+                                        <a href="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" target="_blank()">
+                                            <iframe src="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                        </a>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="col-md-4 text-center">
+                                        <a href="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" target="_blank()">
+                                            <img src="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" class="img img-thumbnail img-responsive">
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+
+                                <div class="col-md-4"><input class="form-control" type="file" name="image" id="image"></div>
                             </div>
                             <div class="row form-group">
                                 <button class="btn btn-primary" type="submit" name="submit">Simpan</button>
@@ -473,38 +531,58 @@
 
                             </form>
                         </div>
-                        <div class="card card-success shadow-lg mb-3">
-                            <div class="card-header">
-                                <h3 class="card-title">Input Kartu Istri/Suami</h3>
+                        <?php if ($staff['pangkat'] !== ' KHL') : ?>
+                            <div class="card card-success shadow-lg mb-3">
+                                <div class="card-header">
+                                    <h3 class="card-title">Input Kartu Istri/Suami</h3>
 
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                    </button>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.card-tools -->
                                 </div>
-                                <!-- /.card-tools -->
+
+                                <div class="card-body">
+                                    <div class="text-center mb-2">
+                                        <h5>KARIS/KARSU</h5>
+                                    </div>
+                                    <?php
+                                    list($namaFileKaris, $extKaris) = explode('.', $kartuKaris['doc']);
+                                    ?>
+                                    <?php echo form_open_multipart('member/karis'); ?>
+                                    <input type="hidden" name="id" value="<?= $staff['id']; ?>">
+                                    <div class="row form-group mt-3">
+                                        <div class="col text-left"><label for="no">No. Kartu Istri/Suami</label></div>
+                                        <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no karis/karsu" value="<?= $kartuKaris['no']; ?>"></div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col text-left"><label for="image">Upload Kartu</label></div>
+                                        <?php if ($extKaris == 'pdf') : ?>
+                                            <div class="col-md-4 text-center">
+                                                <a href="<?= base_url('assets/img/dosier/') .  $kartuKaris['doc']; ?>" target="_blank()">
+                                                    <iframe src="<?= base_url('assets/img/dosier/') .  $kartuKaris['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                                </a>
+                                            </div>
+                                        <?php else : ?>
+                                            <div class="col-md-4 text-center">
+                                                <a href="<?= base_url('assets/img/dosier/') .  $kartuKaris['doc']; ?>" target="_blank()">
+                                                    <img src="<?= base_url('assets/img/dosier/') .  $kartuKaris['doc']; ?>" class="img img-thumbnail img-responsive">
+                                                </a>
+                                            </div>
+                                        <?php endif; ?>
+                                        <div class="col-md-4"><input class="form-control" type="file" name="image" id="image"></div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <button class="btn btn-primary" type="submit" name="submit">Simpan</button>
+                                    </div>
+
+                                    </form>
+                                </div>
                             </div>
-
-                            <div class="card-body">
-                                <div class="text-center mb-2">
-                                    <h5>KARIS/KARSU</h5>
-                                </div>
-                                <?php echo form_open_multipart('member/karis'); ?>
-                                <input type="hidden" name="id" value="<?= $staff['id']; ?>">
-                                <div class="row form-group mt-3">
-                                    <div class="col text-left"><label for="no">No. Kartu Istri/Suami</label></div>
-                                    <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no karis/karsu"></div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col text-left"><label for="image">Upload Kartu</label></div>
-                                    <div class="col-md-8"><input class="form-control" type="file" name="image" id="image"></div>
-                                </div>
-                                <div class="row form-group">
-                                    <button class="btn btn-primary" type="submit" name="submit">Simpan</button>
-                                </div>
-
-                                </form>
-                            </div>
-                        </div>
+                        <?php else : ?>
+                            <div></div>
+                        <?php endif; ?>
                         <!-- /.card-header -->
 
                         <!-- /.card-body -->

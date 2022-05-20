@@ -69,6 +69,7 @@ class Member extends CI_Controller
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->order_by('tmt', 'desc');
         $data['kepangkatan'] = $this->db->get_where('jb_kepangkatan')->result_array();
+
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->order_by('thn', 'desc');
         $data['dikum'] = $this->db->get('jb_dik_um')->result_array();
@@ -98,14 +99,31 @@ class Member extends CI_Controller
         $this->db->where('personil_id', $data['staff']['id']);
         $data['kk'] = $this->db->get('jb_kartu_keluarga')->row_array();
         if (!$data['kk']) {
-            $data['kk'] = ['no_kk' => ''];
+            $data['kk'] = ['no_kk' => '', 'doc' => ''];
         }
         $this->db->where('personil_id', $data['staff']['id']);
         $data['npwp'] = $this->db->get('jb_npwp')->row_array();
         if (!$data['npwp']) {
-            $data['npwp'] = ['npwp' => ''];
+            $data['npwp'] = ['npwp' => '', 'doc' => ''];
         }
         $data['jamKerja'] = $this->db->get('jam_kerja')->result_array();
+        $this->db->where('personil_id', $data['staff']['id']);
+        $data['kartuBpjs'] = $this->db->get_where('jb_bpjs')->row_array();
+        if (!$data['kartuBpjs']) {
+            $data['kartuBpjs'] = ['bpjs' => '', 'fktp' => '', 'doc' => ''];
+        }
+        $this->db->where('personil_id', $data['staff']['id']);
+        $data['kartuKtp'] = $this->db->get_where('jb_ktp')->row_array();
+        if (!$data['kartuKtp']) {
+            $data['kartuKtp'] = ['noktp' => '', 'doc' => ''];
+        }
+        $this->db->where('personil_id', $data['staff']['id']);
+        $data['kartuKaris'] = $this->db->get_where('jb_karis')->row_array();
+        if (!$data['kartuKaris']) {
+            $data['kartuKaris'] = ['no' => '', 'doc' => ''];
+        }
+        // var_dump($data['kartuBpjs']);
+        // die;
 
         $this->form_validation->set_rules('nik', 'No Kepegawaian', 'trim|required');
         $this->form_validation->set_rules('tl', 'Tempat Lahir', 'trim|required');
@@ -142,6 +160,8 @@ class Member extends CI_Controller
                     echo $this->upload->display_errors();
                 }
             }
+            $jabatan = $this->input->post('jabatan');
+            $this->db->set('jabatan', $jabatan);
             $id = $this->input->post('id');
             $nik = $this->input->post('nik');
             $this->db->set('nik', $nik);
@@ -260,7 +280,7 @@ class Member extends CI_Controller
             $id = $this->input->post('id');
             $this->db->where('personil_id', $id);
             $kk = $this->db->get('jb_kartu_keluarga')->row_array();
-            if (!$kk) {
+            if ($kk) {
                 $upload_image = $_FILES['image']['name'];
 
                 if ($upload_image) {
@@ -331,30 +351,60 @@ class Member extends CI_Controller
             redirect('member/inputdata');
         } else {
 
-            $upload_image = $_FILES['image']['name'];
+            $id = $this->input->post('id');
+            $no = htmlspecialchars($this->input->post('no', true));
+            $this->db->where('personil_id', $id);
+            $karis = $this->db->get('jb_karis')->row_array();
+            if ($karis) {
+                $id = $karis['id'];
+                $this->db->set('no', $no);
+                $upload_image = $_FILES['image']['name'];
 
-            if ($upload_image) {
-                $config['allowed_types']    = 'gif|jpg|png|pdf|jpeg';
-                $config['max_size']         = '5000';
-                $config['upload_path']      = './assets/img/dosier/';
+                if ($upload_image) {
+                    $config['allowed_types']    = 'gif|jpg|png|pdf|jpeg';
+                    $config['max_size']         = '5000';
+                    $config['upload_path']      = './assets/img/dosier/';
 
-                $this->load->library('upload', $config);
+                    $this->load->library('upload', $config);
 
-                if ($this->upload->do_upload('image')) {
-                    $new_image = $this->upload->data('file_name');
-                    $this->db->set('doc', $new_image);
+                    if ($this->upload->do_upload('image')) {
+                        $new_image = $this->upload->data('file_name');
+                        $this->db->set('doc', $new_image);
+                    } else {
+                        echo $this->upload->display_errors();
+                    }
+                }
+                $this->db->where('id', $id);
+                $this->db->update('jb_karis');
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data Kartu Istri/suami</div>');
+                redirect('member/inputdata');
+            } else {
 
-                    $id = $this->input->post('id');
-                    $no = htmlspecialchars($this->input->post('no', true));
-                    $data = [
-                        'personil_id' => $id,
-                        'no' => $no
-                    ];
-                    $this->db->insert('jb_karis', $data);
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data Kartu Istri/suami</div>');
-                    redirect('member/inputdata');
-                } else {
-                    echo $this->upload->display_errors();
+
+
+                $upload_image = $_FILES['image']['name'];
+
+                if ($upload_image) {
+                    $config['allowed_types']    = 'gif|jpg|png|pdf|jpeg';
+                    $config['max_size']         = '5000';
+                    $config['upload_path']      = './assets/img/dosier/';
+
+                    $this->load->library('upload', $config);
+
+                    if ($this->upload->do_upload('image')) {
+                        $new_image = $this->upload->data('file_name');
+                        $this->db->set('doc', $new_image);
+
+                        $data = [
+                            'personil_id' => $id,
+                            'no' => $no
+                        ];
+                        $this->db->insert('jb_karis', $data);
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data Kartu Istri/suami</div>');
+                        redirect('member/inputdata');
+                    } else {
+                        echo $this->upload->display_errors();
+                    }
                 }
             }
         }
