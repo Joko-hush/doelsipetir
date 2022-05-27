@@ -89,13 +89,13 @@ class Personalia extends CI_Controller
     }
     public function lihat()
     {
-        $id = $this->input->get('kdstaff');
+        $id = $this->input->get('nip');
 
-        $this->db->where('KDSTAFF', $id);
+        $this->db->where('nip', $id);
         $una = $this->db->get('user')->row_array();
         $dbstaff = $this->load->database('staff', true);
-        $dbstaff->where('KDSTAFF', $id);
-        $banding = $dbstaff->get('M_STAFF')->row_array();
+        $dbstaff->where('nip', $id);
+        $banding = $dbstaff->get('m_personil_pers')->row_array();
         $this->db->where('is_active', 1);
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
@@ -136,15 +136,58 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
 
-        $dbstaff = $this->load->database('staff', true);
-        $dbstaff->where('ISACTIVE', 1);
-        $data['staff'] = $dbstaff->get('M_STAFF')->result_array();
 
-        $this->load->view('layout/header_pers', $data);
-        $this->load->view('layout/nav_pers', $data);
-        $this->load->view('layout/sidebar_pers', $data);
-        $this->load->view('personalia/master_staff', $data);
-        $this->load->view('layout/footer_pers', $data);
+        $this->db->where('ISACTIVE', 1);
+        $data['staff'] = $this->db->get('m_personil_pers')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama Lengkap', 'required|trim');
+        $this->form_validation->set_rules('nip', 'No. Nip', 'required|trim');
+        $this->form_validation->set_rules('pangkat', 'Pangkat', 'required|trim');
+        $this->form_validation->set_rules('jabatan', 'Jabatan', 'required|trim');
+        if ($this->form_validation->run() == false) {
+
+            $this->load->view('layout/header_pers', $data);
+            $this->load->view('layout/nav_pers', $data);
+            $this->load->view('layout/sidebar_pers', $data);
+            $this->load->view('personalia/master_staff', $data);
+            $this->load->view('layout/footer_pers', $data);
+        } else {
+
+            $nip = $this->input->post('nip');
+            $nama = $this->input->post('nama');
+            $pangkat = $this->input->post('pangkat');
+            $jabatan = $this->input->post('jabatan');
+            $ket = $this->input->post('ket');
+            $gender = $this->input->post('gender');
+            $pendidikan = $this->input->post('pendidikan');
+            $kualifikasi = $this->input->post('kualifikasi');
+            $tmt = $this->input->post('tmt');
+            $tgl = $this->input->post('tanggallahir');
+            $aktif = $this->input->post('aktif');
+            $gol = $this->input->post('gol');
+            if (!$aktif) {
+                $aktif = 0;
+            }
+            $data1 = [
+                'nip' => $nip,
+                'nama' => $nama,
+                'pangkat' => $pangkat,
+                'jabatan' => $jabatan,
+                'ket' => $ket,
+                'gender' => $gender,
+                'pendidikan' => $pendidikan,
+                'kualifikasi' => $kualifikasi,
+                'tmt' => $tmt,
+                'tgl' => $tgl,
+                'created_at' => time(),
+                'updated_at' => time(),
+                'isactive' => $aktif,
+                'gol' => $gol
+            ];
+            $this->db->insert('m_personil_pers', $data1);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil menambahkan data personil.</div>');
+            redirect('personalia/masterStaff');
+        }
     }
     public function detailStaff()
     {
@@ -160,15 +203,11 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
 
-        $dbstaff = $this->load->database('staff', true);
-        $dbstaff->where('KDSTAFF', $id);
-        $data['staff'] = $dbstaff->get('M_STAFF')->row_array();
-
+        $this->db->where('id', $id);
+        $data['staff'] = $this->db->get('m_personil_pers')->row_array();
         $this->form_validation->set_rules('nama', 'Nama Lengkap', 'required|trim');
         $this->form_validation->set_rules('nip', 'No. Nip', 'required|trim');
-        $this->form_validation->set_rules('tempatlahir', 'Tempat Lahir', 'required|trim');
-        $this->form_validation->set_rules('tanggallahir', 'Tanggal Lahir', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim');
+
         if ($this->form_validation->run() == false) {
             $this->load->view('layout/header_pers', $data);
             $this->load->view('layout/nav_pers', $data);
@@ -177,27 +216,40 @@ class Personalia extends CI_Controller
             $this->load->view('layout/footer_pers', $data);
         } else {
             $id = $this->input->post('id');
-            $nama = $this->input->post('nama');
             $nip = $this->input->post('nip');
-            $tl = $this->input->post('tempatlahir');
+            $nama = $this->input->post('nama');
+            $pangkat = $this->input->post('pangkat');
+            $jabatan = $this->input->post('jabatan');
+            $ket = $this->input->post('ket');
+            $gender = $this->input->post('gender');
+            $pendidikan = $this->input->post('pendidikan');
+            $kualifikasi = $this->input->post('kualifikasi');
+            $tmt = $this->input->post('tmt');
             $tgl = $this->input->post('tanggallahir');
-            $email = $this->input->post('email');
-            $phone = $this->input->post('phone');
-            $ktp = $this->input->post('ktp');
-
-            $this->db->set('NAME_DISPLAY', $nama);
-            $this->db->set('NOMOR_NIP', $nip);
-            $this->db->set('TEMPATLAHIR', $tl);
-            $this->db->set('TANGGALLAHIR', $tgl);
-            $this->db->set('EMAIL', $email);
-            $this->db->set('NOMOR_HP1', $phone);
-            $this->db->set('NOMOR_KTP', $ktp);
-            $this->db->where('KDSTAFF', $id);
-            $this->db->update('M_STAFF');
+            $aktif = $this->input->post('aktif');
+            $gol = $this->input->post('gol');
+            if (!$aktif) {
+                $aktif = 0;
+            }
+            $this->db->set('nama', $nama);
+            $this->db->set('nip', $nip);
+            $this->db->set('tgl_lahir', $tgl);
+            $this->db->set('pangkat', $pangkat);
+            $this->db->set('jabatan', $jabatan);
+            $this->db->set('ket', $ket);
+            $this->db->set('gender', $gender);
+            $this->db->set('pendidikan', $pendidikan);
+            $this->db->set('kualifikasi', $kualifikasi);
+            $this->db->set('tmt', $tmt);
+            $this->db->set('updated_at', time());
+            $this->db->set('gol', $gol);
+            $this->db->where('id', $id);
+            $this->db->update('m_personil_pers');
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil membuat perubahan data personil.</div>');
             redirect('personalia/masterStaff');
         }
     }
+
     public function user()
     {
         $data['title'] = 'Doel Si Petir | Dashboard';
@@ -256,6 +308,32 @@ class Personalia extends CI_Controller
         $this->load->view('layout/nav_pers', $data);
         $this->load->view('layout/sidebar_pers', $data);
         $this->load->view('personalia/personil/detailkeluarga', $data);
+        $this->load->view('layout/footer_pers', $data);
+    }
+    public function Absensi()
+    {
+        $data['title'] = 'Doel Si Petir | Dashboard';
+        $data['judul'] = 'Absensi';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->db->where('is_active', 1);
+        $this->db->order_by('date_created', 'desc');
+        $data['approve'] = $this->db->get_where('user')->result_array();
+        $data['ja'] = count($data['approve']);
+        $date1 = $this->input->post('date1');
+        $date2 = $this->input->post('date2');
+        if (!$date1) {
+            $date1 = date('Y-m-d');
+            $date2 = date('Y-m-d');
+        }
+        $this->load->model('Absen_models', 'absen');
+        $data['absen'] = $this->absen->getAbsenHarian($date1, $date2);
+        $data['date1'] = $date1;
+        $data['date2'] = $date2;
+
+        $this->load->view('layout/header_pers', $data);
+        $this->load->view('layout/nav_pers', $data);
+        $this->load->view('layout/sidebar_pers', $data);
+        $this->load->view('personalia/absensi/index', $data);
         $this->load->view('layout/footer_pers', $data);
     }
 }

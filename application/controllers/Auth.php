@@ -17,6 +17,11 @@ class Auth extends CI_Controller
             $email = $cookie;
 
             $user = $this->db->get_where('user', ['email' => $email])->row_array();
+            $data = [
+                'email' => $user['email'],
+                'role_id' => $user['role_id']
+            ];
+            $this->session->set_userdata($data);
             if ($user['role_id'] == 1) {
                 redirect('admin');
             } elseif ($user['role_id'] == 3) {
@@ -24,7 +29,8 @@ class Auth extends CI_Controller
             } else {
                 redirect('member');
             }
-        } elseif ($session) {
+        }
+        if ($session) {
             $email = $session;
             $user = $this->db->get_where('user', ['email' => $email])->row_array();
             if ($user['role_id'] == 1) {
@@ -119,15 +125,12 @@ class Auth extends CI_Controller
             $email = $this->input->post('email', true);
             $nik = $this->input->post('nik');
             $name = strtoupper(htmlspecialchars($this->input->post('name', true)));
+            $this->db->where('nip', $nik);
+            $s = $this->db->get('m_personil_pers')->row_array();
 
-            $db150 = $this->load->database('staff', true);
-            $db150->where('NOMOR_NIP', $nik);
-            $s = $db150->get('M_STAFF')->row_array();
             if ($s) {
-                $kd = $s['KDSTAFF'];
-
                 $data = [
-                    'KDSTAFF' => $kd,
+
                     'name' => $name,
                     'email' => htmlspecialchars($email),
                     'image' => 'default.jpg',
@@ -138,9 +141,12 @@ class Auth extends CI_Controller
                 ];
 
                 $data2 = [
+                    'nik' => $nik,
                     'name' => strtoupper(htmlspecialchars($this->input->post('name', true))),
+                    'sex' => $s['gender'],
                     'email' => htmlspecialchars($email),
                     'image' => 'default.jpg',
+                    'jabatan' => $s['jabatan'],
                     'created_at' => time()
                 ];
 

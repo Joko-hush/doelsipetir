@@ -19,17 +19,33 @@
                             <tr>
                                 <th>No</th>
                                 <th>Tanggal</th>
+                                <th>Ket.</th>
                                 <th>Alasan</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            <?php $n = 1; ?>
+                            <?php foreach ($ijin as $i) : ?>
+                                <?php switch ($i['kategori']) {
+                                    case '3':
+                                        $i['kategori'] = 'Ijin';
+                                        break;
+
+                                    default:
+                                        $i['kategori'] = 'Sakit';
+                                        break;
+                                }
+                                ?>
+                                <tr>
+                                    <td><?= $n++; ?></td>
+                                    <td><?= $i['tgl_masuk']; ?></td>
+                                    <td><?= $i['kategori']; ?></td>
+                                    <td><?= $i['alasan']; ?></td>
+                                    <td><?= $i['status']; ?></td>
+
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
 
 

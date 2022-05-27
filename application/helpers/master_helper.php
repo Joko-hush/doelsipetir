@@ -36,6 +36,16 @@ function is_logged_in()
             return "checked='checked'";
         }
     }
+    function check_staff($id)
+    {
+        $ci = get_instance();
+
+        $result = $ci->db->get_where('m_personil_pers', ['id' => $id, 'isactive' => 1]);
+
+        if ($result->num_rows() > 0) {
+            return "checked='checked'";
+        }
+    }
     function check_client($dokter_id, $status)
     {
         $ci = get_instance();

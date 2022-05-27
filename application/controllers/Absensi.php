@@ -106,6 +106,9 @@ class Absensi extends CI_Controller
         $data['judul'] = 'Ijin Absen';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $this->db->limit(20);
+        $this->db->order_by('tgl_masuk', 'desc');
+        $data['ijin'] = $this->db->get_where('abs_ijin', ['KDSTAFF' => $data['staff']['KDSTAFF']])->result_array();
 
         $this->form_validation->set_rules('category', 'Kategori keterangan', 'required');
         $this->form_validation->set_rules('alasan', 'Alasan', 'required|trim');
@@ -120,10 +123,42 @@ class Absensi extends CI_Controller
             $tgl = $this->input->post('tgl');
             $alasan = $this->input->post('alasan');
             $status = 'diajukan';
+            $this->db->where('id', $data['staff']['jabatan']);
+            $this->db->where('leader', 1);
+            $idpejabat = $this->db->get('m_jabatan')->row_array();
+            $this->db->where('jabatan', $idpejabat['id']);
+            $jab = $this->db->get('jb_personil')->row_array();
+            $ke = $jab['name'];
 
+            $data = [
+                'KDSTAFF' => $id,
+                'tgl_masuk' => $tgl,
+                'kategori' => $cat,
+                'alasan' => $alasan,
+                'ditujukan' => $ke,
+                'status' => $status,
+                'created_at' => time(),
+                'approved_at' => ''
+            ];
+            $upload_image = $_FILES['image']['name'];
 
-            var_dump($id . $cat . $alasan . $tgl);
-            die;
+            if ($upload_image) {
+                $config['allowed_types']    = 'gif|jpg|png|pdf|jpeg';
+                $config['max_size']         = '5000';
+                $config['upload_path']      = './assets/img/dosier/';
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('image')) {
+                    $new_image = $this->upload->data('file_name');
+                    $this->db->set('doc', $new_image);
+                } else {
+                    echo $this->upload->display_errors();
+                }
+            }
+            $this->db->insert('abs_ijin', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Ijin yang Anda buat sudah di kirim. Harap menunggu Acc dari Pimpinan.</div>');
+            redirect('absensi/ijin');
         }
     }
 }

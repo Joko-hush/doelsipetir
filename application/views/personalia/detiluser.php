@@ -60,26 +60,15 @@
 
                                          <tr>
                                              <th>Nama</th>
-                                             <td><?= $banding['NAME_DISPLAY']; ?></td>
-                                         </tr>
-                                         <tr>
-                                             <th>Email</th>
-                                             <?php if ($banding['EMAIL'] == '') {
-
-                                                    $email = '';
-                                                } else {
-                                                    $email = $banding['EMAIL'];
-                                                }
-                                                ?>
-                                             <td><?= $email; ?></td>
-                                         </tr>
-                                         <tr>
-                                             <th>No. KTP</th>
-                                             <td><?= $banding['NOMOR_KTP']; ?></td>
+                                             <td><?= $banding['nama']; ?></td>
                                          </tr>
                                          <tr>
                                              <th>Jabatan</th>
-                                             <td><?= $banding['DESCRIPTION']; ?></td>
+                                             <td><?= $banding['pangkat']; ?></td>
+                                         </tr>
+                                         <tr>
+                                             <th>Jabatan</th>
+                                             <td><?= $banding['jabatan']; ?></td>
                                          </tr>
 
                                      </table>

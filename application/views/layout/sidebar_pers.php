@@ -46,7 +46,27 @@
                             </p>
                             </a>
                 </li>
-
+                <li class="nav-item">
+                    <a href="<?= base_url('personalia/absensi'); ?>" class="nav-link">
+                        <i class="fas fa-users nav-icon"></i>
+                        <p>
+                            Absensi
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview pl-3">
+                        <li class="nav-item">
+                            <?php if ($judul == 'Absensi') : ?>
+                                <a href="<?= base_url('personalia/absensi'); ?>" class="nav-link active" data-bs-toggle="tooltip" data-bs-placement="top" title="Menampilkan semua akun personil yang terdaftar di aplikasi doel si petir">
+                                <?php else : ?>
+                                    <a href="<?= base_url('personalia/absensi'); ?>" class="nav-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Menampilkan semua akun personil yang terdaftar di aplikasi doel si petir">
+                                    <?php endif; ?>
+                                    <i class="ri-user-heart-line nav-icon"></i>
+                                    <p>Daftar Absensi</p>
+                                    </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="ri-user-settings-fill nav-icon"></i>
@@ -55,6 +75,7 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+
                     <ul class="nav nav-treeview pl-3">
                         <li class="nav-item">
                             <?php if ($judul == 'Daftar User') : ?>
