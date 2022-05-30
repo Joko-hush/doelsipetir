@@ -142,7 +142,7 @@ class Absensi extends CI_Controller
             if ($upload_image) {
                 $config['allowed_types']    = 'gif|jpg|png|pdf|jpeg';
                 $config['max_size']         = '5000';
-                $config['upload_path']      = './assets/img/dosier/';
+                $config['upload_path']      = './assets/img/absen/';
 
                 $this->load->library('upload', $config);
 

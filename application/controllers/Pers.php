@@ -18,6 +18,10 @@ class Pers extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
 
         $this->form_validation->set_rules('current_password', 'Current Password', 'required|trim');
         $this->form_validation->set_rules('new_password1', 'New Password', 'required|trim|min_length[5]|matches[new_password2]');
@@ -61,6 +65,10 @@ class Pers extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
 
         $this->load->view('layout/header_pers', $data);
         $this->load->view('layout/nav_pers', $data);

@@ -18,6 +18,26 @@ class Personalia extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
+
+        // dashboard
+        $data['pengguna'] = $this->db->get('jb_personil')->num_rows();
+        $data['anggota'] = $this->db->get('m_personil_pers')->num_rows();
+        $data['persentase'] = ceil(($data['pengguna'] / $data['anggota']) * 100);
+        // absen
+        $this->db->where('STAT_KERJA', 1);
+        $this->db->where('tgl_masuk', $today);
+        $data['masuk'] = $this->db->get('abs_kehadiran')->num_rows();
+        $this->db->where('STAT_KERJA', 3);
+        $this->db->where('tgl_masuk', $today);
+        $data['ijin'] = $this->db->get('abs_kehadiran')->num_rows();
+        $this->db->where('STAT_KERJA', 4);
+        $this->db->where('tgl_masuk', $today);
+        $data['sakit'] = $this->db->get('abs_kehadiran')->num_rows();
+        $data['unknown'] = ($data['pengguna'] - ($data['masuk'] + $data['ijin'] + $data['sakit']));
 
         $this->load->view('layout/header_pers', $data);
         $this->load->view('layout/nav_pers', $data);
@@ -33,6 +53,9 @@ class Personalia extends CI_Controller
         $this->db->where('is_active', 1);
         $data['approve'] = $this->db->get('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
         $this->load->model('Pangkat_models', 'pkt');
 
         $data['pangkat'] = $this->pkt->getAll();
@@ -80,6 +103,9 @@ class Personalia extends CI_Controller
         $this->db->where('is_active', 1);
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $this->load->view('layout/header_pers', $data);
         $this->load->view('layout/nav_pers', $data);
@@ -99,6 +125,9 @@ class Personalia extends CI_Controller
         $this->db->where('is_active', 1);
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
         $data['una'] = $una;
         $data['banding'] = $banding;
 
@@ -135,6 +164,9 @@ class Personalia extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
 
         $this->db->where('ISACTIVE', 1);
@@ -202,6 +234,9 @@ class Personalia extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $this->db->where('id', $id);
         $data['staff'] = $this->db->get('m_personil_pers')->row_array();
@@ -259,6 +294,9 @@ class Personalia extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $personil = $this->db->get('jb_personil')->result_array();
         $data['personil'] = $personil;
@@ -279,6 +317,9 @@ class Personalia extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
         $this->db->where('id', $id);
         $personil = $this->db->get('jb_personil')->row_array();
         $data['personil'] = $personil;
@@ -299,6 +340,9 @@ class Personalia extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
         $idan = $this->input->get('id');
         $this->db->where('id', $idan);
         $data['kel'] = $this->db->get_where('jb_keluarga')->row_array();
@@ -319,8 +363,14 @@ class Personalia extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
         $date1 = $this->input->post('date1');
         $date2 = $this->input->post('date2');
+        if ($date2 < $date1) {
+            $date2 = $date1;
+        }
         if (!$date1) {
             $date1 = date('Y-m-d');
             $date2 = date('Y-m-d');
@@ -334,6 +384,135 @@ class Personalia extends CI_Controller
         $this->load->view('layout/nav_pers', $data);
         $this->load->view('layout/sidebar_pers', $data);
         $this->load->view('personalia/absensi/index', $data);
+        $this->load->view('layout/footer_pers', $data);
+    }
+    public function ijin()
+    {
+        $data['title'] = 'Doel Si Petir | Dashboard';
+        $data['judul'] = 'Absensi Ijin';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->db->where('is_active', 1);
+        $this->db->order_by('date_created', 'desc');
+        $data['approve'] = $this->db->get_where('user')->result_array();
+        $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+        $date1 = $this->input->post('date1');
+        $date2 = $this->input->post('date2');
+        if ($date2 < $date1) {
+            $date2 = $date1;
+        }
+        if (!$date1) {
+            $date1 = date('Y-m-d');
+            $date2 = date('Y-m-d');
+        }
+        $this->load->model('Absen_models', 'absen');
+        $data['absen'] = $this->absen->getAbsenKet($date1, $date2, 3);
+        $data['date1'] = $date1;
+        $data['date2'] = $date2;
+
+        $this->load->view('layout/header_pers', $data);
+        $this->load->view('layout/nav_pers', $data);
+        $this->load->view('layout/sidebar_pers', $data);
+        $this->load->view('personalia/absensi/ijin', $data);
+        $this->load->view('layout/footer_pers', $data);
+    }
+    public function masuk()
+    {
+        $data['title'] = 'Doel Si Petir | Dashboard';
+        $data['judul'] = 'Absensi Masuk';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->db->where('is_active', 1);
+        $this->db->order_by('date_created', 'desc');
+        $data['approve'] = $this->db->get_where('user')->result_array();
+        $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+        $date1 = $this->input->post('date1');
+        $date2 = $this->input->post('date2');
+        if ($date2 < $date1) {
+            $date2 = $date1;
+        }
+        if (!$date1) {
+            $date1 = date('Y-m-d');
+            $date2 = date('Y-m-d');
+        }
+        $this->load->model('Absen_models', 'absen');
+        $data['absen'] = $this->absen->getAbsenKet($date1, $date2, 1);
+        $data['date1'] = $date1;
+        $data['date2'] = $date2;
+
+        $this->load->view('layout/header_pers', $data);
+        $this->load->view('layout/nav_pers', $data);
+        $this->load->view('layout/sidebar_pers', $data);
+        $this->load->view('personalia/absensi/masuk', $data);
+        $this->load->view('layout/footer_pers', $data);
+    }
+    public function sakit()
+    {
+        $data['title'] = 'Doel Si Petir | Dashboard';
+        $data['judul'] = 'Absensi Sakit';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->db->where('is_active', 1);
+        $this->db->order_by('date_created', 'desc');
+        $data['approve'] = $this->db->get_where('user')->result_array();
+        $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+        $date1 = $this->input->post('date1');
+        $date2 = $this->input->post('date2');
+        if ($date2 < $date1) {
+            $date2 = $date1;
+        }
+        if (!$date1) {
+            $date1 = date('Y-m-d');
+            $date2 = date('Y-m-d');
+        }
+        $this->load->model('Absen_models', 'absen');
+        $data['absen'] = $this->absen->getAbsenKet($date1, $date2, 4);
+        $data['date1'] = $date1;
+        $data['date2'] = $date2;
+
+        $this->load->view('layout/header_pers', $data);
+        $this->load->view('layout/nav_pers', $data);
+        $this->load->view('layout/sidebar_pers', $data);
+        $this->load->view('personalia/absensi/sakit', $data);
+        $this->load->view('layout/footer_pers', $data);
+    }
+    public function unknown()
+    {
+        $data['title'] = 'Doel Si Petir | Dashboard';
+        $data['judul'] = 'Absensi Tanpa Keterangan';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->db->where('is_active', 1);
+        $this->db->order_by('date_created', 'desc');
+        $data['approve'] = $this->db->get_where('user')->result_array();
+        $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+        $date1 = $this->input->post('date1');
+        $date2 = $this->input->post('date2');
+        if ($date2 < $date1) {
+            $date2 = $date1;
+        }
+        if (!$date1) {
+            $date1 = date('Y-m-d');
+            $date2 = date('Y-m-d');
+        }
+        $this->load->model('Absen_models', 'absen');
+        $data['absen'] = $this->absen->getUnknown($date1, $date2);
+
+        $data['date1'] = $date1;
+        $data['date2'] = $date2;
+
+        $this->load->view('layout/header_pers', $data);
+        $this->load->view('layout/nav_pers', $data);
+        $this->load->view('layout/sidebar_pers', $data);
+        $this->load->view('personalia/absensi/unknown', $data);
         $this->load->view('layout/footer_pers', $data);
     }
 }

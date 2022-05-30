@@ -20,7 +20,7 @@
                      <p class="m-0">Data berdasarkan <?= $date1 . ' hingga ' . $date2; ?></p>
                  </div>
                  <div class="col-sm-6">
-                     <form action="<?= base_url('personalia/absensi'); ?>" method="post">
+                     <form action="<?= base_url('personalia/masuk'); ?>" method="post">
                          <div class="input-group mb-3 float-sm-right">
                              <input type="date" name="date1" class="form-control" aria-label="Tanggal awal" value="<?= $date1; ?>">
                              <span class="input-group-text">-</span>
@@ -39,7 +39,7 @@
              <!-- Default box -->
              <div class="card">
                  <div class="card-header">
-                     <h3 class="card-title">Daftar Absensi</h3>
+                     <h3 class="card-title"><?= $judul; ?></h3>
 
                      <div class="card-tools">
                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
