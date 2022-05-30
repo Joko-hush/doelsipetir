@@ -52,7 +52,7 @@
                  </div>
                  <div class="card-body">
                      <div class="table-responsive">
-                         <table class="table table-bordered table-sm" id="myTable">
+                         <table class="table table-bordered table-sm text-center" id="myTable">
                              <thead>
                                  <tr>
                                      <th>NO</th>
@@ -70,7 +70,7 @@
                                  <?php $n = 1; ?>
                                  <?php foreach ($absen as $a) : ?>
                                      <?php
-                                        $this->db->where('KDSTAFF', $a['KDSTAFF']);
+                                        $this->db->where('nik', $a['NIP']);
                                         $personil = $this->db->get('jb_personil')->row_array();
                                         $this->db->where('id', $personil['jabatan']);
                                         $jab = $this->db->get('m_jabatan')->row_array();

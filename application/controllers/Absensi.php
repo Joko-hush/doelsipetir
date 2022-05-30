@@ -15,17 +15,15 @@ class Absensi extends CI_Controller
         $data['judul'] = 'Dashboard Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $id = $data['staff']['KDSTAFF'];
-        $db2 = $this->load->database('staff', true);
-        $data['user'] = $this->db->get_where('jb_personil', ['email' => $this->session->userdata('email')])->row_array();
-        $data['hadir'] = $this->db->get_where('abs_kehadiran', ['KDSTAFF' => $data['user']['KDSTAFF'], 'TGL_MASUK' => date('Y-m-d')])->num_rows();
-        $data['pulang'] = $this->db->get_where('abs_kehadiran', ['KDSTAFF' => $data['user']['KDSTAFF'], 'TGL_MASUK' => date('Y-m-d'), 'STAT_ABSEN' => 2])->num_rows();
+        $id = $data['staff']['nik'];
+        $data['hadir'] = $this->db->get_where('abs_kehadiran', ['nip' => $id, 'TGL_MASUK' => date('Y-m-d')])->num_rows();
+        $data['pulang'] = $this->db->get_where('abs_kehadiran', ['nip' => $id, 'TGL_MASUK' => date('Y-m-d'), 'STAT_ABSEN' => 2])->num_rows();
         $date1 = strtotime('first day of this week');
         $date2 = strtotime('last day of this week');
         // $this->db->where('TGL_MASUK >=', $date1);
         // $this->db->where('TGL_MASUK <=', $date2);
         $this->db->limit(5);
-        $data['absen'] = $this->db->get_where('abs_kehadiran', ['KDSTAFF' => $data['user']['KDSTAFF']])->result_array();
+        $data['absen'] = $this->db->get_where('abs_kehadiran', ['NIP' => $id])->result_array();
         if (!$data['staff']['jam_kerja_id']) {
             $this->session->set_flashdata('message', '<div class="alert alert-info mt-2" role="alert">Saat ini Anda belum bisa melakukan Absensi karena belum memilih jam kerja.
              Silahkan lengkapi terlebih dahulu.</div>');
@@ -44,18 +42,17 @@ class Absensi extends CI_Controller
         $data['judul'] = 'Absen';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        // $id = $data['staff']['KDSTAFF'];
-        // $db2 = $this->load->database('staff', true);
+        $id = $data['staff']['nik'];
         $data['user'] = $this->db->get_where('jb_personil', ['email' => $this->session->userdata('email')])->row_array();
-        $data['hadir'] = $this->db->get_where('abs_kehadiran', ['KDSTAFF' => $data['user']['KDSTAFF'], 'TGL_MASUK' => date('Y-m-d')])->num_rows();
-        $data['pulang'] = $this->db->get_where('abs_kehadiran', ['KDSTAFF' => $data['user']['KDSTAFF'], 'TGL_MASUK' => date('Y-m-d'), 'STAT_ABSEN' => 2])->num_rows();
+        $data['hadir'] = $this->db->get_where('abs_kehadiran', ['nip' => $id, 'TGL_MASUK' => date('Y-m-d')])->num_rows();
+        $data['pulang'] = $this->db->get_where('abs_kehadiran', ['nip' => $id, 'TGL_MASUK' => date('Y-m-d'), 'STAT_ABSEN' => 2])->num_rows();
 
         $date1 = strtotime('first day of this week');
         $date2 = strtotime('last day of this week');
         // $this->db->where('TGL_MASUK >=', $date1);
         // $this->db->where('TGL_MASUK <=', $date2);
         $this->db->limit(5);
-        $data['absen'] = $this->db->get_where('abs_kehadiran', ['KDSTAFF' => $data['user']['KDSTAFF']])->result_array();
+        $data['absen'] = $this->db->get_where('abs_kehadiran', ['nip' => $id])->result_array();
 
 
         $this->load->view('member/layout/jb_header', $data);
@@ -108,7 +105,7 @@ class Absensi extends CI_Controller
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $this->db->limit(20);
         $this->db->order_by('tgl_masuk', 'desc');
-        $data['ijin'] = $this->db->get_where('abs_ijin', ['KDSTAFF' => $data['staff']['KDSTAFF']])->result_array();
+        $data['ijin'] = $this->db->get_where('abs_ijin', ['nip' => $data['staff']['nik']])->result_array();
 
         $this->form_validation->set_rules('category', 'Kategori keterangan', 'required');
         $this->form_validation->set_rules('alasan', 'Alasan', 'required|trim');
@@ -118,7 +115,7 @@ class Absensi extends CI_Controller
             $this->load->view('member/absensi/ijin', $data);
             $this->load->view('member/layout/jb_footer', $data);
         } else {
-            $id = $data['staff']['KDSTAFF'];
+            $id = $data['staff']['nik'];
             $cat = $this->input->post('category');
             $tgl = $this->input->post('tgl');
             $alasan = $this->input->post('alasan');
@@ -131,7 +128,7 @@ class Absensi extends CI_Controller
             $ke = $jab['name'];
 
             $data = [
-                'KDSTAFF' => $id,
+                'nip' => $id,
                 'tgl_masuk' => $tgl,
                 'kategori' => $cat,
                 'alasan' => $alasan,

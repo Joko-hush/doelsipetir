@@ -1266,9 +1266,11 @@ class Member extends CI_Controller
         $data['judul'] = 'Kinerja Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $kdstaff = $data['staff']['KDSTAFF'];
-
+        $idstaff = $data['staff']['nik'];
         $db2 = $this->load->database('staff', true);
+        $db2->where('NOMOR_NIP', $idstaff);
+        $u = $db2->get('M_STAFF')->row_array();
+        $kdstaff = $u['KDSTAFF'];
         $db2->where('M_ITEM_PENCAPAIAN_STAFF.KDSTAFF', $kdstaff);
         $db2->from('M_ITEM_PENCAPAIAN_STAFF');
         $db2->join('M_ITEMPENCAPAIAN', 'M_ITEMPENCAPAIAN.KDITEMPENCAPAIN = M_ITEM_PENCAPAIAN_STAFF.KDITEMPENCAPAIN');
@@ -1311,8 +1313,11 @@ class Member extends CI_Controller
         $data['judul'] = 'Kinerja Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $kdstaff = $data['staff']['KDSTAFF'];
+        $idstaff = $data['staff']['nik'];
         $db2 = $this->load->database('staff', true);
+        $db2->where('NOMOR_NIP', $idstaff);
+        $u = $db2->get('M_STAFF')->row_array();
+        $kdstaff = $u['KDSTAFF'];
         $db2->where('M_ITEM_PENCAPAIAN_STAFF.KDSTAFF', $kdstaff);
         $db2->from('M_ITEM_PENCAPAIAN_STAFF');
         $db2->join('M_ITEMPENCAPAIAN', 'M_ITEMPENCAPAIAN.KDITEMPENCAPAIN = M_ITEM_PENCAPAIAN_STAFF.KDITEMPENCAPAIN');
@@ -1405,7 +1410,10 @@ class Member extends CI_Controller
         $data['judul'] = 'Edit Kinerja Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $kdstaff = $data['staff']['KDSTAFF'];
+        $idstaff = $data['staff']['nik'];
+        $db2->where('NOMOR_NIP', $idstaff);
+        $u = $db2->get('M_STAFF')->row_array();
+        $kdstaff = $u['KDSTAFF'];
         $db2->where('KDKINERJAPENCAPAIN', $id);
         $data['kinerja'] = $db2->get('F_KINERJAPENCAPAIN_H')->row_array();
 

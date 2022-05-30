@@ -10,33 +10,6 @@ switch (@$_GET['action']) {
 
     case 'absendd':
         $latitude = $_GET['latitude'];
-        // list($lat, $long) = explode(',', $latitude);
-        // //    cek lokasi 
-        // $latitude     = $lat;
-        // $longitude    = $long;
-
-        // if (!empty($latitude) && !empty($longitude)) {
-
-        //     $gmap = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($latitude) . ',' . $longitude . '&sensor=false';
-        //     // curl
-        //     $ch = curl_init();
-        //     curl_setopt($ch, CURLOPT_URL, $gmap);
-        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        //     curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
-        //     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        //     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        //     $response = curl_exec($ch);
-        //     curl_close($ch);
-        //     // end curl
-        //     $data = json_decode($response);
-
-        //     if ($response) {
-        //         $lokasi =  json_encode($data->results[0]->formatted_address);
-        //     } else {
-        //         $lokasi =  'undefined';
-        //     }
-        // }
 
         $files = $_FILES["webcam"]["name"];
         $ukuranFile = $_FILES['webcam']['size'];
@@ -48,21 +21,21 @@ switch (@$_GET['action']) {
 
 
         // Cek User yang sudah login -----------------------------------------------
-        $hadir = $this->db->get_where('abs_kehadiran', ['KDSTAFF' => $user['KDSTAFF'], 'TGL_MASUK' => $hari_ini])->num_rows();
+        $hadir = $this->db->get_where('abs_kehadiran', ['NIP' => $user['nik'], 'TGL_MASUK' => $hari_ini])->num_rows();
         $jam_kerja_id = $this->db->get_where('jam_kerja', ['id' => $user['jam_kerja_id']])->row_array();
         $jk_id = $jam_kerja_id['id'];
         $jamMasuk = $jam_kerja_id['jam_masuk'];
         $jamPulang = $jam_kerja_id['jam_pulang'];
 
         if ($hadir == 0) {
-            $filename = '' . $user['name'] . '-in-' . $hari_ini . '-' . $user['KDSTAFF'] . '.jpg';
+            $filename = '' . $user['name'] . '-in-' . $hari_ini . '-' . $user['nik'] . '.jpg';
             if ($time > $jamMasuk) {
                 $info = 'Terlambat';
             } else {
                 $info = '';
             }
             $dataabsen = [
-                'KDSTAFF' => $user['KDSTAFF'],
+                'NIP' => $user['nik'],
                 'TGL_MASUK' => $hari_ini,
                 'TIME_IN' => $time,
                 'TIME_OUT' => '00:00:00',
@@ -83,7 +56,7 @@ switch (@$_GET['action']) {
         } else {
 
             $this->db->where('TGL_MASUK', $hari_ini);
-            $this->db->where('KDSTAFF', $user['KDSTAFF']);
+            $this->db->where('NIP', $user['nik']);
             $this->db->where('TIME_OUT', '00:00:00');
             $pulang = $this->db->get_where('abs_kehadiran')->num_rows();
 
@@ -92,7 +65,7 @@ switch (@$_GET['action']) {
                 $directory = "../assets/img/absen/" . $filename;
 
                 $this->db->where('TGL_MASUK', $hari_ini);
-                $this->db->where('KDSTAFF', $user['KDSTAFF']);
+                $this->db->where('NIP', $user['nik']);
                 $this->db->where('TIME_OUT', '00:00:00');
                 $userpulang = $this->db->get_where('abs_kehadiran')->row_array();
                 $id = $userpulang['ID'];
@@ -134,12 +107,12 @@ switch (@$_GET['action']) {
         $tmpName = $_FILES['webcam']['tmp_name'];
         $ukuran_file = $_FILES['webcam']['size'];
         // Cek User yang sudah login -----------------------------------------------
-        $hadir = $this->db->get_where('abs_kehadiran', ['KDSTAFF' => $user['KDSTAFF'], 'TGL_MASUK' => $hari_ini])->num_rows();
+        $hadir = $this->db->get_where('abs_kehadiran', ['nip' => $user['nik'], 'TGL_MASUK' => $hari_ini])->num_rows();
 
         if ($hadir == 0) {
-            $filename = '' . $user['name'] . '-in-' . $hari_ini . '-' . $user['KDSTAFF'] . '.jpg';
+            $filename = '' . $user['name'] . '-in-' . $hari_ini . '-' . $user['nik'] . '.jpg';
             $dataabsen = [
-                'KDSTAFF' => $user['KDSTAFF'],
+                'NIP' => $user['nik'],
                 'TGL_MASUK' => $hari_ini,
                 'TIME_IN' => $time,
                 'TIME_OUT' => '00:00:00',
