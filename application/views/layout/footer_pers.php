@@ -43,6 +43,11 @@
   <script>
       $(document).ready(function() {
           $('#myTable').DataTable({
+              iDisplayLength: 31,
+              aLengthMenu: [
+                  [31, 50, 100, -1],
+                  [31, 50, 100, "All"]
+              ],
               dom: 'Bfrtip',
               buttons: [
                   'excel',
@@ -52,6 +57,26 @@
               stateSave: true
           });
       });
+  </script>
+  <script>
+      $(document).ready(function() {
+          $('#absenTable').DataTable({
+
+              paging: false,
+              dom: 'Bfrtip',
+              buttons: [
+                  'excel',
+                  'colvis',
+                  'print'
+              ],
+              stateSave: true
+          });
+      });
+  </script>
+  <script>
+      if (window.history.replaceState) {
+          window.history.replaceState(null, null, window.location.href);
+      }
   </script>
   <script>
       if (window.history.replaceState) {

@@ -13,24 +13,14 @@
                              <li class="breadcrumb-item active">Blank Page</li>
                          </ol>
                      </div>
+                     <div class="mt-3">
+
+                         <?= $this->session->flashdata('message'); ?>
+                         <?php unset($_SESSION['message']); ?>
+                     </div>
                  </div>
              </div><!-- /.container-fluid -->
-             <div class="row align-middle p-3">
-                 <div class="col-sm-6">
-                     <p class="m-0">Data berdasarkan <?= $date1 . ' hingga ' . $date2; ?></p>
-                 </div>
-                 <div class="col-sm-6">
-                     <form action="<?= base_url('personalia/masuk'); ?>" method="post">
-                         <div class="input-group mb-3 float-sm-right">
-                             <input type="date" name="date1" class="form-control" aria-label="Tanggal awal" value="<?= $date1; ?>">
-                             <span class="input-group-text">-</span>
-                             <input type="date" name="date2" class="form-control" aria-label="Tanggal Akhir" value="<?= $date2; ?>">
-                             <button type="submit" name="date2" class="btn btn-outline-warning" aria-label="Tanggal Akhir" value="<?= $date2; ?>">Proses</button>
-                         </div>
 
-                     </form>
-                 </div>
-             </div>
          </section>
 
          <!-- Main content -->
@@ -57,42 +47,37 @@
                                  <tr>
                                      <th>NO</th>
                                      <th>NAMA</th>
+                                     <th>PANGKAT</th>
                                      <th>JABATAN</th>
-                                     <th>ABSEN</th>
-                                     <th>KET</th>
-                                     <th>WAKTU MASUK</th>
-                                     <th>WAKTU PULANG</th>
-                                     <th>INFO</th>
-                                     <th>DISETUJUI OLEH</th>
+                                     <th>UNIT</th>
                                  </tr>
                              </thead>
                              <tbody>
                                  <?php $n = 1; ?>
-                                 <?php foreach ($absen as $a) : ?>
+                                 <?php foreach ($absenPersonil as $ap) : ?>
                                      <?php
-                                        $this->db->where('nik', $a['NIP']);
-                                        $personil = $this->db->get('jb_personil')->row_array();
-                                        $this->db->where('id', $personil['jabatan']);
-                                        $jab = $this->db->get('m_jabatan')->row_array();
-                                        $this->db->where('ID', $a['STAT_ABSEN']);
-                                        $stat = $this->db->get('abs_stat_absen')->row_array();
-                                        $this->db->where('ID', $a['STAT_KERJA']);
-                                        $sk = $this->db->get('stat_kerja')->row_array();
+                                        if (!$ap['jabatan']) {
+                                            $jab['nama'] = '';
+                                            $jab['subbagian'] = '';
+                                        } else {
+                                            $this->db->select('A.nama');
+                                            $this->db->select('B.subbagian');
+                                            $this->db->from('m_jabatan as A');
+                                            $this->db->join('m_subbagian as B', 'B.id=A.subbagian_id', 'left');
+                                            $this->db->where('A.id', $ap['jabatan']);
+                                            $jab = $this->db->get()->row_array();
+                                        }
                                         ?>
                                      <tr>
                                          <td><?= $n++; ?></td>
                                          <td>
-                                             <a href="<?= base_url('personalia/detailAbsen') . '?id=' . $a['ID']; ?>">
-                                                 <?= $personil['name']; ?>
+                                             <a href="<?= base_url('personalia/rincianAbsen') . '?id=' . $ap['nik']; ?>" style="text-decoration: none;" class="text-white">
+                                                 <?= $ap['name']; ?>
                                              </a>
                                          </td>
+                                         <td><?= $ap['pangkat']; ?></td>
                                          <td><?= $jab['nama']; ?></td>
-                                         <td><?= $stat['STATUS']; ?></td>
-                                         <td><?= $sk['KET']; ?></td>
-                                         <td><?= substr($a['TIME_IN'], 0, 8); ?></td>
-                                         <td><?= substr($a['TIME_OUT'], 0, 8); ?></td>
-                                         <td><?= $a['INFO']; ?></td>
-                                         <td><?= $a['DISETUJUI_OLEH']; ?></td>
+                                         <td><?= $jab['subbagian']; ?></td>
                                      </tr>
                                  <?php endforeach; ?>
 
@@ -105,8 +90,7 @@
                  <div class="card-footer">
                      Catatan :
                      <ol>
-                         <li>Untuk melihat detai absen klik pada nama.</li>
-                         <li>Klik tombol excel untuk mencetak ke excel</li>
+                         <li>Untuk melihat detail absen klik pada nama.</li>
                      </ol>
                  </div>
                  <!-- /.card-footer-->

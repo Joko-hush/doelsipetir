@@ -1791,7 +1791,7 @@ class Member extends CI_Controller
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $this->db->where('isactive', 1);
         $data['jabatan'] = $this->db->get('m_jabatan')->result_array();
-        $this->db->where('nip', $data['staff']['nip']);
+        $this->db->where('nip', $data['staff']['nik']);
         $data['jabatan_f'] = $this->db->get('jabatan_fungsional')->result_array();
 
 
@@ -1908,7 +1908,7 @@ class Member extends CI_Controller
         $data['judul'] = 'Riwayat Jabatan Struktural';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $this->db->where('nip', $data['staff']['nip']);
+        $this->db->where('nip', $data['staff']['nik']);
         $data['jabatan'] = $this->db->get('jabatan_struktural')->result_array();
 
         $this->form_validation->set_rules('nama', 'Nama Jabatan', 'trim|required');

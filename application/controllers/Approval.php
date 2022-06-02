@@ -14,6 +14,9 @@ class Approval extends CI_Controller
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
         $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $this->load->model('Absen_models', 'absen');

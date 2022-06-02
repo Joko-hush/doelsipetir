@@ -65,6 +65,16 @@
                                     <p>Daftar Absensi</p>
                                     </a>
                         </li>
+                        <li class="nav-item">
+                            <?php if ($judul == 'Absensi Perorangan') : ?>
+                                <a href="<?= base_url('personalia/absenPerorangan'); ?>" class="nav-link active" data-bs-toggle="tooltip" data-bs-placement="top" title="Menampilkan semua akun personil yang terdaftar di aplikasi doel si petir">
+                                <?php else : ?>
+                                    <a href="<?= base_url('personalia/absenPerorangan'); ?>" class="nav-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Menampilkan semua akun personil yang terdaftar di aplikasi doel si petir">
+                                    <?php endif; ?>
+                                    <i class="ri-user-heart-line nav-icon"></i>
+                                    <p>Absen Perorangan</p>
+                                    </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">

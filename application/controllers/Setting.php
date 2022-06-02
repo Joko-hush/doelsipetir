@@ -18,6 +18,11 @@ class Setting extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
 
         $data['eselon'] = $this->db->get('m_eselon')->result_array();
 
@@ -53,6 +58,11 @@ class Setting extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
 
         $data['eselon'] = $this->db->get('m_eselon')->result_array();
         $data['bidang'] = $this->db->get('m_bidang')->result_array();
@@ -91,6 +101,11 @@ class Setting extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
 
         $data['eselon'] = $this->db->get('m_eselon')->result_array();
         $data['bidang'] = $this->db->get('m_bidang')->result_array();
@@ -138,6 +153,11 @@ class Setting extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
 
 
         $data['bagian'] = $this->db->get('m_bagian')->result_array();
@@ -185,6 +205,11 @@ class Setting extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
 
 
         $data['bagian'] = $this->db->get('m_bagian')->result_array();
@@ -247,6 +272,11 @@ class Setting extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
 
         $data['jamKerja'] = $this->db->get('jam_kerja')->result_array();
 
@@ -317,6 +347,11 @@ class Setting extends CI_Controller
         $this->db->order_by('date_created', 'desc');
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+
 
         $this->db->where('id', $id);
         $data['jamKerja'] = $this->db->get('jam_kerja')->row_array();

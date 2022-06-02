@@ -1094,30 +1094,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="table-responsive mt-2">
-                    <table id="myTable6" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Bahasa</th>
-                                <th>Aktif/Pasif</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($bahasa as $bhs) : ?>
-                                <tr>
-                                    <td><?= $bhs['nama']; ?></td>
-                                    <td><?= $bhs['isactive']; ?></td>
-                                    <td>
 
-                                        <a class="btn btn-outline-danger btn-sm" onclick="return confirm('Apakah Anda Yakin?');" href="<?= base_url('member/hapus_bahasa_daerah') . '?id=' . $bhs['id']; ?>">HAPUS</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-
-                    </table>
-                </div>
 
                 <div class="col-md-12">
                     <div class="card card-success shadow-lg mb-3">
@@ -1132,6 +1109,30 @@
                         </div>
 
                         <div class="card-body">
+                            <div class="table-responsive mt-2">
+                                <table id="myTable6" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Bahasa</th>
+                                            <th>Aktif/Pasif</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($bahasa as $bhs) : ?>
+                                            <tr>
+                                                <td><?= $bhs['nama']; ?></td>
+                                                <td><?= $bhs['isactive']; ?></td>
+                                                <td>
+
+                                                    <a class="btn btn-outline-danger btn-sm" onclick="return confirm('Apakah Anda Yakin?');" href="<?= base_url('member/hapus_bahasa_daerah') . '?id=' . $bhs['id']; ?>">HAPUS</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+
+                                </table>
+                            </div>
                             <div class="text-center mb-2">
                                 <h5>Silahkan isi data.</h5>
                             </div>

@@ -82,7 +82,7 @@
                                      <tr>
                                          <td><?= $n++; ?></td>
                                          <td>
-                                             <a href="">
+                                             <a href="<?= base_url('personalia/detailAbsen') . '?id=' . $a['ID']; ?>">
                                                  <?= $personil['name']; ?>
                                              </a>
                                          </td>
