@@ -72,18 +72,12 @@
             cursor: pointer;
         }
 
-        /* .button,
+
         .buttons-excel,
         .buttons-print {
-            font-weight: 500;
-            color: yellow;
-            border-radius: 2rem;
-            background-color: chartreuse;
-            cursor: pointer;
-            border-color: yellowgreen;
-            
-
-        } */
+            font-weight: 400;
+            color: snow;
+        }
     </style>
     <?php
     //mapbox

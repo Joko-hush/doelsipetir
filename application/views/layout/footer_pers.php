@@ -51,9 +51,14 @@
               dom: 'Bfrtip',
               buttons: [{
                       extend: 'excel',
-                      text: 'Save to Excel'
+                      text: 'Save to Excel',
+                      className: 'btn-success'
                   },
-                  'print'
+                  {
+                      extend: 'print',
+                      text: 'Print',
+                      className: 'btn-warning'
+                  }
               ],
               stateSave: true
           });
@@ -65,9 +70,16 @@
 
               paging: false,
               dom: 'Bfrtip',
-              buttons: [
-                  'excel',
-                  'print'
+              buttons: [{
+                      extend: 'excel',
+                      text: 'Save to Excel',
+                      className: 'btn-success'
+                  },
+                  {
+                      extend: 'print',
+                      text: 'Print',
+                      className: 'btn-warning'
+                  }
               ],
               stateSave: true
           });

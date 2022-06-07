@@ -17,7 +17,7 @@
                             <table class="table table-sm bordered text-center" id="myTable">
                                 <thead>
                                     <tr>
-                                        <th>Nama Dok</th>
+                                        <th>Nama Dokumen</th>
                                         <th>No</th>
                                         <th>Lihat</th>
                                     </tr>
@@ -27,28 +27,28 @@
                                         <td>KTP</td>
                                         <td><?= $ktp['noktp']; ?></td>
                                         <td>
-                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $ktp['doc']; ?>" target="_blank()">Lihat</a>
+                                            <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $ktp['doc']; ?>" target="_blank()">Lihat</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>BPJS</td>
                                         <td><?= $bpjs['bpjs']; ?></td>
                                         <td>
-                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $bpjs['doc']; ?>" target="_blank()">Lihat</a>
+                                            <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $bpjs['doc']; ?>" target="_blank()">Lihat</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Kartu Keluarga</td>
                                         <td><?= $kk['no_kk']; ?></td>
                                         <td>
-                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $kk['doc']; ?>" target="_blank()">Lihat</a>
+                                            <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $kk['doc']; ?>" target="_blank()">Lihat</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>NPWP</td>
                                         <td><?= $npwp['npwp']; ?></td>
                                         <td>
-                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $npwp['doc']; ?>" target="_blank()">Lihat</a>
+                                            <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $npwp['doc']; ?>" target="_blank()">Lihat</a>
                                         </td>
                                     </tr>
                                     <?php if ($personil['pangkat'] = 'KHL') : ?>
@@ -58,7 +58,7 @@
                                             <td>Karis</td>
                                             <td><?= $karis['no']; ?></td>
                                             <td>
-                                                <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $karis['doc']; ?>" target="_blank()">Lihat</a>
+                                                <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $karis['doc']; ?>" target="_blank()">Lihat</a>
                                             </td>
                                         </tr>
                                     <?php else : ?>
@@ -66,7 +66,7 @@
                                             <td>Karsu</td>
                                             <td><?= $karis['no']; ?></td>
                                             <td>
-                                                <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $karis['doc']; ?>" target="_blank()">Lihat</a>
+                                                <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $karis['doc']; ?>" target="_blank()">Lihat</a>
                                             </td>
                                         </tr>
                                     <?php endif; ?>
@@ -96,7 +96,7 @@
                                             <td><?= $pkt['tmt']; ?></td>
                                             <td><?= $pkt['no_skep']; ?></td>
                                             <td>
-                                                <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $pkt['doc']; ?>" target="_blank()">
+                                                <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $pkt['doc']; ?>" target="_blank()">
                                                     Lihat
                                                 </a>
                                             </td>
@@ -128,7 +128,7 @@
                                         <td><?= $jf['tmt']; ?></td>
                                         <td><?= $jf['skep']; ?></td>
                                         <td>
-                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $jf['doc']; ?>" target="_blank()">
+                                            <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $jf['doc']; ?>" target="_blank()">
                                                 Lihat
                                             </a>
                                         </td>
@@ -158,7 +158,7 @@
                                     <td><?= $jf['tmt']; ?></td>
                                     <td><?= $jf['skep']; ?></td>
                                     <td>
-                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $jf['doc']; ?>" target="_blank()">
+                                        <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $jf['doc']; ?>" target="_blank()">
                                             Lihat
                                         </a>
                                     </td>
@@ -188,7 +188,7 @@
                                     <td><?= $du['nama']; ?></td>
                                     <td><?= $du['thn']; ?></td>
                                     <td>
-                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $du['doc']; ?>" target="_blank()">
+                                        <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $du['doc']; ?>" target="_blank()">
                                             Lihat
                                         </a>
                                     </td>
@@ -220,7 +220,7 @@
                                     <td><?= $da['thn']; ?></td>
                                     <td><?= $da['prestasi']; ?></td>
                                     <td>
-                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $da['doc']; ?>" target="_blank()">
+                                        <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $da['doc']; ?>" target="_blank()">
                                             <?= $da['kep']; ?>
                                         </a>
                                     </td>
@@ -252,7 +252,7 @@
                                     <td><?= $dmb['thn']; ?></td>
                                     <td><?= $dmb['prestasi']; ?></td>
                                     <td>
-                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $dmb['doc']; ?>" target="_blank()">
+                                        <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $dmb['doc']; ?>" target="_blank()">
                                             <?= $dmb['kep']; ?>
                                         </a>
                                     </td>
@@ -283,7 +283,7 @@
                                     <td><?= $to['thn']; ?></td>
                                     <td><?= $to['prestasi']; ?></td>
                                     <td>
-                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $to['doc']; ?>" target="_blank()">
+                                        <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $to['doc']; ?>" target="_blank()">
                                             Lihat Dok.
                                         </a>
                                     </td>
@@ -316,7 +316,7 @@
                                     <td><?= $tln['negara']; ?></td>
                                     <td><?= $tln['prestasi']; ?></td>
                                     <td>
-                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $tln['doc']; ?>" target="_blank()">
+                                        <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $tln['doc']; ?>" target="_blank()">
                                             Lihat SKEP
                                         </a>
                                     </td>
@@ -347,7 +347,7 @@
                                     <td><?= $tkh['thn']; ?></td>
                                     <td><?= $tkh['prestasi']; ?></td>
                                     <td>
-                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $tkh['doc']; ?>" target="_blank()">
+                                        <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $tkh['doc']; ?>" target="_blank()">
                                             Lihat Dok/Skep.
                                         </a>
                                     </td>
@@ -379,7 +379,7 @@
                                     <td><?= $pst['thn']; ?></td>
                                     <td><?= $pst['prestasi']; ?></td>
                                     <td>
-                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $pst['doc']; ?>" target="_blank()">
+                                        <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $pst['doc']; ?>" target="_blank()">
                                             <?= $pst['kep']; ?>
                                         </a>
                                     </td>

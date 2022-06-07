@@ -14,6 +14,7 @@ class Member extends CI_Controller
         $data['title'] = 'DOEL SI PETIR';
         $data['judul'] = 'Dashboard Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);
@@ -43,7 +44,7 @@ class Member extends CI_Controller
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->limit(1);
         $pkt = $this->db->get_where('jb_kepangkatan')->result_array()[0];
-		 if (!$pkt) {
+        if (!$pkt) {
             $pkt = [
                 'pangkat' => '',
                 'tmt' => '',

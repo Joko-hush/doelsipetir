@@ -361,7 +361,7 @@
                             <div class="row form-group">
                                 <div class="col text-left"><label for="ktp">Upload Kartu</label></div>
                                 <?php
-								 if (!$kartuKtp['doc']) {
+                                if (!$kartuKtp['doc']) {
                                     $namaFileKtp = '';
                                     $extKtp = '';
                                 }
@@ -416,10 +416,10 @@
                                 <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no npwp" value="<?= $npwp['npwp']; ?>"></div>
                             </div>
                             <?php
-							 if (!$npwp['doc']) {
-                                    $namaFileNpwp = '';
-                                    $extNpwp = '';
-                                }
+                            if (!$npwp['doc']) {
+                                $namaFileNpwp = '';
+                                $extNpwp = '';
+                            }
                             list($namaFileNpwp, $extNpwp) = explode('.', $npwp['doc']);
                             ?>
                             <div class="row form-group">
@@ -462,10 +462,10 @@
                             <!-- /.card-tools -->
                         </div>
                         <?php
-						 if (!$kartuBpjs['doc']) {
-                                    $namaFileBpjs = '';
-                                    $extBpjs = '';
-                                }
+                        if (!$kartuBpjs['doc']) {
+                            $namaFileBpjs = '';
+                            $extBpjs = '';
+                        }
                         list($namaFileBpjs, $extBpjs) = explode('.', $kartuBpjs['doc']);
                         ?>
 
@@ -531,12 +531,11 @@
                                 <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no kk" value="<?= $kk['no_kk']; ?>"></div>
                             </div>
                             <?php
-							 <?php
-						 if (!$kk['doc']) {
-                                    $namaFilekk = '';
-                                    $extkk = '';
-                                }
-                     
+                            if (!$kk['doc']) {
+                                $namaFilekk = '';
+                                $extkk = '';
+                            }
+
                             list($namaFilekk, $extkk) = explode('.', $kk['doc']);
                             ?>
                             <div class="row form-group">
@@ -580,10 +579,10 @@
                                         <h5>KARIS/KARSU</h5>
                                     </div>
                                     <?php
-									 if (!$kartuKaris['doc']) {
-                                    $namaFileKaris = '';
-                                    $extKaris = '';
-                                }
+                                    if (!$kartuKaris['doc']) {
+                                        $namaFileKaris = '';
+                                        $extKaris = '';
+                                    }
                                     list($namaFileKaris, $extKaris) = explode('.', $kartuKaris['doc']);
                                     ?>
                                     <?php echo form_open_multipart('member/karis'); ?>
