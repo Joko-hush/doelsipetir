@@ -15,6 +15,7 @@
                 <li class="dropdown"><a href="#"><i class="ri-shield-user-fill"></i> </i><span>Personal</span> <i class="bi bi-chevron-down"></i></a>
                     <ul class="rounded shadow">
                         <li><a href="<?= base_url('member/rh'); ?>"><i class="ri-file-history-line"></i> Riwayat Hidup</a></li>
+                        <li><a href="<?= base_url('member/dosier'); ?>"><i class="ri-folder-shield-line"></i> Dosier</a></li>
                         <li><a href="<?= base_url('keluarga'); ?>"> <i class="ri-parent-fill"></i> Informasi Keluarga</a></li>
                         <li><a href="#"><i class="ri-profile-line"></i> Kartu Identitas</a></li>
                         <li><a href="<?= base_url('finance'); ?>"><i class="ri-hand-coin-line"></i> Finansial</a></li>

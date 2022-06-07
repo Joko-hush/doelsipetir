@@ -249,7 +249,15 @@ if ($judul == "Pengisian Data Personil") {
     <script src="<?= base_url(); ?>/assets/js/absen.js"></script>
 <?php } ?>
 
-
+<script>
+    const body = document.getElementById('body');
+    const ct = document.getElementById('card_title');
+    ct.addEventListener('load', function() {
+        if (ct) {
+            body.style.backgroundColor = '#ccc';
+        }
+    })
+</script>
 
 
 </body>

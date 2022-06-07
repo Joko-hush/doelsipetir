@@ -15,11 +15,11 @@ class Finance extends CI_Controller
         $data['judul'] = 'Dashboard Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $id = $data['staff']['KDSTAFF'];
-        $db2 = $this->load->database('staff', true);
-        $db2->where('KDSTAFF', $id);
-        $data['gaji'] = $db2->get('F_GAJI_D')->result_array();
-        $gaji = json_encode($data['gaji']);
+        // $id = $data['staff']['KDSTAFF'];
+        // $db2 = $this->load->database('staff', true);
+        // $db2->where('KDSTAFF', $id);
+        // $data['gaji'] = $db2->get('F_GAJI_D')->result_array();
+        // $gaji = json_encode($data['gaji']);
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);

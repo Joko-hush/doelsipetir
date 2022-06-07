@@ -71,6 +71,19 @@
             border-radius: 50%;
             cursor: pointer;
         }
+
+        /* .button,
+        .buttons-excel,
+        .buttons-print {
+            font-weight: 500;
+            color: yellow;
+            border-radius: 2rem;
+            background-color: chartreuse;
+            cursor: pointer;
+            border-color: yellowgreen;
+            
+
+        } */
     </style>
     <?php
     //mapbox

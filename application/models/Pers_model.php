@@ -17,37 +17,36 @@ class Pers_model extends CI_model
             $this->db->where('id', $id);
             $user = $this->db->get('user')->row_array();
             $email = $user['email'];
-            $kdstaff = $user['KDSTAFF'];
-            $dbstaff = $this->load->database('staff', true);
-            $dbstaff->where('KDSTAFF', $kdstaff);
-            $staff = $dbstaff->get('M_STAFF')->row_array();
-            if ($staff['JENISKELAMIN'] == 0) {
-                $gender = 'L';
-            } else {
-                $gender = 'P';
+            $kdstaff = $user['nik'];
+
+            $this->db->where('nip', $kdstaff);
+            $staff = $this->db->get('m_personil_pers')->row_array();
+            if (!$staff['gender']) {
+                $staff['gender'] = '-';
             }
+
             $data = [
-                'KDSTAFF' => $staff['KDSTAFF'],
+                'nik' => $kdstaff,
                 'name' => $user['name'],
-                'tempat_lahir' => $staff['TEMPATLAHIR'],
-                'tgl_lahir' => $staff['TANGGALLAHIR'],
-                'sex' => $gender,
+                'tempat_lahir' => '',
+                'tgl_lahir' => '',
+                'sex' => $staff['gender'],
                 'agama' => '',
                 'gol_darah' => '',
                 'email' => $user['email'],
-                'tlp' => $staff['NOMOR_HP1'],
+                'tlp' => '',
                 'suku_bangsa' => '',
-                'tmt_kerja' => $staff['TMTKERJA'],
+                'tmt_kerja' => '',
                 'image' => 'default.jpg',
                 'pangkat' => '',
                 'jabatan' => '',
                 'tmt_jabatan' => '',
                 'bpjs' => '',
                 'npwp' => '',
-                'ktp' => $staff['NOMOR_KTP'],
+                'ktp' => '',
                 'alamat' => '',
-                'kategori' => $staff['KELOMPOKIPK'],
-                'sumber_pa' => '',
+                'kategori' => '',
+                'sumber_pa' => '-',
                 'satuan' => 'RS. DUSTIRA',
                 'psi' => '',
                 'created_at' => time(),

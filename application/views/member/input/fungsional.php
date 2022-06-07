@@ -99,7 +99,7 @@
                                     <h5>Tambahkan Riwayat Jabatan Fungsional.</h5>
                                 </div>
                                 <?php echo form_open_multipart('member/fungsional'); ?>
-                                <input type="hidden" name="id" value="<?= $staff['KDSTAFF']; ?>">
+                                <input type="hidden" name="id" value="<?= $staff['nik']; ?>">
                                 <div class="row form-group mt-3">
                                     <div class="col text-left"><label for="nama">Nama Jabatan</label></div>
                                     <div class="col-md-8">

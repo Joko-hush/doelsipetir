@@ -288,6 +288,20 @@
                                 <div class="col-md-8"><input class="form-control" type="text" name="agama" id="agama" value="<?= $staff['agama']; ?>"></div>
                             </div>
                             <div class="row form-group">
+                                <div class="col text-left"><label for="status">Status</label></div>
+                                <div class="col-md-8"> <select name="status" id="status" class="form-select">
+                                        <option value="<?= $staff['status']; ?>"><?= $staff['status']; ?></option>
+                                        <option value="Kawin">Kawin</option>
+                                        <option value="Tidak Kawin">Tidak Kawin</option>
+                                        <option value="Janda">Janda</option>
+                                        <option value="Duda">Duda</option>
+                                    </select></div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col text-left"><label for="suku">Suku Bangsa</label></div>
+                                <div class="col-md-8"><input class="form-control" type="text" name="suku" id="suku" value="<?= $staff['suku_bangsa']; ?>"></div>
+                            </div>
+                            <div class="row form-group">
                                 <div class="col text-left"><label for="alamat">Alamat</label></div>
                                 <div class="col-md-8">
                                     <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="3"><?= $staff['alamat']; ?></textarea>
@@ -347,6 +361,10 @@
                             <div class="row form-group">
                                 <div class="col text-left"><label for="ktp">Upload Kartu</label></div>
                                 <?php
+								 if (!$kartuKtp['doc']) {
+                                    $namaFileKtp = '';
+                                    $extKtp = '';
+                                }
                                 list($namaFileKtp, $extKtp) = explode('.', $kartuKtp['doc']);
                                 ?>
                                 <?php if ($extKtp == 'pdf') : ?>
@@ -398,6 +416,10 @@
                                 <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no npwp" value="<?= $npwp['npwp']; ?>"></div>
                             </div>
                             <?php
+							 if (!$npwp['doc']) {
+                                    $namaFileNpwp = '';
+                                    $extNpwp = '';
+                                }
                             list($namaFileNpwp, $extNpwp) = explode('.', $npwp['doc']);
                             ?>
                             <div class="row form-group">
@@ -440,6 +462,10 @@
                             <!-- /.card-tools -->
                         </div>
                         <?php
+						 if (!$kartuBpjs['doc']) {
+                                    $namaFileBpjs = '';
+                                    $extBpjs = '';
+                                }
                         list($namaFileBpjs, $extBpjs) = explode('.', $kartuBpjs['doc']);
                         ?>
 
@@ -505,11 +531,17 @@
                                 <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no kk" value="<?= $kk['no_kk']; ?>"></div>
                             </div>
                             <?php
-                            list($namaFileBpjs, $extBpjs) = explode('.', $kk['doc']);
+							 <?php
+						 if (!$kk['doc']) {
+                                    $namaFilekk = '';
+                                    $extkk = '';
+                                }
+                     
+                            list($namaFilekk, $extkk) = explode('.', $kk['doc']);
                             ?>
                             <div class="row form-group">
                                 <div class="col text-left"><label for="image">Upload Kartu</label></div>
-                                <?php if ($extBpjs == 'pdf') : ?>
+                                <?php if ($extkk == 'pdf') : ?>
                                     <div class="col-md-4 text-center">
                                         <a href="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" target="_blank()">
                                             <iframe src="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
@@ -548,6 +580,10 @@
                                         <h5>KARIS/KARSU</h5>
                                     </div>
                                     <?php
+									 if (!$kartuKaris['doc']) {
+                                    $namaFileKaris = '';
+                                    $extKaris = '';
+                                }
                                     list($namaFileKaris, $extKaris) = explode('.', $kartuKaris['doc']);
                                     ?>
                                     <?php echo form_open_multipart('member/karis'); ?>

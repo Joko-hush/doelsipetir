@@ -17,7 +17,7 @@
                         <ul class="navbar-nav justify-content-center mx-auto">
                             <li class="nav-item"><a class="nav-link" href="#" role="button" onclick="showdapok()">Data Pokok</a></li>
                             <li class="nav-item"><a class="nav-link" href="#" role="button" onclick="showdakel()">Data Keluarga</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#" role="button" onclick="show()">Cetak</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" role="button" onclick="showCetak()">Dosier</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -201,6 +201,366 @@
 
 
                     </div>
+                    <div class="container" id="showCetak" style="display: none;">
+
+                        <div class="card card-warning shadow-lg mt-3">
+                            <div class="card-header">
+                                <h5>Daftar Dosier</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Kartu</h5>
+                                        <table class="table table-sm bordered text-center" id="myTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama Dok</th>
+                                                    <th>No</th>
+                                                    <th>Lihat</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>KTP</td>
+                                                    <td><?= $ktp['noktp']; ?></td>
+                                                    <td>
+                                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $ktp['doc']; ?>" target="_blank()">Lihat</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>BPJS</td>
+                                                    <td><?= $bpjs['bpjs']; ?></td>
+                                                    <td>
+                                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $bpjs['doc']; ?>" target="_blank()">Lihat</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kartu Keluarga</td>
+                                                    <td><?= $kk['no_kk']; ?></td>
+                                                    <td>
+                                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $kk['doc']; ?>" target="_blank()">Lihat</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>NPWP</td>
+                                                    <td><?= $npwp['npwp']; ?></td>
+                                                    <td>
+                                                        <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $npwp['doc']; ?>" target="_blank()">Lihat</a>
+                                                    </td>
+                                                </tr>
+                                                <?php if ($personil['pangkat'] = 'KHL') : ?>
+                                                    <tr></tr>
+                                                <?php elseif ($personil['sex'] == 'L') : ?>
+                                                    <tr>
+                                                        <td>Karis</td>
+                                                        <td><?= $karis['no']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $karis['doc']; ?>" target="_blank()">Lihat</a>
+                                                        </td>
+                                                    </tr>
+                                                <?php else : ?>
+                                                    <tr>
+                                                        <td>Karsu</td>
+                                                        <td><?= $karis['no']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $karis['doc']; ?>" target="_blank()">Lihat</a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end kartu -->
+
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Pangkat</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pangkat</th>
+                                                    <th>TMT</th>
+                                                    <th>No Skep</th>
+                                                    <th>Lihat</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($rPangkat as $pkt) : ?>
+                                                    <tr>
+                                                        <td><?= $pkt['pangkat']; ?></td>
+                                                        <td><?= $pkt['tmt']; ?></td>
+                                                        <td><?= $pkt['no_skep']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $pkt['doc']; ?>" target="_blank()">
+                                                                Lihat
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end pangkat -->
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Jabatan Fungsional</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Jabatan</th>
+                                                    <th>TMT</th>
+                                                    <th>No Skep</th>
+                                                    <th>Lihat</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($fungsional as $jf) : ?>
+                                                    <tr>
+                                                        <td><?= $jf['nama']; ?></td>
+                                                        <td><?= $jf['tmt']; ?></td>
+                                                        <td><?= $jf['skep']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $jf['doc']; ?>" target="_blank()">
+                                                                Lihat
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Jabatan Struktural</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Jabatan</th>
+                                                    <th>TMT</th>
+                                                    <th>No Skep</th>
+                                                    <th>Lihat</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($struktural as $js) : ?>
+                                                    <tr>
+                                                        <td><?= $jf['nama']; ?></td>
+                                                        <td><?= $jf['tmt']; ?></td>
+                                                        <td><?= $jf['skep']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $jf['doc']; ?>" target="_blank()">
+                                                                Lihat
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Pendidikan Umum</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Jenis Pendidikan</th>
+                                                    <th>Nama Sekolah</th>
+                                                    <th>Tahun</th>
+                                                    <th>Ijazah</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($dikum as $du) : ?>
+                                                    <tr>
+                                                        <td><?= $du['jenis_didik']; ?></td>
+                                                        <td><?= $du['nama']; ?></td>
+                                                        <td><?= $du['thn']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $du['doc']; ?>" target="_blank()">
+                                                                Lihat
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end pendidikan umum  -->
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Pendidikan Militer DIKMA/DIKTU/DIKBANGUM</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Jenis Pendidikan</th>
+                                                    <th>Tahun</th>
+                                                    <th>Prestasi</th>
+                                                    <th>Kep.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($dikmila as $da) : ?>
+                                                    <tr>
+                                                        <td><?= $da['nama']; ?></td>
+                                                        <td><?= $da['thn']; ?></td>
+                                                        <td><?= $da['prestasi']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $da['doc']; ?>" target="_blank()">
+                                                                <?= $da['kep']; ?>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end dikmil a -->
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Pendidikan Militer DIKBANGSPES/DIKJAB/DIKILPENGTEK</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Jenis Pendidikan</th>
+                                                    <th>Tahun</th>
+                                                    <th>Prestasi</th>
+                                                    <th>Kep.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($dikmilb as $dmb) : ?>
+                                                    <tr>
+                                                        <td><?= $dmb['nama']; ?></td>
+                                                        <td><?= $dmb['thn']; ?></td>
+                                                        <td><?= $dmb['prestasi']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $dmb['doc']; ?>" target="_blank()">
+                                                                <?= $dmb['kep']; ?>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end dikmil -->
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Tugas Operasi</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama Operasi</th>
+                                                    <th>Tahun</th>
+                                                    <th>Prestasi</th>
+                                                    <th>Kep.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($tugasOperasi as $to) : ?>
+                                                    <tr>
+                                                        <td><?= $to['nama']; ?></td>
+                                                        <td><?= $to['thn']; ?></td>
+                                                        <td><?= $to['prestasi']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $to['doc']; ?>" target="_blank()">
+                                                                Lihat Dok.
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end tugas Operasi -->
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Tugas Luar Negeri</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama Tugas</th>
+                                                    <th>Tahun</th>
+                                                    <th>Negara</th>
+                                                    <th>Prestasi</th>
+                                                    <th>Kep.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($tugasLn as $tln) : ?>
+                                                    <tr>
+                                                        <td><?= $tln['nama']; ?></td>
+                                                        <td><?= $tln['thn']; ?></td>
+                                                        <td><?= $tln['negara']; ?></td>
+                                                        <td><?= $tln['prestasi']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $tln['doc']; ?>" target="_blank()">
+                                                                Lihat SKEP
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end Tugas luar negeri -->
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Tanda Kehormatan</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama Kehormatan</th>
+                                                    <th>Tahun</th>
+                                                    <th>Prestasi</th>
+                                                    <th>Kep.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($TandaKh as $tkh) : ?>
+                                                    <tr>
+                                                        <td><?= $tkh['nama']; ?></td>
+                                                        <td><?= $tkh['thn']; ?></td>
+                                                        <td><?= $tkh['prestasi']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $tkh['doc']; ?>" target="_blank()">
+                                                                Lihat Dok/Skep.
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end TKH -->
+                                    <div class="box p-3 shadow m-2">
+                                        <h5>Riwayat Prestasi</h5>
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama Kegiatan</th>
+                                                    <th>Tahun</th>
+                                                    <th>Tempat</th>
+                                                    <th>Deskripsi</th>
+                                                    <th>Kep.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($prestasi as $pst) : ?>
+                                                    <tr>
+                                                        <td><?= $pst['kegiatan']; ?></td>
+                                                        <td><?= $pst['thn']; ?></td>
+                                                        <td><?= $pst['tempat']; ?></td>
+														<td><?= $pst['deskripsi']; ?></td>
+                                                        <td>
+                                                            <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $pst['doc']; ?>" target="_blank()">
+                                                                <?= $pst['kep']; ?>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end prestasi -->
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- end Dosier -->
 
                 </div>
             </div>

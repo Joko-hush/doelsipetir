@@ -123,11 +123,10 @@ class Personalia extends CI_Controller
     {
         $id = $this->input->get('nip');
 
-        $this->db->where('nip', $id);
+        $this->db->where('nik', $id);
         $una = $this->db->get('user')->row_array();
-        $dbstaff = $this->load->database('staff', true);
-        $dbstaff->where('nip', $id);
-        $banding = $dbstaff->get('m_personil_pers')->row_array();
+        $this->db->where('nip', $id);
+        $banding = $this->db->get('m_personil_pers')->row_array();
         $this->db->where('is_active', 1);
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
@@ -340,6 +339,26 @@ class Personalia extends CI_Controller
         $personil = $this->db->get('jb_personil')->row_array();
         $data['personil'] = $personil;
         $data['keluarga'] = $this->db->get_where('jb_keluarga', ['personil_id' => $data['personil']['id']])->result_array();
+        $this->load->model('Dosier_models', 'dosier');
+        $data['ktp'] = $this->dosier->getKtp($id);
+        $data['bpjs'] = $this->dosier->getBpjs($id);
+        $data['npwp'] = $this->dosier->getNpwp($id);
+        $data['kk'] = $this->dosier->getKk($id);
+        $data['karis'] = $this->dosier->getKaris($id);
+        $data['dikum'] = $this->dosier->getRdikUm($id);
+        $data['rPangkat'] = $this->dosier->getRpangkat($id);
+        $nip = $personil['nik'];
+        $data['fungsional'] = $this->dosier->getJf($nip);
+        $data['struktural'] = $this->dosier->getJs($nip);
+        $data['dikmila'] = $this->dosier->getDikmilA($id);
+        $data['dikmilb'] = $this->dosier->getDikmilB($id);
+        $data['tugasOperasi'] = $this->dosier->getTops($id);
+        $data['tugasLn'] = $this->dosier->getTugasLn($id);
+        $data['TandaKh'] = $this->dosier->getTkh($id);
+        $data['prestasi'] = $this->dosier->getPrestasi($id);
+
+
+
 
         $this->load->view('layout/header_pers', $data);
         $this->load->view('layout/nav_pers', $data);
@@ -675,6 +694,31 @@ class Personalia extends CI_Controller
         $this->load->view('layout/nav_pers', $data);
         $this->load->view('layout/sidebar_pers', $data);
         $this->load->view('personalia/absensi/detailAbsen', $data);
+        $this->load->view('layout/footer_pers', $data);
+    }
+
+    public function dosier()
+    {
+        $id = $this->input->post('id');
+        if (!$id) {
+            $id = $this->input->post('id');
+        }
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->db->where('is_active', 1);
+        $this->db->order_by('date_created', 'desc');
+        $data['approve'] = $this->db->get_where('user')->result_array();
+        $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+        $data['title'] = "Kumpulan Dosier";
+        $data['judul'] = "Dosier Personil";
+
+        $this->load->view('layout/header_pers', $data);
+        $this->load->view('layout/nav_pers', $data);
+        $this->load->view('layout/sidebar_pers', $data);
+        $this->load->view('personalia/dosierPersonil', $data);
         $this->load->view('layout/footer_pers', $data);
     }
 }
