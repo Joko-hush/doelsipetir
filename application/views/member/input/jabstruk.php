@@ -56,6 +56,11 @@
 
             </div>
         </div>
+        <div class="text-center">
+            <a href="<?= base_url('member/jabatan'); ?>" class="btn btn-sm btn-outline-warning">
+                Kembali
+            </a>
+        </div>
 
     </div>
 </section>

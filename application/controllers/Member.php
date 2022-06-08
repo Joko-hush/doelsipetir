@@ -1547,7 +1547,7 @@ class Member extends CI_Controller
         $data['judul'] = 'Edit Kinerja Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $kdstaff = $data['staff']['KDSTAFF'];
+        // $kdstaff = $data['staff']['nik'];
 
         $this->db->where('id', $id);
         $data['prestasi'] = $this->db->get('jb_prestasi')->row_array();

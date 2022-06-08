@@ -52,8 +52,23 @@
                 <div class="row form-group">
                     <div class="col text-left"><label for="image">Upload kep/Piagam</label></div>
                     <div class="col-md-3">
+                        <?php
+                        if (!$prestasi['doc']) {
+                            $namaFiledoc = '';
+                            $extdoc = '';
+                        }
+                        list($namaFiledoc, $extdoc) = explode('.', $prestasi['doc']);
+                        ?>
                         <figure>
-                            <img src="<?= base_url('assets/img/tkh/') . $prestasi['doc']; ?>" alt="Doc Kep / Piagam" class="img img-thumbnail img-responsive">
+                            <?php if ($extdoc == 'pdf') : ?>
+                                <a href="<?= base_url('assets/img/dosier/') . $prestasi['doc']; ?>" target="_blank()">
+                                    <iframe src="<?= base_url('assets/img/dosier/') . $prestasi['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                </a>
+                            <?php else : ?>
+                                <a href="<?= base_url('assets/img/dosier/') . $prestasi['doc']; ?>" target="_blank()">
+                                    <img src="<?= base_url('assets/img/dosier/') . $prestasi['doc']; ?>" alt="Doc Kep / Piagam" class="img img-thumbnail img-responsive">
+                                </a>
+                            <?php endif; ?>
                         </figure>
                     </div>
                     <div class="col-md-5"><input class="form-control" type="file" name="image" id="image"></div>
