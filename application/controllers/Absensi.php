@@ -121,11 +121,14 @@ class Absensi extends CI_Controller
             $alasan = $this->input->post('alasan');
             $status = 'diajukan';
             $this->db->where('id', $data['staff']['jabatan']);
+            $a = $this->db->get('m_jabatan')->row_array();
+            $this->db->where('subbagian_id', $a['subbagian_id']);
             $this->db->where('leader', 1);
             $idpejabat = $this->db->get('m_jabatan')->row_array();
             $this->db->where('jabatan', $idpejabat['id']);
             $jab = $this->db->get('jb_personil')->row_array();
             $ke = $jab['name'];
+            $pid = $jab['id'];
 
             $data = [
                 'nip' => $id,
@@ -135,7 +138,8 @@ class Absensi extends CI_Controller
                 'ditujukan' => $ke,
                 'status' => $status,
                 'created_at' => time(),
-                'approved_at' => ''
+                'approved_at' => '',
+                'pejabat_id' => $pid
             ];
             $upload_image = $_FILES['image']['name'];
 
@@ -155,7 +159,7 @@ class Absensi extends CI_Controller
             }
             $this->db->insert('abs_ijin', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Ijin yang Anda buat sudah di kirim. Harap menunggu Acc dari Pimpinan.</div>');
-            redirect('absensi/ijin');
+            redirect('member');
         }
     }
 }

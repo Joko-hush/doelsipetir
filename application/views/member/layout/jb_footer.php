@@ -1,3 +1,26 @@
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10000">
+        <div class="toast-header bg-primary text-white">
+            <i class="fas fa-circle-exclamation mr-3 text-warning"></i>
+            <strong class="me-auto">Pengajuan ijin absensi</strong>
+            <!-- <small>11 mins ago</small> -->
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <?php if ($judul == 'home') : ?>
+                <a href="<?= base_url('absensi/ijin'); ?>" class="text-dark">
+                    <?= $ijin; ?> ket absen
+                </a>
+            <?php else : ?>
+                <a href="<?= base_url('leader/ijin'); ?>" class="text-dark">
+                    <?= $ijin; ?> ket absen
+                </a>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+
 <!-- ======= Footer ======= -->
 <!-- <footer id="footer">
     <div class="container">
@@ -39,6 +62,17 @@
 <script src="<?= base_url(); ?>/assets/js/sweetalert.min.js"></script>
 <script src="<?= base_url(); ?>/assets/js/app.js"></script>
 
+<script>
+    window.onload = (event) => {
+        const toastTrigger = document.getElementById('ijin').value;
+        const toastLiveExample = document.getElementById('liveToast')
+
+        if (toastTrigger > 0) {
+            const toast = new bootstrap.Toast(toastLiveExample)
+            toast.show()
+        }
+    };
+</script>
 <script>
     $(function() {
         $("#dates").datepicker({

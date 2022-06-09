@@ -65,18 +65,19 @@ class Pers_model extends CI_model
     {
         $config = [
             'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_user' => 'doelsipetir@gmail.com',
-            'smtp_pass' => 'Simrs123*',
-            'smtp_port' => 465,
+            'smtp_host' => 'mail.rsdustira.co.id',
+            'smtp_user' => 'admin@rsdustira.co.id',
+            'smtp_pass' => 'Admin@rsdustira',
+            'smtp_port' => 587,
             'mailtype' => 'html',
             'charset' => 'utf-8',
-            'newline' => "\r\n"
+            'newline' => "\r\n",
+            'wordwrap' => TRUE
         ];
 
         $this->email->initialize($config);
 
-        $this->email->from('doelsipetir@gmail.com', 'Doelsipetir App');
+        $this->email->from('admin@rsdustira.co.id', 'Doelsipetir App');
         $this->email->to($email);
 
         if ($type == 'tolak') {

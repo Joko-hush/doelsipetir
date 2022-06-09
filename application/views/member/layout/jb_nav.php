@@ -18,7 +18,7 @@
                         <li><a href="<?= base_url('member/dosier'); ?>"><i class="ri-folder-shield-line"></i> Dosier</a></li>
                         <li><a href="<?= base_url('keluarga'); ?>"> <i class="ri-parent-fill"></i> Informasi Keluarga</a></li>
                         <!-- <li><a href="#"><i class="ri-profile-line"></i> Kartu Identitas</a></li> -->
-                        <li><a href="<?= base_url('finance'); ?>"><i class="ri-hand-coin-line"></i> Finansial</a></li>
+                        <!-- <li><a href="<?= base_url('finance'); ?>"><i class="ri-hand-coin-line"></i> Finansial</a></li> -->
                         <li><a href="<?= base_url('member/inputdata'); ?>"><i class="ri-edit-box-fill"></i> Edit data</a></li>
                         <li><a href="<?= base_url('user/changepassword'); ?>"><i class="ri-key-2-fill"></i> Ubah Password</a></li>
                     </ul>

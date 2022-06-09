@@ -79,6 +79,7 @@ class Auth extends CI_Controller
                     );
                     $this->input->set_cookie($cookie);
                     $this->session->set_userdata($data);
+
                     if ($user['role_id'] == 1) {
                         redirect('admin');
                     } elseif ($user['role_id'] == 3) {
@@ -176,18 +177,19 @@ class Auth extends CI_Controller
     {
         $config = [
             'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_user' => 'doelsipetir@gmail.com',
-            'smtp_pass' => 'Simrs123*',
-            'smtp_port' => 465,
+            'smtp_host' => 'mail.rsdustira.co.id',
+            'smtp_user' => 'admin@rsdustira.co.id',
+            'smtp_pass' => 'Admin@rsdustira',
+            'smtp_port' => 587,
             'mailtype' => 'html',
             'charset' => 'utf-8',
-            'newline' => "\r\n"
+            'newline' => "\r\n",
+            'wordwrap' => TRUE
         ];
 
         $this->email->initialize($config);
 
-        $this->email->from('doelsipetir@gmail.com', 'Doelsipetir App');
+        $this->email->from('admin@rsdustira.co.id', 'Doelsipetir App');
         $this->email->to($this->input->post('email'));
 
         if ($type == 'verify') {
@@ -244,9 +246,8 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('email');
-        $this->session->unset_userdata('role_id');
         delete_cookie('always');
+        $this->session->sess_destroy();
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out.</div>');
         redirect('auth');

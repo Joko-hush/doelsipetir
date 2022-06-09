@@ -12,13 +12,46 @@ class Member extends CI_Controller
     public function index()
     {
         $data['title'] = 'DOEL SI PETIR';
-        $data['judul'] = 'Dashboard Personil';
+        $data['judul'] = 'home';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+
+        $id = $data['staff']['jabatan'];
+        $this->db->where('id', $id);
+        $jbtn = $this->db->get('m_jabatan')->row_array();
+        if ($jbtn['leader'] == 1) {
+            redirect('member/leader');
+        }
+        $today = date('Y-m-d');
+        $this->db->where('nip', $data['staff']['nik']);
+        $this->db->where('tgl_masuk >=', $today);
+        $ijin = $this->db->get('abs_ijin')->result_array();
+        $data['ijin'] = count($ijin);
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);
         $this->load->view('member/index', $data);
+        $this->load->view('member/layout/jb_footer', $data);
+    }
+    public function leader()
+    {
+        $data['title'] = 'DOEL SI PETIR';
+        $data['judul'] = 'PJ';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+
+        $today = date('Y-m-d');
+        $this->db->where('pejabat_id', $data['staff']['id']);
+        $this->db->where('tgl_masuk >=', $today);
+        $this->db->where('status', 'diajukan');
+        $ijin = $this->db->get('abs_ijin')->result_array();
+        $data['ijin'] = count($ijin);
+
+
+
+        $this->load->view('member/layout/jb_header', $data);
+        $this->load->view('member/layout/jb_nav', $data);
+        $this->load->view('member/index2', $data);
         $this->load->view('member/layout/jb_footer', $data);
     }
     public function personal_info()
@@ -43,7 +76,10 @@ class Member extends CI_Controller
         $this->db->order_by('tmt', 'asc');
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->limit(1);
-        $pkt = $this->db->get_where('jb_kepangkatan')->result_array()[0];
+        $pkt = $this->db->get_where('jb_kepangkatan')->result_array();
+        if ($pkt) {
+            $pkt = $pkt[0];
+        }
         if (!$pkt) {
             $pkt = [
                 'pangkat' => '',
@@ -51,13 +87,15 @@ class Member extends CI_Controller
                 'no_skep' => '',
                 'doc' => ''
             ];
+        } else {
+
+            $data['pangkat'] = $pkt;
+            if ($pkt['pangkat'] = 'PNS') {
+                $tmt = $pkt['tmt'];
+                $data['tmtpns'] = $tmt;
+            }
         }
 
-        $data['pangkat'] = $pkt;
-        if ($pkt['pangkat'] = 'PNS') {
-            $tmt = $pkt['tmt'];
-            $data['tmtpns'] = $tmt;
-        }
         $this->db->order_by('thn', 'desc');
         $data['dikum'] = $this->db->get_where('jb_dik_um', ['personil_id' => $data['staff']['id']])->result_array();
         $id = $data['staff']['id'];
@@ -70,8 +108,12 @@ class Member extends CI_Controller
 
         $data['dikum'] = $this->dosier->getRdikUm($id);
         $data['rPangkat'] = $this->dosier->getRpangkat($id);
-        $tmtkhl = $data['rPangkat'][0]['tmt'];
-        $data['tmtkhl'] = $tmtkhl;
+        if ($data['rPangkat']) {
+            $tmtkhl = $data['rPangkat'][0]['tmt'];
+            $data['tmtkhl'] = $tmtkhl;
+        } else {
+            $data['tmtkhl'] = '';
+        }
         $data['fungsional'] = $this->dosier->getJf($nip);
         if (!$data['fungsional']) {
             $data['jf'] = '-';

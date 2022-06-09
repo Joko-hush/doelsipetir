@@ -6,14 +6,11 @@
             <div class="col-xl-6 col-lg-8">
                 <h1><span>Dokumen Elektronik Absensi Personil Dustira<br>
                         (DOELSIPETIR)</span></h1>
-
                 <h2><span id="typed"></span></h2>
-                <?= $this->session->flashdata('message'); ?>
-                <?php unset($_SESSION['message']); ?>
-
             </div>
         </div>
-
+        <?= $this->session->flashdata('message'); ?>
+        <?php unset($_SESSION['message']); ?>
         <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
             <div class="col-xl-2 col-md-4">
                 <a href="<?= base_url('absensi'); ?>">
@@ -43,14 +40,22 @@
                     </div>
                 </a>
             </div>
-
-
             <div class="col-xl-2 col-md-4">
                 <a href="<?= base_url('member/inputdata'); ?>">
                     <div class="icon-box rounded shadow">
                         <i class="ri-edit-box-fill"></i>
                         <h3>
                             Edit Data
+                        </h3>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xl-2 col-md-4">
+                <a href="<?= base_url('leader/index'); ?>">
+                    <div class="icon-box rounded shadow">
+                        <i class="ri-dashboard-2-line"></i>
+                        <h3>
+                            Dashboard
                         </h3>
                     </div>
                 </a>

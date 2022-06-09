@@ -7,7 +7,6 @@
                 <h2><span>Dokumen Elektronik Absensi Personil Dustira</span></h2>
                 <h2><span id="typed"></span></h2>
                 <div class="mt-3">
-
                     <?= $this->session->flashdata('message'); ?>
                     <?php unset($_SESSION['message']); ?>
                 </div>
@@ -364,8 +363,10 @@
                                 if (!$kartuKtp['doc']) {
                                     $namaFileKtp = '';
                                     $extKtp = '';
+                                } else {
+
+                                    list($namaFileKtp, $extKtp) = explode('.', $kartuKtp['doc']);
                                 }
-                                list($namaFileKtp, $extKtp) = explode('.', $kartuKtp['doc']);
                                 ?>
                                 <?php if ($extKtp == 'pdf') : ?>
                                     <div class="col-md-4 text-center">
@@ -419,8 +420,10 @@
                             if (!$npwp['doc']) {
                                 $namaFileNpwp = '';
                                 $extNpwp = '';
+                            } else {
+
+                                list($namaFileNpwp, $extNpwp) = explode('.', $npwp['doc']);
                             }
-                            list($namaFileNpwp, $extNpwp) = explode('.', $npwp['doc']);
                             ?>
                             <div class="row form-group">
                                 <div class="col text-left"><label for="image">Upload Kartu</label></div>
@@ -465,8 +468,10 @@
                         if (!$kartuBpjs['doc']) {
                             $namaFileBpjs = '';
                             $extBpjs = '';
+                        } else {
+
+                            list($namaFileBpjs, $extBpjs) = explode('.', $kartuBpjs['doc']);
                         }
-                        list($namaFileBpjs, $extBpjs) = explode('.', $kartuBpjs['doc']);
                         ?>
 
                         <div class="card-body">
@@ -534,9 +539,10 @@
                             if (!$kk['doc']) {
                                 $namaFilekk = '';
                                 $extkk = '';
+                            } else {
+                                list($namaFilekk, $extkk) = explode('.', $kk['doc']);
                             }
 
-                            list($namaFilekk, $extkk) = explode('.', $kk['doc']);
                             ?>
                             <div class="row form-group">
                                 <div class="col text-left"><label for="image">Upload Kartu</label></div>
@@ -582,8 +588,9 @@
                                     if (!$kartuKaris['doc']) {
                                         $namaFileKaris = '';
                                         $extKaris = '';
+                                    } else {
+                                        list($namaFileKaris, $extKaris) = explode('.', $kartuKaris['doc']);
                                     }
-                                    list($namaFileKaris, $extKaris) = explode('.', $kartuKaris['doc']);
                                     ?>
                                     <?php echo form_open_multipart('member/karis'); ?>
                                     <input type="hidden" name="id" value="<?= $staff['id']; ?>">

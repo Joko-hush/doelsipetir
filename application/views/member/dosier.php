@@ -375,9 +375,10 @@
                         <tbody>
                             <?php foreach ($prestasi as $pst) : ?>
                                 <tr>
-                                    <td><?= $pst['nama']; ?></td>
+                                    <td><?= $pst['kegiatan']; ?></td>
                                     <td><?= $pst['thn']; ?></td>
-                                    <td><?= $pst['prestasi']; ?></td>
+                                    <td><?= $pst['tempat']; ?></td>
+                                    <td><?= $pst['deskripsi']; ?></td>
                                     <td>
                                         <a class="btn btn-success btn-sm" href="<?= base_url('assets/img/dosier/') . $pst['doc']; ?>" target="_blank()">
                                             <?= $pst['kep']; ?>
