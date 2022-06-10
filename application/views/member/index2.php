@@ -50,7 +50,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-xl-2 col-md-4">
+            <!-- <div class="col-xl-2 col-md-4">
                 <a href="<?= base_url('leader/index'); ?>">
                     <div class="icon-box rounded shadow">
                         <i class="ri-dashboard-2-line"></i>
@@ -59,7 +59,7 @@
                         </h3>
                     </div>
                 </a>
-            </div>
+            </div> -->
 
         </div>
         <input type="hidden" id="ijin" value="<?= $ijin; ?>">
