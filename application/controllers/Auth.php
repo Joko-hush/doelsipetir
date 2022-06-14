@@ -175,34 +175,7 @@ class Auth extends CI_Controller
     }
     private function _sendEmail($token, $type)
     {
-        // $config = [
-        //     'protocol' => 'smtp',
-        //     'smtp_host' => 'mail.rsdustira.co.id',
-        //     'smtp_user' => 'admin@rsdustira.co.id',
-        //     'smtp_pass' => 'Admin@rsdustira',
-        //     'smtp_port' => 465,
-        //     'mailtype' => 'html',
-        //     'charset' => 'utf-8',
-        //     'newline' => "\r\n",
-        //     'wordwrap' => TRUE
-        // ];
-        // $this->email->initialize($config);
-        // $this->email->from('admin@rsdustira.co.id', 'Doelsipetir App');
-        // $this->email->to($this->input->post('email'));
-        // if ($type == 'verify') {
-        //     $this->email->subject('Account Verification');
-        //     $this->email->message('Click this link to verify your account : <a href="' . base_url() . 'auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Activate</a>');
-        // } else if ($type == 'forgot') {
-        //     $this->email->subject('Reset Password');
-        //     $this->email->message('Click this link to reset your account : <a href="' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Reset password</a>');
-        // }
-        // if ($this->email->send()) {
-        //     return true;
-        // } else {
-        //     echo $this->email->print_debugger();
-        //     die;
-        // }
-        // $to = 'simrs@rsdustira.co.id';
+
         $to = $this->input->post('email');
         $from = 'info@rsdustira.co.id';
         if ($type == 'verify') {

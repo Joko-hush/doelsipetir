@@ -63,38 +63,7 @@ class Pers_model extends CI_model
     }
     private function _sendEmail($type, $email)
     {
-        // $config = [
-        //     'protocol' => 'smtp',
-        //     'smtp_host' => 'mail.rsdustira.co.id',
-        //     'smtp_user' => 'admin@rsdustira.co.id',
-        //     'smtp_pass' => 'Admin@rsdustira',
-        //     'smtp_port' => 587,
-        //     'mailtype' => 'html',
-        //     'charset' => 'utf-8',
-        //     'newline' => "\r\n",
-        //     'wordwrap' => TRUE
-        // ];
 
-        // $this->email->initialize($config);
-
-        // $this->email->from('admin@rsdustira.co.id', 'Doelsipetir App');
-        // $this->email->to($email);
-
-        // if ($type == 'tolak') {
-        //     $this->email->subject('Aktivasi Akun');
-        //     $this->email->message('Mohon Maaf akun Anda tidak di setujui silahkan hubungi bagian personalia untuk informasi lebih lanjut.');
-        // } else if ($type == 'setuju') {
-        //     $this->email->subject('Aktivasi Akun');
-        //     $this->email->message('Akun Anda telah di setujui. Silahkan klik link dibawah ini untuk login.<br> <a href="' . base_url() . 'auth' . '">Login</a>');
-        // }
-
-
-        // if ($this->email->send()) {
-        //     return true;
-        // } else {
-        //     echo $this->email->print_debugger();
-        //     die;
-        // }
         $to = $this->input->post('email');
         $from = 'info@rsdustira.co.id';
         if ($type == 'tolak') {
