@@ -11,25 +11,25 @@ class Auth extends CI_Controller
     }
     public function index()
     {
-        $cookie = $this->input->cookie('always', true);
+        // $cookie = $this->input->cookie('always', true);
         $session = $this->session->userdata('email');
-        if ($cookie) {
-            $email = $cookie;
+        // if ($cookie) {
+        //     $email = $cookie;
 
-            $user = $this->db->get_where('user', ['email' => $email])->row_array();
-            $data = [
-                'email' => $user['email'],
-                'role_id' => $user['role_id']
-            ];
-            $this->session->set_userdata($data);
-            if ($user['role_id'] == 1) {
-                redirect('admin');
-            } elseif ($user['role_id'] == 3) {
-                redirect('personalia');
-            } else {
-                redirect('member');
-            }
-        }
+        //     $user = $this->db->get_where('user', ['email' => $email])->row_array();
+        //     $data = [
+        //         'email' => $user['email'],
+        //         'role_id' => $user['role_id']
+        //     ];
+        //     $this->session->set_userdata($data);
+        //     if ($user['role_id'] == 1) {
+        //         redirect('admin');
+        //     } elseif ($user['role_id'] == 3) {
+        //         redirect('personalia');
+        //     } else {
+        //         redirect('member');
+        //     }
+        // }
         if ($session) {
             $email = $session;
             $user = $this->db->get_where('user', ['email' => $email])->row_array();
@@ -79,6 +79,7 @@ class Auth extends CI_Controller
                     );
                     $this->input->set_cookie($cookie);
                     $this->session->set_userdata($data);
+
                     if ($user['role_id'] == 1) {
                         redirect('admin');
                     } elseif ($user['role_id'] == 3) {
@@ -124,9 +125,21 @@ class Auth extends CI_Controller
         } else {
             $email = $this->input->post('email', true);
             $nik = $this->input->post('nik');
+            $ln = strlen($nik);
             $name = strtoupper(htmlspecialchars($this->input->post('name', true)));
+            if ($ln <= 10) {
+                $a = substr($nik, 0, 2);
+                $b = substr($nik, 2, $ln);
+                $nik = $a . '.' . $b;
+            } elseif ($ln == 12) {
+                list($a, $b) = explode('.', $nik);
+                $nik = $a . '.' . trim($b);
+            } else {
+                $nik = $nik;
+            }
             $this->db->where('nip', $nik);
             $s = $this->db->get('m_personil_pers')->row_array();
+
 
             if ($s) {
                 $data = [
@@ -137,7 +150,8 @@ class Auth extends CI_Controller
                     'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
                     'role_id' => 2,
                     'is_active' => 0,
-                    'date_created' => time()
+                    'date_created' => time(),
+                    'nik' => $nik
                 ];
 
                 $data2 = [
@@ -163,7 +177,7 @@ class Auth extends CI_Controller
 
                 $this->_sendEmail($token, 'verify');
 
-                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Selamat akun Anda sudah dibuat. Silahkan cek email untuk aktivasi. Jika tidak ada, silahkan cek di spam. Tunggu di Approve oleh Personalia.</div>');
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Selamat akun Anda sudah dibuat. Silahkan cek email untuk aktivasi. Jika tidak ada, silahkan cek di spam. Tunggu di Approve oleh Personalia. <a href="https://mail.google.com/">Cek Inbox</a></div>');
                 redirect('auth');
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Nik tidak ditemukan. Silahkan hubungi personalia.</div>');
@@ -173,37 +187,44 @@ class Auth extends CI_Controller
     }
     private function _sendEmail($token, $type)
     {
-        $config = [
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_user' => 'doelsipetir@gmail.com',
-            'smtp_pass' => 'Simrs123*',
-            'smtp_port' => 465,
-            'mailtype' => 'html',
-            'charset' => 'utf-8',
-            'newline' => "\r\n"
-        ];
 
-        $this->email->initialize($config);
-
-        $this->email->from('doelsipetir@gmail.com', 'Doelsipetir App');
-        $this->email->to($this->input->post('email'));
-
+        $to = $this->input->post('email');
+        $from = 'info@rsdustira.co.id';
         if ($type == 'verify') {
-            $this->email->subject('Account Verification');
-            $this->email->message('Click this link to verify your account : <a href="' . base_url() . 'auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Activate</a>');
+            $subject = 'Verify';
+            $body = $this->safeBase64('Click this link to verify your account : <a href="' . base_url() . 'auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Activate</a> <br><br> Jika link di atas tidak bekerja, silahkan copy link di bawah ini dan paste-kan pada browser anda : <br> "' . base_url() . 'auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '"');
         } else if ($type == 'forgot') {
-            $this->email->subject('Reset Password');
-            $this->email->message('Click this link to reset your account : <a href="' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Reset password</a>');
+            $subject = 'Forgot Password';
+            $body = $this->safeBase64('Click this link to reset your account : <a href="' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Reset password</a> <br><br> Jika link di atas tidak bekerja, silahkan copy link di bawah ini dan paste-kan pada browser anda : <br> "' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '"');
         }
-
-
-        if ($this->email->send()) {
+        // $body = base64_encode('test');
+        $this->load->model('Mail_models', 'mail');
+        $send = $this->mail->send($to, $from, $subject, $body);
+        if ($send == 'OK') {
             return true;
         } else {
             echo $this->email->print_debugger();
             die;
         }
+    }
+    private function safeBase64($str)
+    {
+        return strtr($this->base64($str), '+/=', '-_,');
+    }
+
+    private function deSafeBase64($str)
+    {
+        return $this->deBase64(strtr($str, '-_,', '+/='));
+    }
+
+    private function base64($str)
+    {
+        return base64_encode($str);
+    }
+
+    private function deBase64($str)
+    {
+        return base64_decode($str);
     }
 
     public function verify()
@@ -243,10 +264,8 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('email');
-        $this->session->unset_userdata('role_id');
-        delete_cookie('always');
-
+        // delete_cookie('always');
+        $this->session->sess_destroy();
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out.</div>');
         redirect('auth');
     }
@@ -269,7 +288,7 @@ class Auth extends CI_Controller
             $this->load->view('templates/auth_footer');
         } else {
             $email = $this->input->post('email');
-            $user = $this->db->get_where('user', ['email' => $email, 'is_active' => 1])->row_array();
+            $user = $this->db->get_where('user', ['email' => $email, 'is_active' => 2])->row_array();
 
             if ($user) {
                 $token = base64_encode(random_bytes(32));

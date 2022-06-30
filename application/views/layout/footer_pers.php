@@ -49,10 +49,16 @@
                   [31, 50, 100, "All"]
               ],
               dom: 'Bfrtip',
-              buttons: [
-                  'excel',
-                  'colvis',
-                  'print'
+              buttons: [{
+                      extend: 'excel',
+                      text: 'Save to Excel',
+                      className: 'btn-success'
+                  },
+                  {
+                      extend: 'print',
+                      text: 'Print',
+                      className: 'btn-warning'
+                  }
               ],
               stateSave: true
           });
@@ -64,10 +70,16 @@
 
               paging: false,
               dom: 'Bfrtip',
-              buttons: [
-                  'excel',
-                  'colvis',
-                  'print'
+              buttons: [{
+                      extend: 'excel',
+                      text: 'Save to Excel',
+                      className: 'btn-success'
+                  },
+                  {
+                      extend: 'print',
+                      text: 'Print',
+                      className: 'btn-warning'
+                  }
               ],
               stateSave: true
           });
@@ -86,9 +98,11 @@
       function showdapok() {
           let x = document.getElementById("dapok");
           let y = document.getElementById("dakel");
+          let z = document.getElementById("showCetak");
           if (x.style.display === "none") {
               x.style.display = "block";
               y.style.display = "none";
+              Z.style.display = "none";
           } else {
               x.style.display = "none";
           }
@@ -97,11 +111,26 @@
       function showdakel() {
           let x = document.getElementById("dapok");
           let y = document.getElementById("dakel");
+          let z = document.getElementById("showCetak");
           if (y.style.display === "none") {
               y.style.display = "block";
               x.style.display = "none";
+              z.style.display = "none";
           } else {
               y.style.display = "none";
+          }
+      }
+
+      function showCetak() {
+          let x = document.getElementById("dapok");
+          let y = document.getElementById("dakel");
+          let z = document.getElementById("showCetak");
+          if (z.style.display === "none") {
+              z.style.display = "block";
+              x.style.display = "none";
+              y.style.display = "none";
+          } else {
+              z.style.display = "none";
           }
       }
   </script>

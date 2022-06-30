@@ -37,19 +37,22 @@
                                 </tr>
                                 <tr>
                                     <th>TMT</th>
-                                    <td></td>
+                                    <td><?= $tmtkhl; ?></td>
                                 </tr>
                                 <tr>
                                     <th>Kategori</th>
-                                    <td></td>
+                                    <td><?= $staff['kategori']; ?></td>
                                 </tr>
-                                <tr>
-                                    <th>TMT PNS</th>
-                                    <td></td>
-                                </tr>
+                                <?php if ($staff['pangkat'] == 'PNS%') : ?>
+                                    <tr>
+                                        <th>TMT PNS</th>
+                                        <td><?= $tmtpns; ?></td>
+                                    </tr>
+
+                                <?php endif; ?>
                                 <tr>
                                     <th>Suku bangsa</th>
-                                    <td></td>
+                                    <td><?= $staff['suku_bangsa']; ?></td>
                                 </tr>
                             </table>
                         </div>
@@ -65,23 +68,34 @@
                                 </tr>
                                 <tr>
                                     <th>Sumber PA</th>
-                                    <td></td>
+                                    <td>-</td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <th>TMT</th>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>Jabatan</th>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>TMT Jab</th>
-                                    <td></td>
-                                </tr>
+                                    <td>-</td>
+                                </tr> -->
+                                <?php if ($staff['pangkat'] = 'KHL') : ?>
+                                    <tr>
+                                        <th>Jabatan</th>
+                                        <td><?= $jf; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>TMT Jab</th>
+                                        <td><?= $jft; ?></td>
+                                    </tr>
+                                <?php else : ?>
+                                    <tr>
+                                        <th>Jabatan</th>
+                                        <td><?= $js; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>TMT Jab</th>
+                                        <td><?= $jst; ?></td>
+                                    </tr>
+                                <?php endif; ?>
                                 <tr>
                                     <th>Satuan</th>
-                                    <td></td>
+                                    <td><?= $staff['satuan']; ?></td>
                                 </tr>
                             </table>
                         </div>
@@ -174,7 +188,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-sm">
+                                    <table class="table table-bordered table-sm text-center">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -185,20 +199,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                            <?php $i = 1; ?>
+                                            <?php foreach ($dikmila as $da) : ?>
+                                                <tr>
+                                                    <td><?= $i++; ?></td>
+                                                    <td><?= $da['nama']; ?></td>
+                                                    <td><?= $da['thn']; ?></td>
+                                                    <td><?= $da['prestasi']; ?></td>
+                                                    <td><?= $da['kep']; ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-sm">
+                                    <table class="table table-bordered table-sm text-center">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -209,13 +226,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                            <?php $x = 1; ?>
+                                            <?php foreach ($dikmilb as $dmb) : ?>
+                                                <tr>
+                                                    <td><?= $x++; ?></td>
+                                                    <td><?= $dmb['nama']; ?></td>
+                                                    <td><?= $dmb['thn']; ?></td>
+                                                    <td><?= $dmb['prestasi']; ?></td>
+                                                    <td><?= $dmb['kep']; ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -245,7 +265,7 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-sm">
+                                <table class="table table-bordered table-sm text-center">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -255,12 +275,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                        <?php $y = 1; ?>
+                                        <?php foreach ($tugasOperasi as $to) : ?>
+                                            <tr>
+                                                <td><?= $y++; ?></td>
+                                                <td><?= $to['nama']; ?></td>
+                                                <td><?= $to['thn']; ?></td>
+                                                <td><?= $to['prestasi']; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
 
@@ -285,7 +308,7 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-sm">
+                                <table class="table table-bordered table-sm text-center">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -295,12 +318,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                        <?php $z = 1; ?>
+                                        <?php foreach ($tandaKh as $tkh) : ?>
+                                            <tr>
+                                                <td><?= $z++; ?></td>
+                                                <td><?= $tkh['nama']; ?></td>
+                                                <td><?= $tkh['thn']; ?></td>
+                                                <td><?= $tkh['prestasi']; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
 
@@ -342,11 +368,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    <?php $b = 1; ?>
+                                    <?php foreach ($bhsDaerah as $bd) : ?>
+                                        <tr>
+                                            <td class="text-center"><?= $b++; ?></td>
+                                            <td><?= $bd['nama']; ?></td>
+                                            <td><?= $bd['isactive']; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
 
@@ -364,11 +393,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    <?php $c = 1; ?>
+                                    <?php foreach ($bhsAsing as $bsa) : ?>
+                                        <tr>
+                                            <td class="text-center"><?= $c++; ?></td>
+                                            <td><?= $bsa['nama']; ?></td>
+                                            <td><?= $bsa['isactive']; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
 
@@ -402,13 +434,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php $d = 1;
+                                foreach ($tugasLn as $tln) : ?>
+                                    <tr>
+                                        <td class="text-center"><?= $d++; ?></td>
+                                        <td><?= $tln['nama']; ?></td>
+                                        <td><?= $tln['thn']; ?></td>
+                                        <td><?= $tln['negara']; ?></td>
+                                        <td><?= $tln['prestasi']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
 
@@ -441,7 +476,7 @@
                             </thead>
                             <tbody class="text-center">
                                 <?php $n = 1; ?>
-                                <?php foreach ($pangkat as $p) : ?>
+                                <?php foreach ($rPangkat as $p) : ?>
                                     <tr>
                                         <td><?= $n++; ?></td>
                                         <td class="text-left"><?= $p['pangkat']; ?></td>
@@ -462,6 +497,7 @@
                 </div>
             </div>
             <!-- end kepangkatan -->
+
             <div class="card card-success">
                 <div class="card-header">
                     <h5 class="card-title">VIII. Jabatan</h5>
@@ -475,7 +511,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-sm">
+                        <table class="table table-bordered table-sm text-center">
                             <thead class="text-center">
                                 <tr>
                                     <th>No</th>
@@ -484,14 +520,31 @@
                                     <th>Nomor Kep/Skep</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
+                            <?php if ($staff['pangkat'] = 'khl') : ?>
+                                <tbody>
+                                    <?php $n = 1;
+                                    foreach ($struktural as $js) : ?>
+                                        <tr>
+                                            <td><?= $n++; ?></td>
+                                            <td><?= $js['nama']; ?></td>
+                                            <td><?= $js['tmt']; ?></td>
+                                            <td><?= $js['skep']; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            <?php else : ?>
+                                <tbody>
+                                    <?php $n = 1;
+                                    foreach ($fungsional as $jf) : ?>
+                                        <tr>
+                                            <td><?= $n++; ?></td>
+                                            <td><?= $jf['nama']; ?></td>
+                                            <td><?= $jf['tmt']; ?></td>
+                                            <td><?= $jf['skep']; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            <?php endif; ?>
                         </table>
 
                     </div>
@@ -516,19 +569,23 @@
                             <table class="table table-bordered table-sm">
                                 <tr>
                                     <th class="text-end">Status :</th>
-                                    <td></td>
+                                    <td><?= $kel['status']; ?></td>
                                 </tr>
                                 <tr>
-                                    <th class="text-end">Nama Suami :</th>
-                                    <td></td>
+                                    <?php if ($staff['sex'] == 'P') : ?>
+                                        <th class="text-end">Nama Suami :</th>
+                                    <?php else : ?>
+                                        <th class="text-end">Nama Istri :</th>
+                                    <?php endif; ?>
+                                    <td><?= $kel['pasangan']; ?></td>
                                 </tr>
                                 <tr>
                                     <th class="text-end">Jumlah Anak :</th>
-                                    <td></td>
+                                    <td><?= $kel['anak']; ?></td>
                                 </tr>
                                 <tr>
                                     <th class="text-end">Alamat Tinggal :</th>
-                                    <td></td>
+                                    <td><?= $staff['alamat']; ?></td>
                                 </tr>
                                 <tr>
                                     <th class="text-end"></th>
@@ -536,19 +593,19 @@
                                 </tr>
                                 <tr>
                                     <th class="text-end">No. Hp</th>
-                                    <td></td>
+                                    <td><?= $kel['no_hp']; ?></td>
                                 </tr>
                                 <tr>
                                     <th class="text-end">Nama Ayah</th>
-                                    <td></td>
+                                    <td><?= $kel['ayah']; ?></td>
                                 </tr>
                                 <tr>
                                     <th class="text-end">Nama Ibu</th>
-                                    <td></td>
+                                    <td><?= $kel['ibu']; ?></td>
                                 </tr>
                                 <tr>
                                     <th class="text-end">Alamat Orang Tua</th>
-                                    <td></td>
+                                    <td><?= $kel['alamat']; ?></td>
                                 </tr>
                                 <tr>
                                     <th class="text-end"></th>
@@ -608,14 +665,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php $n = 1;
+                                foreach ($prestasi as $ps) : ?>
+                                    <tr>
+                                        <td class="text-center"><?= $n++; ?></td>
+                                        <td><?= $ps['kegiatan']; ?></td>
+                                        <td><?= $ps['thn']; ?></td>
+                                        <td><?= $ps['tempat']; ?></td>
+                                        <td><?= $ps['deskripsi']; ?></td>
+                                        <td><?= $ps['kep']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
 

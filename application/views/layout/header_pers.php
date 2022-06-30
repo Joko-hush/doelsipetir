@@ -71,6 +71,13 @@
             border-radius: 50%;
             cursor: pointer;
         }
+
+
+        .buttons-excel,
+        .buttons-print {
+            font-weight: 400;
+            color: snow;
+        }
     </style>
     <?php
     //mapbox

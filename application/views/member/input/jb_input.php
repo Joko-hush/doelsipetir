@@ -7,7 +7,6 @@
                 <h2><span>Dokumen Elektronik Absensi Personil Dustira</span></h2>
                 <h2><span id="typed"></span></h2>
                 <div class="mt-3">
-
                     <?= $this->session->flashdata('message'); ?>
                     <?php unset($_SESSION['message']); ?>
                 </div>
@@ -66,7 +65,7 @@
             </div>
             <div class="col-xl-2 col-md-4">
                 <div class="icon-box rounded shadow">
-                    <a type="button" data-bs-toggle="modal" data-bs-target="#dikmil">
+                    <a type="button" href="<?= base_url('dikmil'); ?>">
                         <i class="ri-government-line"></i>
                         <h3 class="text-white">
                             Pendidikan Militer
@@ -76,7 +75,7 @@
             </div>
             <div class="col-xl-2 col-md-4">
                 <div class="icon-box rounded shadow">
-                    <a type="button" data-bs-toggle="modal" data-bs-target="#modbahasa">
+                    <a type="button" href="<?= base_url('bahasa'); ?>">
                         <i class="ri-chat-smile-3-line"></i>
                         <h3 class="text-white">
                             Kemampuan Bahasa
@@ -288,6 +287,20 @@
                                 <div class="col-md-8"><input class="form-control" type="text" name="agama" id="agama" value="<?= $staff['agama']; ?>"></div>
                             </div>
                             <div class="row form-group">
+                                <div class="col text-left"><label for="status">Status</label></div>
+                                <div class="col-md-8"> <select name="status" id="status" class="form-select">
+                                        <option value="<?= $staff['status']; ?>"><?= $staff['status']; ?></option>
+                                        <option value="Kawin">Kawin</option>
+                                        <option value="Tidak Kawin">Tidak Kawin</option>
+                                        <option value="Janda">Janda</option>
+                                        <option value="Duda">Duda</option>
+                                    </select></div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col text-left"><label for="suku">Suku Bangsa</label></div>
+                                <div class="col-md-8"><input class="form-control" type="text" name="suku" id="suku" value="<?= $staff['suku_bangsa']; ?>"></div>
+                            </div>
+                            <div class="row form-group">
                                 <div class="col text-left"><label for="alamat">Alamat</label></div>
                                 <div class="col-md-8">
                                     <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="3"><?= $staff['alamat']; ?></textarea>
@@ -347,7 +360,13 @@
                             <div class="row form-group">
                                 <div class="col text-left"><label for="ktp">Upload Kartu</label></div>
                                 <?php
-                                list($namaFileKtp, $extKtp) = explode('.', $kartuKtp['doc']);
+                                if (!$kartuKtp['doc']) {
+                                    $namaFileKtp = '';
+                                    $extKtp = '';
+                                } else {
+
+                                    list($namaFileKtp, $extKtp) = explode('.', $kartuKtp['doc']);
+                                }
                                 ?>
                                 <?php if ($extKtp == 'pdf') : ?>
                                     <div class="col-md-4 text-center">
@@ -398,7 +417,13 @@
                                 <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no npwp" value="<?= $npwp['npwp']; ?>"></div>
                             </div>
                             <?php
-                            list($namaFileNpwp, $extNpwp) = explode('.', $npwp['doc']);
+                            if (!$npwp['doc']) {
+                                $namaFileNpwp = '';
+                                $extNpwp = '';
+                            } else {
+
+                                list($namaFileNpwp, $extNpwp) = explode('.', $npwp['doc']);
+                            }
                             ?>
                             <div class="row form-group">
                                 <div class="col text-left"><label for="image">Upload Kartu</label></div>
@@ -440,7 +465,13 @@
                             <!-- /.card-tools -->
                         </div>
                         <?php
-                        list($namaFileBpjs, $extBpjs) = explode('.', $kartuBpjs['doc']);
+                        if (!$kartuBpjs['doc']) {
+                            $namaFileBpjs = '';
+                            $extBpjs = '';
+                        } else {
+
+                            list($namaFileBpjs, $extBpjs) = explode('.', $kartuBpjs['doc']);
+                        }
                         ?>
 
                         <div class="card-body">
@@ -505,11 +536,17 @@
                                 <div class="col-md-8"><input class="form-control" type="text" name="no" id="no" placeholder="Masukan no kk" value="<?= $kk['no_kk']; ?>"></div>
                             </div>
                             <?php
-                            list($namaFileBpjs, $extBpjs) = explode('.', $kk['doc']);
+                            if (!$kk['doc']) {
+                                $namaFilekk = '';
+                                $extkk = '';
+                            } else {
+                                list($namaFilekk, $extkk) = explode('.', $kk['doc']);
+                            }
+
                             ?>
                             <div class="row form-group">
                                 <div class="col text-left"><label for="image">Upload Kartu</label></div>
-                                <?php if ($extBpjs == 'pdf') : ?>
+                                <?php if ($extkk == 'pdf') : ?>
                                     <div class="col-md-4 text-center">
                                         <a href="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" target="_blank()">
                                             <iframe src="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
@@ -548,7 +585,12 @@
                                         <h5>KARIS/KARSU</h5>
                                     </div>
                                     <?php
-                                    list($namaFileKaris, $extKaris) = explode('.', $kartuKaris['doc']);
+                                    if (!$kartuKaris['doc']) {
+                                        $namaFileKaris = '';
+                                        $extKaris = '';
+                                    } else {
+                                        list($namaFileKaris, $extKaris) = explode('.', $kartuKaris['doc']);
+                                    }
                                     ?>
                                     <?php echo form_open_multipart('member/karis'); ?>
                                     <input type="hidden" name="id" value="<?= $staff['id']; ?>">
@@ -903,189 +945,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="dikmil" tabindex="-1" aria-labelledby="dikmilLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="dikmilLabel">Data Riwayat Pendidikan Militer</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
 
-                <div class="col-md-12">
-                    <div class="card card-success shadow-lg mb-3">
-                        <div class="card-header">
-                            <h3 class="card-title">Pendidikan militer DIKMA/DIKTU/DIKBANGUM</h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                            <!-- /.card-tools -->
-                        </div>
-
-                        <div class="card-body">
-                            <div class="table-responsive mt-2">
-                                <table id="myTable4" class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Pendidikan</th>
-                                            <th>Tahun</th>
-                                            <th>Prestasi</th>
-                                            <th>Kep</th>
-                                            <th>Upload</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($dik_a as $da) : ?>
-                                            <tr>
-                                                <td><?= $da['nama']; ?></td>
-                                                <td><?= $da['thn']; ?></td>
-                                                <td><?= $da['prestasi']; ?></td>
-                                                <td><?= $da['kep']; ?></td>
-                                                <td><?= $da['doc']; ?></td>
-
-
-                                                <td>
-                                                    <a class="btn btn-warning btn-sm" href="<?= base_url('member/editdikmila') . '?id=' . $da['id']; ?>">EDIT</a>
-                                                    <a class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda Yakin??')" href="<?= base_url('member/hpsdikmila') . '?id=' . $da['id']; ?>">HAPUS</a>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-
-                                </table>
-                            </div>
-                            <div class="text-center mb-2">
-                                <h5>Silahkan isi data.</h5>
-                            </div>
-                            <?php echo form_open_multipart('member/dik_a'); ?>
-                            <input type="hidden" name="id" value="<?= $staff['id']; ?>">
-                            <div class="row form-group mt-3">
-                                <div class="col text-left"><label for="jenis">DIKMA/DIKTU/DIKBANGUM</label></div>
-                                <div class="col-md-8">
-                                    <input class="form-control" type="text" name="jenis" id="jenis">
-                                </div>
-                            </div>
-                            <div class="row form-group mt-3">
-                                <div class="col text-left"><label for="thn">Tahun</label></div>
-                                <div class="col-md-8"><input class="form-control" type="date" name="thn" id="thn" placeholder="Tahun"></div>
-                            </div>
-                            <div class="row form-group mt-3">
-                                <div class="col text-left"><label for="kep">No. Kep</label></div>
-                                <div class="col-md-8"><input class="form-control" type="text" name="kep" id="kep" placeholder="No. Kep"></div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col text-left"><label for="prestasi">Prestasi</label></div>
-                                <div class="col-md-8"><input class="form-control" type="text" name="prestasi" id="prestasi"></div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col text-left"><label for="image">Upload Doc</label></div>
-                                <div class="col-md-8"><input class="form-control" type="file" name="image" id="image"></div>
-                            </div>
-                            <div class="row form-group">
-                                <button class="btn btn-primary" type="submit" name="submit">Simpan</button>
-                            </div>
-                            <div class="row form-group">
-                                <p>* upload dokumen menggunakan format pdf ukuran tidak boleh lebih dari 5MB.</p>
-                            </div>
-                            </form>
-
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card card-success shadow-lg mb-3">
-                        <div class="card-header">
-                            <h3 class="card-title">Pendidikan militer DIKMA/DIKTU/DIKBANGUM</h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                            <!-- /.card-tools -->
-                        </div>
-
-                        <div class="card-body">
-                            <div class="table-responsive mt-2">
-                                <table id="myTable5" class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Pendidikan</th>
-                                            <th>Tahun</th>
-                                            <th>Prestasi</th>
-                                            <th>Kep</th>
-                                            <th>Upload</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($dik_b as $db) : ?>
-                                            <tr>
-                                                <td><?= $db['nama']; ?></td>
-                                                <td><?= $db['thn']; ?></td>
-                                                <td><?= $db['prestasi']; ?></td>
-                                                <td><?= $db['kep']; ?></td>
-                                                <td><?= $db['doc']; ?></td>
-
-
-                                                <td>
-                                                    <a class="btn btn-warning btn-sm" href="<?= base_url('member/editdikmilB') . '?id=' . $db['id']; ?>">EDIT</a>
-                                                    <a class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda Yakin??')" href="<?= base_url('member/hpsdikmilB') . '?id=' . $db['id']; ?>">HAPUS</a>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-
-                                </table>
-                            </div>
-                            <div class="text-center mb-2">
-                                <h5>Silahkan isi data.</h5>
-                            </div>
-                            <?php echo form_open_multipart('member/dik_b'); ?>
-                            <input type="hidden" name="id" value="<?= $staff['id']; ?>">
-                            <div class="row form-group mt-3">
-                                <div class="col text-left"><label for="jenis">DIKBANGSPES/DIKJAB/DIKILPENGTEK</label></div>
-                                <div class="col-md-8">
-                                    <input class="form-control" type="text" name="jenis" id="jenis">
-                                </div>
-                            </div>
-                            <div class="row form-group mt-3">
-                                <div class="col text-left"><label for="thn">Tahun</label></div>
-                                <div class="col-md-8"><input class="form-control" type="number" name="thn" id="thn" placeholder="Tahun"></div>
-                            </div>
-                            <div class="row form-group mt-3">
-                                <div class="col text-left"><label for="nama">No. Kep</label></div>
-                                <div class="col-md-8"><input class="form-control" type="text" name="nama" id="nama" placeholder="No Kep"></div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col text-left"><label for="prestasi">Prestasi</label></div>
-                                <div class="col-md-8"><input class="form-control" type="text" name="prestasi" id="prestasi"></div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col text-left"><label for="image">Upload Doc</label></div>
-                                <div class="col-md-8"><input class="form-control" type="file" name="image" id="image"></div>
-                            </div>
-                            <div class="row form-group">
-                                <button class="btn btn-primary" type="submit" name="submit">Simpan</button>
-                            </div>
-                            <div class="row form-group">
-                                <p>* upload dokumen menggunakan format pdf ukuran tidak boleh lebih dari 5MB.</p>
-                            </div>
-                            </form>
-
-                        </div>
-                    </div>
-
-                    <!-- /.card-body -->
-                </div>
-
-
-
-            </div>
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="modbahasa" tabindex="-1" aria-labelledby="modbahasaLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">

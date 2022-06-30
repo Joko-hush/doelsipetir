@@ -6,10 +6,10 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="index3.html" class="nav-link">Home</a>
+            <a href="<?= base_url(); ?>" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Contact</a>
+            <a href="<?= base_url('MANUAL_BOOK_PERSONALIA.pdf'); ?>"class="nav-link" target:"_blank" >Download Petunjuk</a>
         </li>
     </ul>
 

@@ -11,7 +11,7 @@ class Absensi extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'DOEL SI PETIR';
+        $data['title'] = 'Absensi';
         $data['judul'] = 'Dashboard Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
@@ -22,7 +22,8 @@ class Absensi extends CI_Controller
         $date2 = strtotime('last day of this week');
         // $this->db->where('TGL_MASUK >=', $date1);
         // $this->db->where('TGL_MASUK <=', $date2);
-        $this->db->limit(5);
+        $this->db->limit(7);
+        $this->db->order_by('TGL_MASUK', 'desc');
         $data['absen'] = $this->db->get_where('abs_kehadiran', ['NIP' => $id])->result_array();
         if (!$data['staff']['jam_kerja_id']) {
             $this->session->set_flashdata('message', '<div class="alert alert-info mt-2" role="alert">Saat ini Anda belum bisa melakukan Absensi karena belum memilih jam kerja.
@@ -38,7 +39,7 @@ class Absensi extends CI_Controller
     }
     public function masuk()
     {
-        $data['title'] = 'DOEL SI PETIR';
+        $data['title'] = 'Absen Masuk';
         $data['judul'] = 'Absen';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
@@ -121,11 +122,14 @@ class Absensi extends CI_Controller
             $alasan = $this->input->post('alasan');
             $status = 'diajukan';
             $this->db->where('id', $data['staff']['jabatan']);
+            $a = $this->db->get('m_jabatan')->row_array();
+            $this->db->where('subbagian_id', $a['subbagian_id']);
             $this->db->where('leader', 1);
             $idpejabat = $this->db->get('m_jabatan')->row_array();
             $this->db->where('jabatan', $idpejabat['id']);
             $jab = $this->db->get('jb_personil')->row_array();
             $ke = $jab['name'];
+            $pid = $jab['id'];
 
             $data = [
                 'nip' => $id,
@@ -135,7 +139,8 @@ class Absensi extends CI_Controller
                 'ditujukan' => $ke,
                 'status' => $status,
                 'created_at' => time(),
-                'approved_at' => ''
+                'approved_at' => '',
+                'pejabat_id' => $pid
             ];
             $upload_image = $_FILES['image']['name'];
 
@@ -155,7 +160,7 @@ class Absensi extends CI_Controller
             }
             $this->db->insert('abs_ijin', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Ijin yang Anda buat sudah di kirim. Harap menunggu Acc dari Pimpinan.</div>');
-            redirect('absensi/ijin');
+            redirect('member');
         }
     }
 }

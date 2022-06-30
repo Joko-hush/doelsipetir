@@ -8,7 +8,8 @@
                         (DOELSIPETIR)</span></h1>
 
                 <h2><span id="typed"></span></h2>
-
+                <?= $this->session->flashdata('message'); ?>
+                <?php unset($_SESSION['message']); ?>
 
             </div>
         </div>
@@ -56,7 +57,7 @@
             </div>
 
         </div>
-
+        <input type="hidden" id="ijin" value="<?= $ijin; ?>">
     </div>
 </section><!-- End Hero -->
 

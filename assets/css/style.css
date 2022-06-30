@@ -63,6 +63,14 @@ h6 {
 	visibility: visible;
 	opacity: 1;
 }
+.back-arrow {
+	position: fixed;
+	visibility: visible;
+	opacity: 1;
+	left: 15px;
+	bottom: 15px;
+	z-index: 996;
+}
 
 /*--------------------------------------------------------------
 # Preloader
@@ -414,6 +422,12 @@ h6 {
 	background-size: cover;
 	position: relative;
 }
+#dosier {
+	width: 100%;
+	background: url("../img/hero-bg.jpg") top center;
+	background-size: cover;
+	position: relative;
+}
 #hero:before {
 	content: "";
 	background: rgba(0, 0, 0, 0.6);
@@ -499,6 +513,7 @@ h6 {
 section {
 	padding: 60px 0;
 	overflow: hidden;
+	background: #6c6a6a;
 }
 
 .section-title {
@@ -536,6 +551,7 @@ section {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
+
 .about .content h3 {
 	font-weight: 700;
 	font-size: 28px;

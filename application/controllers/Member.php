@@ -12,12 +12,46 @@ class Member extends CI_Controller
     public function index()
     {
         $data['title'] = 'DOEL SI PETIR';
-        $data['judul'] = 'Dashboard Personil';
+        $data['judul'] = 'home';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+
+        $id = $data['staff']['jabatan'];
+        $this->db->where('id', $id);
+        $jbtn = $this->db->get('m_jabatan')->row_array();
+        if ($jbtn['leader'] == 1) {
+            redirect('member/leader');
+        }
+        $today = date('Y-m-d');
+        $this->db->where('nip', $data['staff']['nik']);
+        $this->db->where('tgl_masuk >=', $today);
+        $ijin = $this->db->get('abs_ijin')->result_array();
+        $data['ijin'] = count($ijin);
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);
         $this->load->view('member/index', $data);
+        $this->load->view('member/layout/jb_footer', $data);
+    }
+    public function leader()
+    {
+        $data['title'] = 'DOEL SI PETIR';
+        $data['judul'] = 'PJ';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+
+        $today = date('Y-m-d');
+        $this->db->where('pejabat_id', $data['staff']['id']);
+        $this->db->where('tgl_masuk >=', $today);
+        $this->db->where('status', 'diajukan');
+        $ijin = $this->db->get('abs_ijin')->result_array();
+        $data['ijin'] = count($ijin);
+
+
+
+        $this->load->view('member/layout/jb_header', $data);
+        $this->load->view('member/layout/jb_nav', $data);
+        $this->load->view('member/index2', $data);
         $this->load->view('member/layout/jb_footer', $data);
     }
     public function personal_info()
@@ -39,15 +73,72 @@ class Member extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $this->db->order_by('tmt', 'desc');
-        $data['pangkat'] = $this->db->get_where('jb_kepangkatan', ['personil_id' => $data['staff']['id']])->result_array();
+        $this->db->order_by('tmt', 'asc');
+        $this->db->where('personil_id', $data['staff']['id']);
+        $this->db->limit(1);
+        $pkt = $this->db->get_where('jb_kepangkatan')->result_array();
+        if ($pkt) {
+            $pkt = $pkt[0];
+        }
+        if (!$pkt) {
+            $pkt = [
+                'pangkat' => '',
+                'tmt' => '',
+                'no_skep' => '',
+                'doc' => ''
+            ];
+        } else {
+
+            $data['pangkat'] = $pkt;
+            if ($pkt['pangkat'] = 'PNS') {
+                $tmt = $pkt['tmt'];
+                $data['tmtpns'] = $tmt;
+            }
+        }
+
         $this->db->order_by('thn', 'desc');
         $data['dikum'] = $this->db->get_where('jb_dik_um', ['personil_id' => $data['staff']['id']])->result_array();
         $id = $data['staff']['id'];
+        $nip  = $data['staff']['nik'];
         $this->db->where('hub', 'anak');
+        $this->db->where('stat_hidup', 'hidup');
         $this->db->where('personil_id', $id);
         $data['anak'] = $this->db->get_where('jb_keluarga')->result_array();
+        $this->load->model('Dosier_models', 'dosier');
 
+        $data['dikum'] = $this->dosier->getRdikUm($id);
+        $data['rPangkat'] = $this->dosier->getRpangkat($id);
+        if ($data['rPangkat']) {
+            $tmtkhl = $data['rPangkat'][0]['tmt'];
+            $data['tmtkhl'] = $tmtkhl;
+        } else {
+            $data['tmtkhl'] = '';
+        }
+        $data['fungsional'] = $this->dosier->getJf($nip);
+        if (!$data['fungsional']) {
+            $data['jf'] = '-';
+            $data['jft'] = '-';
+        } else {
+            $data['jf'] = $data['fungsional'][0]['nama'];
+            $data['jft'] = $data['fungsional'][0]['tmt'];
+        }
+        $data['struktural'] = $this->dosier->getJs($nip);
+        if (!$data['struktural']) {
+            $data['js'] = '-';
+            $data['jst'] = '-';
+        } else {
+            $data['js'] = $data['struktural'][0]['nama'];
+            $data['jst'] = $data['struktural'][0]['tmt'];
+        }
+        $data['dikmila'] = $this->dosier->getDikmilA($id);
+        $data['dikmilb'] = $this->dosier->getDikmilB($id);
+        $data['tugasOperasi'] = $this->dosier->getTops($id);
+        $data['tugasLn'] = $this->dosier->getTugasLn($id);
+        $data['tandaKh'] = $this->dosier->getTkh($id);
+        $data['prestasi'] = $this->dosier->getPrestasi($id);
+        $data['bhsDaerah'] = $this->dosier->getBahasaDaerah($id);
+        $data['bhsAsing'] = $this->dosier->getBahasaAsing($id);
+        $data['kel'] = $this->dosier->getStatusKeluarga($id);
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);
@@ -162,6 +253,10 @@ class Member extends CI_Controller
             }
             $jabatan = $this->input->post('jabatan');
             $this->db->set('jabatan', $jabatan);
+            $suku_bangsa = $this->input->post('suku');
+            $this->db->set('suku_bangsa', $suku_bangsa);
+            $status = $this->input->post('status');
+            $this->db->set('status', $status);
             $id = $this->input->post('id');
             $nik = $this->input->post('nik');
             $this->db->set('nik', $nik);
@@ -1494,7 +1589,7 @@ class Member extends CI_Controller
         $data['judul'] = 'Edit Kinerja Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $kdstaff = $data['staff']['KDSTAFF'];
+        // $kdstaff = $data['staff']['nik'];
 
         $this->db->where('id', $id);
         $data['prestasi'] = $this->db->get('jb_prestasi')->row_array();
@@ -1966,12 +2061,45 @@ class Member extends CI_Controller
     {
         $id = $this->input->get('id');
         $data['title'] = 'DOELSIPETIR';
-        $data['judul'] = 'Edit Riwayat Jabatan Fungsional';
+        $data['judul'] = 'Edit Riwayat Jabatan Struktural';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $this->db->where('id', $id);
-        $data['jabatan_f'] = $this->db->get('jabatan_fungsional')->row_array();
+        $data['jabatan_f'] = $this->db->get('jabatan_struktural')->row_array();
         $this->db->where('isactive', 1);
         $data['jabatan'] = $this->db->get('m_jabatan')->result_array();
+    }
+    public function dosier()
+    {
+        $data['title'] = 'DOELSIPETIR';
+        $data['judul'] = 'Kumpulan Dosier';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $id = $data['staff']['id'];
+        $nip = $data['staff']['nik'];
+
+        $this->load->model('Dosier_models', 'dosier');
+        $data['ktp'] = $this->dosier->getKtp($id);
+        $data['bpjs'] = $this->dosier->getBpjs($id);
+        $data['npwp'] = $this->dosier->getNpwp($id);
+        $data['kk'] = $this->dosier->getKk($id);
+        $data['karis'] = $this->dosier->getKaris($id);
+        $data['dikum'] = $this->dosier->getRdikUm($id);
+        $data['rPangkat'] = $this->dosier->getRpangkat($id);
+        $data['fungsional'] = $this->dosier->getJf($nip);
+        $data['struktural'] = $this->dosier->getJs($nip);
+        $data['dikmila'] = $this->dosier->getDikmilA($id);
+        $data['dikmilb'] = $this->dosier->getDikmilB($id);
+        $data['tugasOperasi'] = $this->dosier->getTops($id);
+        $data['tugasLn'] = $this->dosier->getTugasLn($id);
+        $data['TandaKh'] = $this->dosier->getTkh($id);
+        $data['prestasi'] = $this->dosier->getPrestasi($id);
+
+
+
+        $this->load->view('member/layout/jb_header', $data);
+        $this->load->view('member/layout/jb_nav', $data);
+        $this->load->view('member/dosier', $data);
+        $this->load->view('member/layout/jb_footer', $data);
     }
 }

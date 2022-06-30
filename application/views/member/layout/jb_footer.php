@@ -1,3 +1,26 @@
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10000">
+        <div class="toast-header bg-primary text-white">
+            <i class="fas fa-circle-exclamation mr-3 text-warning"></i>
+            <strong class="me-auto">Pengajuan ijin absensi</strong>
+            <!-- <small>11 mins ago</small> -->
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <?php if ($judul == 'home') : ?>
+                <a href="<?= base_url('absensi/ijin'); ?>" class="text-dark">
+                    <?= $ijin; ?> ket absen
+                </a>
+            <?php else : ?>
+                <a href="<?= base_url('leader/ijin'); ?>" class="text-dark">
+                    <?= $ijin; ?> ket absen
+                </a>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+
 <!-- ======= Footer ======= -->
 <!-- <footer id="footer">
     <div class="container">
@@ -6,9 +29,22 @@
         </div>
     </div>
 </footer>End Footer -->
+<?php if ($title != 'DOEL SI PETIR') {
+    $display = 'block';
+} else {
+    $display = 'none';
+}
 
+?>
 <div id="preloader"></div>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<div class="row">
+    <div class="back-arrow col" style="display: <?= $display; ?>;">
+        <a type="button" onclick="history.back();" class="btn btn-warning">
+            <i class="fas fa-chevron-circle-left"></i> Kembali
+        </a>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
@@ -38,7 +74,22 @@
 <script src="<?= base_url(); ?>/assets/webcamjs/webcam.min.js"></script>
 <script src="<?= base_url(); ?>/assets/js/sweetalert.min.js"></script>
 <script src="<?= base_url(); ?>/assets/js/app.js"></script>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+<script>
+    window.onload = (event) => {
+        const toastTrigger = document.getElementById('ijin').value;
+        const toastLiveExample = document.getElementById('liveToast')
 
+        if (toastTrigger > 0) {
+            const toast = new bootstrap.Toast(toastLiveExample)
+            toast.show()
+        }
+    };
+</script>
 <script>
     $(function() {
         $("#dates").datepicker({
@@ -249,7 +300,15 @@ if ($judul == "Pengisian Data Personil") {
     <script src="<?= base_url(); ?>/assets/js/absen.js"></script>
 <?php } ?>
 
-
+<script>
+    const body = document.getElementById('body');
+    const ct = document.getElementById('card_title');
+    ct.addEventListener('load', function() {
+        if (ct) {
+            body.style.backgroundColor = '#ccc';
+        }
+    })
+</script>
 
 
 </body>

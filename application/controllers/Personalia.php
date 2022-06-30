@@ -19,8 +19,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
 
@@ -56,8 +57,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $this->load->model('Pangkat_models', 'pkt');
@@ -108,8 +110,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
 
@@ -123,17 +126,17 @@ class Personalia extends CI_Controller
     {
         $id = $this->input->get('nip');
 
-        $this->db->where('nip', $id);
+        $this->db->where('nik', $id);
         $una = $this->db->get('user')->row_array();
-        $dbstaff = $this->load->database('staff', true);
-        $dbstaff->where('nip', $id);
-        $banding = $dbstaff->get('m_personil_pers')->row_array();
+        $this->db->where('nip', $id);
+        $banding = $this->db->get('m_personil_pers')->row_array();
         $this->db->where('is_active', 1);
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $data['una'] = $una;
@@ -173,8 +176,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
 
@@ -220,7 +224,7 @@ class Personalia extends CI_Controller
                 'pendidikan' => $pendidikan,
                 'kualifikasi' => $kualifikasi,
                 'tmt' => $tmt,
-                'tgl' => $tgl,
+                'tgl_lahir' => $tgl,
                 'created_at' => time(),
                 'updated_at' => time(),
                 'isactive' => $aktif,
@@ -245,8 +249,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
 
@@ -290,8 +295,8 @@ class Personalia extends CI_Controller
             $this->db->set('tmt', $tmt);
             $this->db->set('updated_at', time());
             $this->db->set('gol', $gol);
-            $this->db->where('id', $id);
             $this->db->update('m_personil_pers');
+            $this->db->where('id', $id);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil membuat perubahan data personil.</div>');
             redirect('personalia/masterStaff');
         }
@@ -307,8 +312,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
 
@@ -332,14 +338,35 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $this->db->where('id', $id);
         $personil = $this->db->get('jb_personil')->row_array();
         $data['personil'] = $personil;
         $data['keluarga'] = $this->db->get_where('jb_keluarga', ['personil_id' => $data['personil']['id']])->result_array();
+        $this->load->model('Dosier_models', 'dosier');
+        $data['ktp'] = $this->dosier->getKtp($id);
+        $data['bpjs'] = $this->dosier->getBpjs($id);
+        $data['npwp'] = $this->dosier->getNpwp($id);
+        $data['kk'] = $this->dosier->getKk($id);
+        $data['karis'] = $this->dosier->getKaris($id);
+        $data['dikum'] = $this->dosier->getRdikUm($id);
+        $data['rPangkat'] = $this->dosier->getRpangkat($id);
+        $nip = $personil['nik'];
+        $data['fungsional'] = $this->dosier->getJf($nip);
+        $data['struktural'] = $this->dosier->getJs($nip);
+        $data['dikmila'] = $this->dosier->getDikmilA($id);
+        $data['dikmilb'] = $this->dosier->getDikmilB($id);
+        $data['tugasOperasi'] = $this->dosier->getTops($id);
+        $data['tugasLn'] = $this->dosier->getTugasLn($id);
+        $data['TandaKh'] = $this->dosier->getTkh($id);
+        $data['prestasi'] = $this->dosier->getPrestasi($id);
+
+
+
 
         $this->load->view('layout/header_pers', $data);
         $this->load->view('layout/nav_pers', $data);
@@ -357,8 +384,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $idan = $this->input->get('id');
@@ -382,8 +410,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $date1 = $this->input->post('date1');
@@ -416,8 +445,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $date1 = $this->input->post('date1');
@@ -450,8 +480,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $date1 = $this->input->post('date1');
@@ -484,8 +515,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $date1 = $this->input->post('date1');
@@ -518,8 +550,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $date1 = $this->input->post('date1');
@@ -553,8 +586,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
         $this->db->order_by('jabatan', 'desc');
         $data['absenPersonil'] = $this->db->get('jb_personil')->result_array();
@@ -573,8 +607,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $id = $this->input->post('id');
@@ -628,8 +663,9 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
         $data['title'] = "Data Detail Absensi";
 
@@ -675,6 +711,32 @@ class Personalia extends CI_Controller
         $this->load->view('layout/nav_pers', $data);
         $this->load->view('layout/sidebar_pers', $data);
         $this->load->view('personalia/absensi/detailAbsen', $data);
+        $this->load->view('layout/footer_pers', $data);
+    }
+
+    public function dosier()
+    {
+        $id = $this->input->post('id');
+        if (!$id) {
+            $id = $this->input->post('id');
+        }
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->db->where('is_active', 1);
+        $this->db->order_by('date_created', 'desc');
+        $data['approve'] = $this->db->get_where('user')->result_array();
+        $data['ja'] = count($data['approve']);
+        $today = date('Y-m-d');
+        $this->db->where('tgl_masuk >=', $today);
+        $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
+        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
+        $data['title'] = "Kumpulan Dosier";
+        $data['judul'] = "Dosier Personil";
+
+        $this->load->view('layout/header_pers', $data);
+        $this->load->view('layout/nav_pers', $data);
+        $this->load->view('layout/sidebar_pers', $data);
+        $this->load->view('personalia/dosierPersonil', $data);
         $this->load->view('layout/footer_pers', $data);
     }
 }

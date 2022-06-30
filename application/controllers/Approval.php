@@ -13,11 +13,11 @@ class Approval extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
-        $this->db->where('tgl_masuk', $today);
+        $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
+        $this->db->where('approved_at', 0);
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
-        $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
 
         $this->load->model('Absen_models', 'absen');
         $data['absen'] = $this->absen->getIjin();

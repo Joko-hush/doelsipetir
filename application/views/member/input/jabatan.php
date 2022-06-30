@@ -27,6 +27,14 @@
                     <br>
                 </div>
             </div>
+            <div class="text-center p-3">
+                <a href="<?= base_url('member/inputdata'); ?>" class="btn btn-sm btn-outline-warning mr-3">
+                    Kembali ke edit data
+                </a>
+                <a href="<?= base_url('member/index'); ?>" class="btn btn-sm btn-outline-warning">
+                    Kembali ke home
+                </a>
+            </div>
 
         </div>
         <div class="icon-box rounded shadow mt-3 pb-5">

@@ -58,7 +58,7 @@
                                          <td><?= $app['name']; ?></td>
                                          <td><?= $app['email']; ?></td>
                                          <td>
-                                             <a href="<?= base_url('personalia/lihat') . '?nip=' . $app['nip']; ?>" class="btn btn-success">Lihat</a>
+                                             <a href="<?= base_url('personalia/lihat') . '?nip=' . $app['nik']; ?>" class="btn btn-success">Lihat</a>
                                              <a href="<?= base_url('personalia/action1') . '?id=' . $app['id'] . '&stat=setuju'; ?>" class="btn btn-warning ml-2" onclick="return confirm('Apakah Anda Yakin??')">Approve</a>
                                          </td>
                                      </tr>

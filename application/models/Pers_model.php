@@ -17,37 +17,36 @@ class Pers_model extends CI_model
             $this->db->where('id', $id);
             $user = $this->db->get('user')->row_array();
             $email = $user['email'];
-            $kdstaff = $user['KDSTAFF'];
-            $dbstaff = $this->load->database('staff', true);
-            $dbstaff->where('KDSTAFF', $kdstaff);
-            $staff = $dbstaff->get('M_STAFF')->row_array();
-            if ($staff['JENISKELAMIN'] == 0) {
-                $gender = 'L';
-            } else {
-                $gender = 'P';
+            $kdstaff = $user['nik'];
+
+            $this->db->where('nip', $kdstaff);
+            $staff = $this->db->get('m_personil_pers')->row_array();
+            if (!$staff['gender']) {
+                $staff['gender'] = '-';
             }
+
             $data = [
-                'KDSTAFF' => $staff['KDSTAFF'],
+                'nik' => $kdstaff,
                 'name' => $user['name'],
-                'tempat_lahir' => $staff['TEMPATLAHIR'],
-                'tgl_lahir' => $staff['TANGGALLAHIR'],
-                'sex' => $gender,
+                'tempat_lahir' => '',
+                'tgl_lahir' => '',
+                'sex' => $staff['gender'],
                 'agama' => '',
                 'gol_darah' => '',
                 'email' => $user['email'],
-                'tlp' => $staff['NOMOR_HP1'],
+                'tlp' => '',
                 'suku_bangsa' => '',
-                'tmt_kerja' => $staff['TMTKERJA'],
+                'tmt_kerja' => '',
                 'image' => 'default.jpg',
                 'pangkat' => '',
                 'jabatan' => '',
                 'tmt_jabatan' => '',
                 'bpjs' => '',
                 'npwp' => '',
-                'ktp' => $staff['NOMOR_KTP'],
+                'ktp' => '',
                 'alamat' => '',
-                'kategori' => $staff['KELOMPOKIPK'],
-                'sumber_pa' => '',
+                'kategori' => '',
+                'sumber_pa' => '-',
                 'satuan' => 'RS. DUSTIRA',
                 'psi' => '',
                 'created_at' => time(),
@@ -64,36 +63,31 @@ class Pers_model extends CI_model
     }
     private function _sendEmail($type, $email)
     {
-        $config = [
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_user' => 'doelsipetir@gmail.com',
-            'smtp_pass' => 'Simrs123*',
-            'smtp_port' => 465,
-            'mailtype' => 'html',
-            'charset' => 'utf-8',
-            'newline' => "\r\n"
-        ];
 
-        $this->email->initialize($config);
-
-        $this->email->from('doelsipetir@gmail.com', 'Doelsipetir App');
-        $this->email->to($email);
-
+        $to = $this->input->post('email');
+        $from = 'info@rsdustira.co.id';
         if ($type == 'tolak') {
-            $this->email->subject('Aktivasi Akun');
-            $this->email->message('Mohon Maaf akun Anda tidak di setujui silahkan hubungi bagian personalia untuk informasi lebih lanjut.');
+            $subject = 'Aktivasi Akun';
+            $body = base64_encode('Mohon Maaf akun Anda tidak di setujui silahkan hubungi bagian personalia untuk informasi lebih lanjut.');
         } else if ($type == 'setuju') {
-            $this->email->subject('Aktivasi Akun');
-            $this->email->message('Akun Anda telah di setujui. Silahkan klik link dibawah ini untuk login.<br> <a href="' . base_url() . 'auth' . '">Login</a>');
+            $subject = 'Aktivasi Akun';
+            $body = base64_encode('Akun Anda telah di setujui. Silahkan klik link dibawah ini untuk login.<br> <a href="' . base_url() . 'auth' . '">Login</a>');
         }
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "http://172.165.115.224/sendmail.php");
 
 
-        if ($this->email->send()) {
-            return true;
-        } else {
-            echo $this->email->print_debugger();
-            die;
-        }
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt(
+            $ch,
+            CURLOPT_POSTFIELDS,
+            "to=$to&from=$from&subject=$subject&text=$body"
+        );
+        $output = curl_exec($ch);
+
+        curl_close($ch);
+        return true;
     }
 }

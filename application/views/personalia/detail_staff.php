@@ -153,10 +153,10 @@
                      <div class="form-group">
                          <div class="row">
                              <div class="col-md-4">
-                                 <label class="form-label" for="gender">Kualifikasi</label>
+                                 <label class="form-label" for="kualifikasi">Kualifikasi</label>
                              </div>
                              <div class="col-md-8">
-                                 <select class="form-control" name="gender" id="gender">
+                                 <select class="form-control" name="kualifikasi" id="kualifikasi">
                                      <?php if (!$staff['kualifikasi']) : ?>
                                          <option value=""></option>
                                      <?php else : ?>
