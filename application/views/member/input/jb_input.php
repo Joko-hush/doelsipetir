@@ -215,7 +215,7 @@
                                 <div class="col-md-8">
                                     <select name="gender" id="gender" class="form-select">
 
-                                        <?php if ($staff['tgl_lahir'] == 'L') : ?>
+                                        <?php if ($staff['sex'] == 'L') : ?>
                                             <option value="L">Laki - laki</option>
                                             <option value="P">Perempuan</option>
                                         <?php else : ?>
@@ -371,7 +371,7 @@
                                 <?php if ($extKtp == 'pdf') : ?>
                                     <div class="col-md-4 text-center">
                                         <a href="<?= base_url('assets/img/dosier/') . $kartuKtp['doc']; ?>" target="_blank()">
-                                            <iframe src="<?= base_url('assets/img/dosier/') . $kartuKtp['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                            <img src="<?= base_url('assets/img/dosier/') . 'pdf_icon.png'; ?>" alt="ktp" class="img img-thumbnail img-responsive">
                                         </a>
                                     </div>
                                 <?php else : ?>
@@ -472,6 +472,7 @@
 
                             list($namaFileBpjs, $extBpjs) = explode('.', $kartuBpjs['doc']);
                         }
+
                         ?>
 
                         <div class="card-body">
@@ -493,18 +494,18 @@
                                 <?php if ($extBpjs == 'pdf') : ?>
                                     <div class="col-md-4 text-center">
                                         <a href="<?= base_url('assets/img/dosier/') . $kartuBpjs['doc']; ?>" target="_blank()">
-                                            <iframe src="<?= base_url('assets/img/dosier/') . $kartuBpjs['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                            <img src="<?= base_url('assets/img/dosier/') . 'pdf_icon.png'; ?>" class="img img-thumbnail img-responsive" alt="dokumen">
                                         </a>
                                     </div>
-                                <?php else : ?>
+                                    <!-- <?php else : ?> -->
                                     <div class="col-md-4 text-center">
                                         <a href="<?= base_url('assets/img/dosier/') . $kartuBpjs['doc']; ?>" target="_blank()">
-                                            <img src="<?= base_url('assets/img/dosier/') . $kartuBpjs['doc']; ?>" class="img img-thumbnail img-responsive">
+                                            <img src="<?= base_url('assets/img/dosier/') . $kartuBpjs['doc']; ?>" class="img img-thumbnail img-responsive" alt="dokumen">
                                         </a>
                                     </div>
-                                <?php endif; ?>
+                                    <!-- <?php endif; ?> -->
 
-                                <div class="col-md-4"><input class="form-control" type="file" name="image" id="image"></div>
+                                    <div class="col-md-4"><input class="form-control" type="file" name="image" id="image"></div>
                             </div>
                             <div class="row form-group">
                                 <button class="btn btn-primary" type="submit" name="submit">Simpan</button>
@@ -549,7 +550,7 @@
                                 <?php if ($extkk == 'pdf') : ?>
                                     <div class="col-md-4 text-center">
                                         <a href="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" target="_blank()">
-                                            <iframe src="<?= base_url('assets/img/dosier/') .  $kk['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                            <img src="<?= base_url('assets/img/dosier/') .  'pdf_icon.png'; ?>" class="img img-thumbnail img-responsive">
                                         </a>
                                     </div>
                                 <?php else : ?>
@@ -603,7 +604,7 @@
                                         <?php if ($extKaris == 'pdf') : ?>
                                             <div class="col-md-4 text-center">
                                                 <a href="<?= base_url('assets/img/dosier/') .  $kartuKaris['doc']; ?>" target="_blank()">
-                                                    <iframe src="<?= base_url('assets/img/dosier/') .  $kartuKaris['doc']; ?>" class="img img-thumbnail img-responsive"></iframe>
+                                                    <img src="<?= base_url('assets/img/dosier/') .  'pdf_icon.png'; ?>" class="img img-thumbnail img-responsive">
                                                 </a>
                                             </div>
                                         <?php else : ?>

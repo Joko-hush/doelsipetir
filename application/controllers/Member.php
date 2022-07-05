@@ -15,6 +15,12 @@ class Member extends CI_Controller
         $data['judul'] = 'home';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'masuk ke homepage',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
 
         $id = $data['staff']['jabatan'];
         $this->db->where('id', $id);
@@ -60,6 +66,12 @@ class Member extends CI_Controller
         $data['judul'] = 'Data Pokok';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'Buka hal data pokok',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);
@@ -73,6 +85,12 @@ class Member extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'Buka hal riwayat hidup',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
         $this->db->order_by('tmt', 'asc');
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->limit(1);
@@ -156,6 +174,12 @@ class Member extends CI_Controller
         $data['bagian'] = $db150->get('M_STAFF_BAGIAN')->result_array();
 
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'Buka hal input data',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
 
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->order_by('tmt', 'desc');
@@ -213,8 +237,6 @@ class Member extends CI_Controller
         if (!$data['kartuKaris']) {
             $data['kartuKaris'] = ['no' => '', 'doc' => ''];
         }
-        // var_dump($data['kartuBpjs']);
-        // die;
 
         $this->form_validation->set_rules('nik', 'No Kepegawaian', 'trim|required');
         $this->form_validation->set_rules('tl', 'Tempat Lahir', 'trim|required');
@@ -248,7 +270,14 @@ class Member extends CI_Controller
 
                     $this->db->set('image', $new_image);
                 } else {
-                    echo $this->upload->display_errors();
+                    $log = [
+                        'user_id' => $data['staff']['id'],
+                        'action' => 'Error, gagal update data pokok',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data gagal diupdate</div>');
+                    redirect('member/inputdata');
                 }
             }
             $jabatan = $this->input->post('jabatan');
@@ -284,6 +313,13 @@ class Member extends CI_Controller
             $this->db->set('jam_kerja_id', $jamKerja);
             $this->db->where('id', $id);
             $this->db->update('jb_personil');
+
+            $log = [
+                'user_id' => $data['staff']['id'],
+                'action' => 'update data pokok',
+                'created_at' => time()
+            ];
+            $this->db->insert('log', $log);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data</div>');
             redirect('member/inputdata');
         }
@@ -299,6 +335,7 @@ class Member extends CI_Controller
             //cek ktp
             $this->db->where('personil_id', $this->input->post('id'));
             $ktp = $this->db->get('jb_ktp')->num_rows();
+            $id = $this->input->post('id');
 
             if ($ktp > 0) {
                 $upload_image = $_FILES['image']['name'];
@@ -314,7 +351,14 @@ class Member extends CI_Controller
                         $new_image = $this->upload->data('file_name');
                         $this->db->set('doc', $new_image);
                     } else {
-                        echo $this->upload->display_errors();
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'Error, gagal update ktp',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data gagal diupdate</div>');
+                        redirect('member/inputdata');
                     }
                 }
 
@@ -323,6 +367,14 @@ class Member extends CI_Controller
                 $no = htmlspecialchars($this->input->post('no', true));
                 $this->db->set('noktp', $no);
                 $this->db->update('jb_ktp');
+                $log = [
+                    'user_id' => $id,
+                    'action' => 'berhasil update ktp',
+                    'created_at' => time()
+                ];
+                $this->db->insert('log', $log);
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil Update KTP</div>');
+                redirect('member/inputdata');
             } else {
 
                 $upload_image = $_FILES['image']['name'];
@@ -350,14 +402,27 @@ class Member extends CI_Controller
                             'deleted' => 'no'
                         ];
                         $this->db->insert('jb_ktp', $data);
-
                         $this->db->set('ktp', $no);
                         $this->db->where('id', $id);
                         $this->db->update('jb_personil');
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'insert ktp',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
                         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data KTP</div>');
                         redirect('member/inputdata');
                     } else {
-                        echo $this->upload->display_errors();
+                        $id = $this->input->post('id');
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'Error gagal insert ktp',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Update data KTP gagal silahkan coba lagi. Pastikan dokumen yang dikirim tidak lebih dari 5Mb</div>');
+                        redirect('member/inputdata');
                     }
                 }
             }
@@ -395,10 +460,23 @@ class Member extends CI_Controller
                         $this->db->set('no_kk', $no);
 
                         $this->db->update('jb_kartu_keluarga');
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'update kartu keluarga',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
                         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data Kartu Keluarga</div>');
                         redirect('member/inputdata');
                     } else {
-                        echo $this->upload->display_errors();
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'Error, gagal update kartu keluarga',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Update kartu keluarga gagal</div>');
+                        redirect('member/inputdata');
                     }
                 }
             } else {
@@ -428,10 +506,23 @@ class Member extends CI_Controller
                             'deleted' => 'no'
                         ];
                         $this->db->insert('jb_kartu_keluarga', $data);
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'insert kartu keluarga',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
                         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data Kartu Keluarga</div>');
                         redirect('member/inputdata');
                     } else {
-                        echo $this->upload->display_errors();
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'Error, gagal insert kartu keluarga',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Update kartu keluarga gagal. Silahkan coba lagi nanti.</div>');
+                        redirect('member/inputdata');
                     }
                 }
             }
@@ -466,16 +557,27 @@ class Member extends CI_Controller
                         $new_image = $this->upload->data('file_name');
                         $this->db->set('doc', $new_image);
                     } else {
-                        echo $this->upload->display_errors();
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'Error, gagal insert karis',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Gagal upload karis</div>');
+                        redirect('member/inputdata');
                     }
                 }
                 $this->db->where('id', $id);
                 $this->db->update('jb_karis');
+                $log = [
+                    'user_id' => $id,
+                    'action' => 'insert karis',
+                    'created_at' => time()
+                ];
+                $this->db->insert('log', $log);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data Kartu Istri/suami</div>');
                 redirect('member/inputdata');
             } else {
-
-
 
                 $upload_image = $_FILES['image']['name'];
 
@@ -495,10 +597,23 @@ class Member extends CI_Controller
                             'no' => $no
                         ];
                         $this->db->insert('jb_karis', $data);
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'insert karis',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
                         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data Kartu Istri/suami</div>');
                         redirect('member/inputdata');
                     } else {
-                        echo $this->upload->display_errors();
+                        $log = [
+                            'user_id' => $id,
+                            'action' => 'Error, gagal insert karis',
+                            'created_at' => time()
+                        ];
+                        $this->db->insert('log', $log);
+                        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Gagal upload karis</div>');
+                        redirect('member/inputdata');
                     }
                 }
             }
@@ -507,7 +622,7 @@ class Member extends CI_Controller
     public function bpjs()
     {
         $this->form_validation->set_rules('no', 'No bpjs', 'trim|required');
-
+        $id = $this->input->post('id');
         if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('message', '<div class="alert alert-info" role="alert">tidak ada data yang dikirim</div>');
             redirect('member/inputdata');
@@ -538,6 +653,12 @@ class Member extends CI_Controller
                         'deleted' => 'no'
                     ];
                     $this->db->insert('jb_bpjs', $data);
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'insert kartu bpjs',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
 
                     $this->db->set('bpjs', $no);
                     $this->db->where('id', $id);
@@ -545,7 +666,14 @@ class Member extends CI_Controller
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil melakukan update data BPJS</div>');
                     redirect('member/inputdata');
                 } else {
-                    echo $this->upload->display_errors();
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'Error, gagal insert bpjs',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
+                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Upload gagal</div>');
+                    redirect('member/inputdata');
                 }
             }
         }
@@ -1390,8 +1518,12 @@ class Member extends CI_Controller
         $db2->where('DATE >=', $date1);
         $db2->where('DATE <=', $date2);
         $db2->select('sum(VOLUME)');
-        $sum = $db2->get('F_KINERJAPENCAPAIN_H')->result_array();
-        $data['sum'] = $sum[0][""];
+        $sum = $db2->get('F_KINERJAPENCAPAIN_H')->row_array();
+
+        if ($sum == 'NULL') {
+            $sum = 0;
+        }
+        $data['sum'] = $sum;
 
 
 

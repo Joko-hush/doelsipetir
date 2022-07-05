@@ -79,7 +79,8 @@
                             <tr>
                                 <td colspan="3">Jumlah Volume</td>
                                 <td>
-                                    <?= $sum; ?>
+
+                                    <?= $sum["sum(VOLUME)"]; ?>
                                 </td>
                                 <td colspan="4"></td>
                             </tr>

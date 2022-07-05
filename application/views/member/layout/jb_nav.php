@@ -29,6 +29,9 @@
                         <span><?= $staff['name']; ?></span>
                     </a>
                     <ul class="rounded shadow">
+                        <li><a class="nav-link scrollto" href="<?= base_url('logmember'); ?>"><i class="ri-logout-circle-r-line"></i> Log</a></li>
+                    </ul>
+                    <ul class="rounded shadow">
                         <li><a class="nav-link scrollto" href="<?= base_url('auth/logout'); ?>"><i class="ri-logout-circle-r-line"></i> Sign Out</a></li>
                     </ul>
                 </li>

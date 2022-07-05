@@ -33,6 +33,14 @@ class Auth extends CI_Controller
         if ($session) {
             $email = $session;
             $user = $this->db->get_where('user', ['email' => $email])->row_array();
+            $this->db->where('nik', $user['nik']);
+            $staff = $this->db->get('jb_personil')->row_array();
+            $log = [
+                'user_id' => $staff['id'],
+                'action' => 'login',
+                'created_at' => time()
+            ];
+            $this->db->insert('log', $log);
             if ($user['role_id'] == 1) {
                 redirect('admin');
             } elseif ($user['role_id'] == 3) {
@@ -79,6 +87,14 @@ class Auth extends CI_Controller
                     );
                     $this->input->set_cookie($cookie);
                     $this->session->set_userdata($data);
+                    $this->db->where('nik', $user['nik']);
+                    $staff = $this->db->get('jb_personil')->row_array();
+                    $log = [
+                        'user_id' => $staff['id'],
+                        'action' => 'login',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
 
                     if ($user['role_id'] == 1) {
                         redirect('admin');
@@ -265,6 +281,15 @@ class Auth extends CI_Controller
     public function logout()
     {
         // delete_cookie('always');
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'login',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
         $this->session->sess_destroy();
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out.</div>');
         redirect('auth');

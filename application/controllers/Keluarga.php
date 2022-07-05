@@ -16,6 +16,12 @@ class Keluarga extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $data['keluarga'] = $this->db->get_where('jb_keluarga', ['personil_id' => $data['staff']['id']])->result_array();
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'Buka hal keluarga',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);

@@ -1,30 +1,23 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Finance extends CI_Controller
+class Logmember extends CI_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-        is_logged_staff();
-    }
 
     public function index()
     {
-        $data['title'] = 'DOEL SI PETIR';
-        $data['judul'] = 'Dashboard Personil';
+        $data['title'] = 'DOEL SI PETIR | Isi Data';
+        $data['judul'] = 'Riwayat Pendidikan Militer';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-        $log = [
-            'user_id' => $data['staff']['id'],
-            'action' => 'Buka hal financial',
-            'created_at' => time()
-        ];
-        $this->db->insert('log', $log);
+
+        $this->db->where('user_id', $data['staff']['id']);
+        $this->db->order_by('created_at', 'desc');
+        $data['log'] = $this->db->get('log')->result_array();
 
         $this->load->view('member/layout/jb_header', $data);
         $this->load->view('member/layout/jb_nav', $data);
-        $this->load->view('member/finance/index', $data);
+        $this->load->view('member/log', $data);
         $this->load->view('member/layout/jb_footer', $data);
     }
 }
