@@ -26,7 +26,11 @@ WHERE
         return $this->db->query($sql)->row_array();
     }
 
+<<<<<<< HEAD
     // kartu
+=======
+
+>>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
     public function getKtp($id)
     {
         $this->db->where('personil_id', $id);
@@ -57,8 +61,11 @@ WHERE
         $card = $this->db->get('jb_karis')->row_array();
         return $card;
     }
+<<<<<<< HEAD
 
     // kartu
+=======
+>>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
     public function getRpangkat($id)
     {
         $this->db->where('personil_id', $id);

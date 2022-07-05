@@ -210,6 +210,7 @@
 
                     </div>
                     <div class="container" id="showCetak" style="display: none;">
+<<<<<<< HEAD
                         <?php
                         if (!$ktp) {
                             $ktp['noktp'] = 'belum upload';
@@ -228,6 +229,8 @@
                             $kk['doc'] = '-';
                         }
                         ?>
+=======
+>>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
 
                         <div class="card card-warning shadow-lg mt-3">
                             <div class="card-header">
@@ -248,7 +251,10 @@
                                             <tbody>
                                                 <tr>
                                                     <td>KTP</td>
+<<<<<<< HEAD
 
+=======
+>>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
                                                     <td><?= $ktp['noktp']; ?></td>
                                                     <td>
                                                         <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $ktp['doc']; ?>" target="_blank()">Lihat</a>
@@ -569,7 +575,11 @@
                                                         <td><?= $pst['kegiatan']; ?></td>
                                                         <td><?= $pst['thn']; ?></td>
                                                         <td><?= $pst['tempat']; ?></td>
+<<<<<<< HEAD
                                                         <td><?= $pst['deskripsi']; ?></td>
+=======
+														<td><?= $pst['deskripsi']; ?></td>
+>>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
                                                         <td>
                                                             <a class="btn btn-outline-warning" href="<?= base_url('assets/img/dosier/') . $pst['doc']; ?>" target="_blank()">
                                                                 <?= $pst['kep']; ?>

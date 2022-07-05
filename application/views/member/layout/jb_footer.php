@@ -91,6 +91,17 @@
     };
 </script>
 <script>
+    window.onload = (event) => {
+        const toastTrigger = document.getElementById('ijin').value;
+        const toastLiveExample = document.getElementById('liveToast')
+
+        if (toastTrigger > 0) {
+            const toast = new bootstrap.Toast(toastLiveExample)
+            toast.show()
+        }
+    };
+</script>
+<script>
     $(function() {
         $("#dates").datepicker({
             changeMonth: true,

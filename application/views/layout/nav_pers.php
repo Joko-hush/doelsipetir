@@ -8,9 +8,15 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="<?= base_url(); ?>" class="nav-link">Home</a>
         </li>
+<<<<<<< HEAD
         <li class="nav-item d-none d-sm-inline-block">
             <a href="<?= base_url('MANUAL_BOOK_PERSONALIA.pdf'); ?>"class="nav-link" target:"_blank" >Download Petunjuk</a>
         </li>
+=======
+        <!-- <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Contact</a>
+        </li> -->
+>>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
     </ul>
 
     <!-- Right navbar links -->

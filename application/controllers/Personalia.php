@@ -726,9 +726,14 @@ class Personalia extends CI_Controller
         $data['approve'] = $this->db->get_where('user')->result_array();
         $data['ja'] = count($data['approve']);
         $today = date('Y-m-d');
+<<<<<<< HEAD
         $this->db->where('tgl_masuk >=', $today);
         $this->db->where('status', 'diajukan');
         $this->db->where('approved_at', 0);
+=======
+        $this->db->where('tgl_masuk', $today);
+        $this->db->where('status', 'diajukan');
+>>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
         $data['ket_absen'] = $this->db->get('abs_ijin')->num_rows();
         $data['title'] = "Kumpulan Dosier";
         $data['judul'] = "Dosier Personil";

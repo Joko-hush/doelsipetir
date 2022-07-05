@@ -56,6 +56,7 @@
                 </a>
             </div>
 
+<<<<<<< HEAD
             <div class="col-xl-2 col-md-4">
                 <a href="<?= base_url('sertifikat'); ?>">
                     <div class="icon-box rounded shadow">
@@ -67,6 +68,8 @@
                 </a>
             </div>
 
+=======
+>>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
         </div>
         <input type="hidden" id="ijin" value="<?= $ijin; ?>">
     </div>
