@@ -87,7 +87,6 @@ class Auth extends CI_Controller
                     );
                     $this->input->set_cookie($cookie);
                     $this->session->set_userdata($data);
-<<<<<<< HEAD
                     $this->db->where('nik', $user['nik']);
                     $staff = $this->db->get('jb_personil')->row_array();
                     $log = [
@@ -96,8 +95,6 @@ class Auth extends CI_Controller
                         'created_at' => time()
                     ];
                     $this->db->insert('log', $log);
-=======
->>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
 
                     if ($user['role_id'] == 1) {
                         redirect('admin');
@@ -211,17 +208,10 @@ class Auth extends CI_Controller
         $from = 'info@rsdustira.co.id';
         if ($type == 'verify') {
             $subject = 'Verify';
-<<<<<<< HEAD
             $body = $this->safeBase64('Click this link to verify your account : <a href="' . base_url() . 'auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Activate</a> <br><br> Jika link di atas tidak bekerja, silahkan copy link di bawah ini dan paste-kan pada browser anda : <br> "' . base_url() . 'auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '"');
         } else if ($type == 'forgot') {
             $subject = 'Forgot Password';
             $body = $this->safeBase64('Click this link to reset your account : <a href="' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Reset password</a> <br><br> Jika link di atas tidak bekerja, silahkan copy link di bawah ini dan paste-kan pada browser anda : <br> "' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '"');
-=======
-            $body = base64_encode('Click this link to verify your account : <a href="' . base_url() . 'auth/verify?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Activate</a>');
-        } else if ($type == 'forgot') {
-            $subject = 'Forgot Password';
-            $body = base64_encode('Click this link to reset your account : <a href="' . base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Reset password</a>');
->>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
         }
         // $body = base64_encode('test');
         $this->load->model('Mail_models', 'mail');
@@ -290,14 +280,9 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-<<<<<<< HEAD
         // delete_cookie('always');
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-=======
-        delete_cookie('always');
-        $this->session->sess_destroy();
->>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
 
         $log = [
             'user_id' => $data['staff']['id'],

@@ -472,10 +472,6 @@
 
                             list($namaFileBpjs, $extBpjs) = explode('.', $kartuBpjs['doc']);
                         }
-<<<<<<< HEAD
-
-=======
->>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
                         ?>
 
                         <div class="card-body">
