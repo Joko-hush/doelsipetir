@@ -39,7 +39,9 @@
                 <div class="row form-group">
                     <div class="col text-left"><label for="image">Upload Doc</label></div>
                     <div class="col-md-3">
-                        <iframe src="<?= base_url('assets/img/dosier/') . $dikmil['doc']; ?>" frameborder="0" class="img img-responsive img-thumbnail rounded"></iframe>
+                        <a href="<?= base_url('assets/img/dosier/') . $dikmil['doc']; ?>" target="_blank()">
+                            <img src="<?= base_url('assets/img/dosier/') . 'pdf_icon.png'; ?>" frameborder="0" class="img img-responsive img-thumbnail rounded">
+                        </a>
                     </div>
                     <div class="col-md-5"><input class="form-control" type="file" name="image" id="image"></div>
                 </div>

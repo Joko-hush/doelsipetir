@@ -836,6 +836,8 @@ class Member extends CI_Controller
         $this->db->where('id', $id);
         $pkt = $this->db->get('jb_kepangkatan')->row_array();
         $data['pkt'] = $pkt;
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $db150 = $this->load->database('staff', true);
         $data['pangkat'] = $db150->get('M_STAFF_PANGKAT')->result_array();
 
@@ -974,7 +976,7 @@ class Member extends CI_Controller
         $data['title'] = 'DOEL SI PETIR';
         $data['judul'] = 'Edit Pendidikan Umum';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $this->form_validation->set_rules('jenis', 'Jenis Pendidikan', 'required|trim');
         $this->form_validation->set_rules('thn', 'Tahun lulus', 'required|trim');
         $this->form_validation->set_rules('nama', 'Nama Sekolah', 'required|trim');
@@ -1087,6 +1089,7 @@ class Member extends CI_Controller
         $data['title'] = 'DOEL SI PETIR';
         $data['judul'] = 'Edit Pendidikan Militer';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
 
         $this->form_validation->set_rules('jenis', 'Nama / Jenis Pendidikan', 'required|trim');
         $this->form_validation->set_rules('thn', 'Tahun pendidikan', 'required|trim');
@@ -1143,6 +1146,7 @@ class Member extends CI_Controller
         $data['title'] = 'DOEL SI PETIR';
         $data['judul'] = 'Edit Pendidikan Militer';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
 
         $this->form_validation->set_rules('jenis', 'Nama / Jenis Pendidikan', 'required|trim');
         $this->form_validation->set_rules('thn', 'Tahun pendidikan', 'required|trim');
@@ -1389,6 +1393,7 @@ class Member extends CI_Controller
         $data['title'] = 'DOEL SI PETIR';
         $data['judul'] = 'Dashboard Personil';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $id = $this->input->get('id');
         if (!$id) {
             $id = $this->input->post('id');

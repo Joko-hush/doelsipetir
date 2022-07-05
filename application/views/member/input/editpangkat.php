@@ -46,7 +46,10 @@
                 <div class="row form-group">
                     <div class="col text-left"><label for="ktp">Upload SKEP</label></div>
                     <div class="col-md-3">
-                        <iframe src="<?= base_url('assets/img/dosier/') . $pkt['doc']; ?>" frameborder="0" class="img img-responsive img-thumbnail"></iframe>
+                        <a href="<?= base_url('assets/img/dosier/') . $pkt['doc']; ?>" target="_blank()">
+
+                            <img src="<?= base_url('assets/img/dosier/') . 'pdf_icon.png'; ?>" frameborder="0" class="img img-responsive img-thumbnail">
+                        </a>
                     </div>
                     <div class="col-md-5"><input class="form-control" type="file" name="image" id="image"></div>
                 </div>

@@ -37,7 +37,9 @@
                 <div class="row form-group">
                     <div class="col text-left"><label for="image">Upload Doc</label></div>
                     <div class="col-md-3">
-                        <iframe class="img img-responsive img-thumbnail" src="<?= base_url('assets/img/dosier/') . $tkh['doc']; ?>" frameborder="0"></iframe>
+                        <a href="<?= base_url('assets/img/dosier/') . $tkh['doc']; ?>" target="_blank()">
+                            <img class="img img-responsive img-thumbnail" src="<?= base_url('assets/img/dosier/') . 'pdf_icon.png'; ?>">
+                        </a>
                     </div>
                     <div class="col-md-5"><input class="form-control" type="file" name="image" id="image"></div>
                 </div>
