@@ -18,37 +18,30 @@
                         <li><a href="<?= base_url('member/dosier'); ?>"><i class="ri-folder-shield-line"></i> Dosier</a></li>
                         <li><a href="<?= base_url('keluarga'); ?>"> <i class="ri-parent-fill"></i> Informasi Keluarga</a></li>
                         <!-- <li><a href="#"><i class="ri-profile-line"></i> Kartu Identitas</a></li> -->
-<<<<<<< HEAD
-                        <li><a href="<?= base_url('finance'); ?>"><i class="ri-hand-coin-line"></i> Finansial</a></li>
-=======
-                        <!-- <li><a href="<?= base_url('finance'); ?>"><i class="ri-hand-coin-line"></i> Finansial</a></li> -->
->>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
-                        <li><a href="<?= base_url('member/inputdata'); ?>"><i class="ri-edit-box-fill"></i> Edit data</a></li>
-                        <li><a href="<?= base_url('user/changepassword'); ?>"><i class="ri-key-2-fill"></i> Ubah Password</a></li>
-                    </ul>
+                        <<<<<<< HEAD <li><a href="<?= base_url('finance'); ?>"><i class="ri-hand-coin-line"></i> Finansial</a>
                 </li>
-                <li class="dropdown">
-                    <a href="#">
-                        <!-- <img class="img img-thumbnail rounded-circle" width="32" src="<?= base_url('assets/img/dosier/') . $staff['image']; ?>" alt="user"> -->
-                        <span><?= $staff['name']; ?></span>
-                    </a>
-<<<<<<< HEAD
+                =======
+                <!-- <li><a href="<?= base_url('finance'); ?>"><i class="ri-hand-coin-line"></i> Finansial</a></li> -->
+                >>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
+                <li><a href="<?= base_url('member/inputdata'); ?>"><i class="ri-edit-box-fill"></i> Edit data</a></li>
+                <li><a href="<?= base_url('user/changepassword'); ?>"><i class="ri-key-2-fill"></i> Ubah Password</a></li>
+            </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">
+                    <!-- <img class="img img-thumbnail rounded-circle" width="32" src="<?= base_url('assets/img/dosier/') . $staff['image']; ?>" alt="user"> -->
+                    <span><?= $staff['name']; ?></span>
+                </a>
 
 
-                    <ul class="rounded shadow">
-                        <li><a class="nav-link scrollto" href="<?= base_url('logmember'); ?>"><i class="ri-history-line"></i> Log</a></li>
-                        <li><a class="nav-link scrollto" href="<?= base_url('auth/logout'); ?>"><i class="ri-logout-circle-r-line"></i> Sign Out</a></li>
-                    </ul>
-                </li>
-                <li><a class="nav-link scrollto" href="<?= base_url('manual_book.pdf'); ?>" target="_blank()" data-bs-toggle="tooltip" title="Download Manual Book">
-                        <i class="ri-information-line ri-3x"></i>
-                        Manual Book</a></li>
-=======
-                    <ul class="rounded shadow">
-                        <li><a class="nav-link scrollto" href="<?= base_url('auth/logout'); ?>"><i class="ri-logout-circle-r-line"></i> Sign Out</a></li>
-                    </ul>
-                </li>
->>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
+                <ul class="rounded shadow">
+                    <li><a class="nav-link scrollto" href="<?= base_url('logmember'); ?>"><i class="ri-history-line"></i> Log</a></li>
+                    <li><a class="nav-link scrollto" href="<?= base_url('auth/logout'); ?>"><i class="ri-logout-circle-r-line"></i> Sign Out</a></li>
+                </ul>
+            </li>
+            <li><a class="nav-link scrollto" href="<?= base_url('manual_book.pdf'); ?>" target="_blank()" data-bs-toggle="tooltip" title="Download Manual Book">
+                    <i class="ri-information-line ri-3x"></i>
+                    Manual Book</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->

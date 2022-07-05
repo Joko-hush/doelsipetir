@@ -15,15 +15,12 @@ class Member extends CI_Controller
         $data['judul'] = 'home';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-<<<<<<< HEAD
         $log = [
             'user_id' => $data['staff']['id'],
             'action' => 'masuk ke homepage',
             'created_at' => time()
         ];
         $this->db->insert('log', $log);
-=======
->>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
 
         $id = $data['staff']['jabatan'];
         $this->db->where('id', $id);
@@ -88,15 +85,12 @@ class Member extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
-<<<<<<< HEAD
         $log = [
             'user_id' => $data['staff']['id'],
             'action' => 'Buka hal riwayat hidup',
             'created_at' => time()
         ];
         $this->db->insert('log', $log);
-=======
->>>>>>> a4e5510c7b8958b784455e9ed666a2623fd96475
         $this->db->order_by('tmt', 'asc');
         $this->db->where('personil_id', $data['staff']['id']);
         $this->db->limit(1);
