@@ -11,25 +11,7 @@ class Auth extends CI_Controller
     }
     public function index()
     {
-        // $cookie = $this->input->cookie('always', true);
         $session = $this->session->userdata('email');
-        // if ($cookie) {
-        //     $email = $cookie;
-
-        //     $user = $this->db->get_where('user', ['email' => $email])->row_array();
-        //     $data = [
-        //         'email' => $user['email'],
-        //         'role_id' => $user['role_id']
-        //     ];
-        //     $this->session->set_userdata($data);
-        //     if ($user['role_id'] == 1) {
-        //         redirect('admin');
-        //     } elseif ($user['role_id'] == 3) {
-        //         redirect('personalia');
-        //     } else {
-        //         redirect('member');
-        //     }
-        // }
         if ($session) {
             $email = $session;
             $user = $this->db->get_where('user', ['email' => $email])->row_array();

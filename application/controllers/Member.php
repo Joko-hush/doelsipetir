@@ -849,6 +849,9 @@ class Member extends CI_Controller
         $id = $this->input->get('id');
         $this->db->where('id', $id);
         $this->db->delete('jb_kepangkatan');
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+
         $log = [
             'user_id' => $id,
             'action' => 'menghapus pangkat',
@@ -884,7 +887,6 @@ class Member extends CI_Controller
 
         $data['title'] = 'DOEL SI PETIR';
         $data['judul'] = 'Edit Riwayat Pangkat';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
         $this->form_validation->set_rules('pangkat', 'Pangkat', 'required|trim');
         $this->form_validation->set_rules('tmt', 'TMT', 'required|trim');
@@ -913,7 +915,15 @@ class Member extends CI_Controller
                     $new_image = $this->upload->data('file_name');
                     $this->db->set('doc', $new_image);
                 } else {
-                    echo $this->upload->display_errors();
+                    $log = [
+                        'user_id' => $data['staff']['id'],
+                        'action' => 'Error, gagal mengedit pendidikan umum',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
+                    $this->session->set_flashdata('message', '<div class="alert alert-gagal" role="alert">
+                    Gagal menambahkan data. Silahkan cek kembali apakah dokumen yang diupload sudah sesuai. Jika sudah silahkan ulangi kembali.
+                    </div>');
                 }
             }
             $this->db->set('pangkat', $pkt);
@@ -1024,8 +1034,10 @@ class Member extends CI_Controller
         $id = $this->input->get('id');
         $this->db->where('id', $id);
         $this->db->delete('jb_dik_um');
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $log = [
-            'user_id' => $id,
+            'user_id' => $data['staff']['id'],
             'action' => 'menghapus pendidikan umum',
             'created_at' => time()
         ];
@@ -1073,7 +1085,16 @@ class Member extends CI_Controller
                     $new_image = $this->upload->data('file_name');
                     $this->db->set('doc', $new_image);
                 } else {
-                    echo $this->upload->display_errors();
+
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'Error, gagal mengedit pendidikan umum',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
+                    $this->session->set_flashdata('message', '<div class="alert alert-gagal" role="alert">
+                    Gagal menambahkan data. Silahkan cek kembali apakah dokumen yang diupload sudah sesuai. Jika sudah silahkan ulangi kembali.
+                    </div>');
                 }
             }
             $this->db->set('jenis_didik', $jenis);
@@ -1159,8 +1180,10 @@ class Member extends CI_Controller
         $id = $this->input->get('id');
         $this->db->where('id', $id);
         $this->db->delete('jb_dikmil_a');
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $log = [
-            'user_id' => $id,
+            'user_id' => $data['staff']['id'],
             'action' => 'menghapus pendidikan militer a',
             'created_at' => time()
         ];
@@ -1299,8 +1322,10 @@ class Member extends CI_Controller
         $id = $this->input->get('id');
         $this->db->where('id', $id);
         $this->db->delete('jb_dikmil_b');
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $log = [
-            'user_id' => $id,
+            'user_id' => $data['staff']['id'],
             'action' => 'menghapus pendidikan militer b',
             'created_at' => time()
         ];
@@ -1620,7 +1645,6 @@ class Member extends CI_Controller
                     ];
                     $this->db->insert('log', $log);
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Anda gagal mengubah data Tanda kehormatan. Silahkan cek kembali dokumen yang diupload</div>');
-                    redirect('member/inputdata');
                 }
             }
             $this->db->set('update_at', time());
@@ -1988,7 +2012,6 @@ class Member extends CI_Controller
                     ];
                     $this->db->insert('log', $log);
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Gagal Upload dokumen</div>');
-                    redirect('member/inputdata');
                 }
             }
             $this->db->set('update_at', time());
@@ -2114,7 +2137,13 @@ class Member extends CI_Controller
                     $new_image = $this->upload->data('file_name');
                     $this->db->set('doc', $new_image);
                 } else {
-                    echo $this->upload->display_errors();
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'error, gagal edit tugas operasi',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Data riwayat tugas operasi gagal ditambahkan. Upload file dokumen gagal</div>');
                 }
             }
 
@@ -2124,6 +2153,12 @@ class Member extends CI_Controller
             $this->db->set('update_at', time());
             $this->db->where('id', $id);
             $this->db->update('jb_r_tugas_operasi');
+            $log = [
+                'user_id' => $id,
+                'action' => 'edit tugas operasi',
+                'created_at' => time()
+            ];
+            $this->db->insert('log', $log);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat tugas operasi berhasil ditambahkan</div>');
             redirect('member/inputdata');
         }
@@ -2134,6 +2169,14 @@ class Member extends CI_Controller
 
         $this->db->where('id', $id);
         $this->db->delete('jb_r_tugas_operasi');
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'menghapus tugas operasi',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat tugas operasi berhasil hapus</div>');
         redirect('member/inputdata');
     }
@@ -2174,10 +2217,23 @@ class Member extends CI_Controller
                         'update_at' => time()
                     ];
                     $this->db->insert('jb_r_tugas_luarnegri', $data1);
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'Menambahkan tugas luar negeri',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat tugas luar negeri berhasil di tambahkan.</div>');
                     redirect('member/inputdata');
                 } else {
-                    echo $this->upload->display_errors();
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'Error, gagal menambahkan tugas luar negeri',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Gagal menambahkan. Cek kembali file yang diupload. Jika sudah sesuai silahkan ulangi kembali.</div>');
+                    redirect('member/inputdata');
                 }
             }
         }
@@ -2187,6 +2243,14 @@ class Member extends CI_Controller
         $id = $this->input->get('id');
         $this->db->where('id', $id);
         $this->db->delete('jb_r_tugas_luarnegri');
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'Menghapus tugas luar negeri',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat tugas luar negeri berhasil di hapus.</div>');
         redirect('member/inputdata');
     }
@@ -2243,6 +2307,12 @@ class Member extends CI_Controller
             $this->db->set('update_at', time());
             $this->db->where('id', $id);
             $this->db->update('jb_r_tugas_luarnegri');
+            $log = [
+                'user_id' => $id,
+                'action' => 'Edit tugas luar negeri',
+                'created_at' => time()
+            ];
+            $this->db->insert('log', $log);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat tugas operasi berhasil ditambahkan</div>');
             redirect('member/inputdata');
         }
@@ -2313,10 +2383,25 @@ class Member extends CI_Controller
                         'updated_at' => time()
                     ];
                     $this->db->insert('jabatan_fungsional', $data);
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'menambahkan jabatan fungsional',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan fungsional berhasil ditambahkan</div>');
                     redirect('member/fungsional');
                 } else {
-                    echo $this->upload->display_errors();
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'Error, gagal menambahkan jabatan fungsional',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
+                    $this->session->set_flashdata('message', '<div class="alert alert-gagal" role="alert">
+                    Gagal menambahkan data. Silahkan cek kembali apakah dokumen yang diupload sudah sesuai. Jika sudah silahkan ulangi kembali.
+                    </div>');
+                    redirect('member/fungsional');
                 }
             }
         }
@@ -2325,6 +2410,14 @@ class Member extends CI_Controller
     {
         $id = $this->input->get('id');
         $this->db->delete('jabatan_fungsional', ['id' => $id]);
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'Menghapus riwayat jabatan fungsional',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan fungsional berhasil dihapus</div>');
         redirect('member/fungsional');
     }
@@ -2368,7 +2461,15 @@ class Member extends CI_Controller
 
                     $this->db->set('doc', $new_image);
                 } else {
-                    echo $this->upload->display_errors();
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'Error, gagal mengedit jabatan fungsional',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
+                    $this->session->set_flashdata('message', '<div class="alert alert-gagal" role="alert">
+                    Gagal menambahkan data. Silahkan cek kembali apakah dokumen yang diupload sudah sesuai. Jika sudah silahkan ulangi kembali.
+                    </div>');
                 }
             }
             $this->db->set('updated_at', time());
@@ -2378,6 +2479,12 @@ class Member extends CI_Controller
             $this->db->set('nama', $name);
             $this->db->where('id', $id);
             $this->db->update('jabatan_fungsional');
+            $log = [
+                'user_id' => $id,
+                'action' => 'mengedit jabatan fungsional',
+                'created_at' => time()
+            ];
+            $this->db->insert('log', $log);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan fungsional berhasil diubah</div>');
             redirect('member/fungsional');
         }
@@ -2427,10 +2534,25 @@ class Member extends CI_Controller
                         'updated_at' => time()
                     ];
                     $this->db->insert('jabatan_struktural', $data);
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'mengedit jabatan struktural',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan struktural berhasil disimpan</div>');
                     redirect('member/struktural');
                 } else {
-                    echo $this->upload->display_errors();
+                    $log = [
+                        'user_id' => $id,
+                        'action' => 'Error, gagal menambah jabatan struktural',
+                        'created_at' => time()
+                    ];
+                    $this->db->insert('log', $log);
+                    $this->session->set_flashdata('message', '<div class="alert alert-gagal" role="alert">
+                    Gagal menambahkan data. Silahkan cek kembali apakah dokumen yang diupload sudah sesuai. Jika sudah silahkan ulangi kembali.
+                    </div>');
+                    redirect('member/struktural');
                 }
             }
         }
@@ -2439,6 +2561,14 @@ class Member extends CI_Controller
     {
         $id = $this->input->get('id');
         $this->db->delete('jabatan_struktural', ['id' => $id]);
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
+        $log = [
+            'user_id' => $data['staff']['id'],
+            'action' => 'Menghapus riwayat jabatan struktural',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data riwayat jabatan struktural berhasil dihapus</div>');
         redirect('member/struktural');
     }
@@ -2462,6 +2592,13 @@ class Member extends CI_Controller
         $data['staff'] = $this->db->get_where('jb_personil', ['email' => $data['user']['email']])->row_array();
         $id = $data['staff']['id'];
         $nip = $data['staff']['nik'];
+
+        $log = [
+            'user_id' => $id,
+            'action' => 'Melihat dosier',
+            'created_at' => time()
+        ];
+        $this->db->insert('log', $log);
 
         $this->load->model('Dosier_models', 'dosier');
         $data['ktp'] = $this->dosier->getKtp($id);
