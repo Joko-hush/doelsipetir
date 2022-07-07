@@ -43,3 +43,19 @@
 
     </div>
 </section><!-- End Hero -->
+
+<script>
+    var btnMsk = document.getElementById('btn_masuk');
+    var btnPlg = document.getElementById('btn_pulang');
+
+    window.addEventListener("load", () => {
+
+        btnMsk.style.display = "none";
+        btnPlg.style.display = "none";
+
+    });
+    setTimeout(function() {
+        btnMsk.style.display = "block";
+        btnPlg.style.display = "block";
+    }, 6000);
+</script>
