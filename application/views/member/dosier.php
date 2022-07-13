@@ -14,7 +14,7 @@
                     <div class="box p-3 shadow m-2">
                         <h5>Kartu</h5>
                         <div class="table-responsive">
-                            <table class="table table-sm bordered text-center" id="myTable">
+                            <table class="table table-sm bordered text-center">
                                 <thead>
                                     <tr>
                                         <th>Nama Dokumen</th>
@@ -75,6 +75,33 @@
                         </div>
                     </div>
                     <!-- end kartu -->
+                    <div class="box p-3 shadow m-2">
+                        <h5>Sertifikat</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered" id="myTable">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Tahun</th>
+                                        <th>Dokumen</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($sertifikat as $se) : ?>
+                                        <tr>
+                                            <td><?= $se['sertifikat']; ?></td>
+                                            <td><?= $se['tgl']; ?></td>
+                                            <td>
+                                                <a href="<?= base_url('asset/img/dosier/') . $se['doc']; ?>" target="_blank()">
+                                                    <i class="fa-solid fa-display-arrow-down"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
 
                     <div class="box p-3 shadow m-2">

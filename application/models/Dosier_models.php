@@ -206,4 +206,10 @@ WHERE
         ];
         return $data;
     }
+    public function getSertifikat($id)
+    {
+        $this->db->where('personil_id', $id);
+        $this->db->order_by('tgl', 'desc');
+        return $this->db->get('jb_sertifikat')->result_array();
+    }
 }

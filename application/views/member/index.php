@@ -59,7 +59,7 @@
             <div class="col-xl-2 col-md-4">
                 <a href="<?= base_url('sertifikat'); ?>">
                     <div class="icon-box rounded shadow">
-                        <i class="ri-edit-box-fill"></i>
+                        <i class="ri-article-fill"></i>
                         <h3>
                             Sertifikat
                         </h3>
