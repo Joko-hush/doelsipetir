@@ -165,7 +165,6 @@
                              </div>
                              <div class="col-md-8">
                                  <select class="form-control" name="gender" id="gender">
-
                                      <option value="">Silahkan pilih</option>
 
                                      <option value="L">Laki-laki</option>
@@ -195,9 +194,7 @@
                              </div>
                              <div class="col-md-8">
                                  <div class="input-group">
-
                                      <input type="date" name="tanggallahir" aria-label="Tanggal lahir" class="form-control" placeholder="Silahkan input tanggal lahir">
-
                                  </div>
                              </div>
                          </div>
@@ -207,13 +204,11 @@
                      <div class="form-group">
                          <div class="row">
                              <div class="col-md-4">
-                                 <label class="form-label" for="gender">Kualifikasi</label>
+                                 <label class="form-label" for="kualifikasi">Kualifikasi</label>
                              </div>
                              <div class="col-md-8">
-                                 <select class="form-control" name="gender" id="gender">
-
+                                 <select class="form-control" name="kualifikasi" id="kualifikasi">
                                      <option value=""></option>
-
                                      <option value="KHL Medis">KHL Medis</option>
                                      <option value="KHL Paramedis">KHL Paramedis</option>
                                      <option value="KHL Non Paramedis">KHL Non Paramedis</option>
@@ -230,28 +225,20 @@
                              </div>
                              <div class="col-md-8">
                                  <div class="input-group">
-
                                      <input type="date" name="tmt" aria-label="Tanggal lahir" class="form-control" placeholder="Silahkan input tmt">
-
                                  </div>
                              </div>
                          </div>
 
                          <?= form_error('tmt', '<small class="text-danger pl-3">', '</small>'); ?>
                      </div>
-
-
-
                      <div class="form-group">
-
                          <div class="row">
                              <div class="col-sm-4 text-end">
                              </div>
                              <div class="col-sm-8 p-2">
                                  <div class="form-check">
-
                                      <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="aktif" checked>
-
                                      <label class="form-check-label" for="flexCheckDefault" data-bs-toggle="tooltip" data-bs-placement="top" title="Jangan di checklist jika ingin menonaktifkan">
                                          Aktif
                                      </label>

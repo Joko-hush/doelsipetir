@@ -57,5 +57,5 @@
     setTimeout(function() {
         btnMsk.style.display = "block";
         btnPlg.style.display = "block";
-    }, 6000);
+    }, 10000);
 </script>

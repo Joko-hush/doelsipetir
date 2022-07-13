@@ -285,14 +285,14 @@ if ($judul == "Pengisian Data Personil") {
 </script>
 
 <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./service-worker.js')
-                .then(() => {
-                    console.log('[ Hey there! ] Service Worker Registered');
-                });
-        });
-    }
+    // if ('serviceWorker' in navigator) {
+    //     window.addEventListener('load', () => {
+    //         navigator.serviceWorker.register('./service-worker.js')
+    //             .then(() => {
+    //                 console.log('[ Hey there! ] Service Worker Registered');
+    //             });
+    //     });
+    // }
 </script>
 <script>
     function check(a) {

@@ -123,9 +123,9 @@ function captureimagedd() {
 						title: "Oops!",
 						text: text,
 						icon: "error",
-						timer: 3500,
+						timer: 10000,
 					});
-					setTimeout("location.href = '../member';", 3500);
+					setTimeout("location.href = '../member';", 10000);
 				}
 			}
 		);

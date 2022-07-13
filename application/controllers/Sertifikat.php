@@ -56,13 +56,14 @@ class Sertifikat extends CI_Controller
                         'tgl' => $tgl,
                         'created_at' => time()
                     ];
+
+                    $this->db->insert('jb_sertifikat', $file);
                     $log = [
                         'user_id' => $id,
                         'action' => 'upload sertifikat',
                         'created_at' => time()
                     ];
                     $this->db->insert('log', $log);
-                    $this->db->insert('jb_sertifikat', $file);
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil Menyimpan sertifikat</div>');
                     redirect('sertifikat');
                 } else {

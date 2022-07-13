@@ -188,7 +188,6 @@ class Personalia extends CI_Controller
 
         $this->form_validation->set_rules('nama', 'Nama Lengkap', 'required|trim');
         $this->form_validation->set_rules('nip', 'No. Nip', 'required|trim');
-        $this->form_validation->set_rules('pangkat', 'Pangkat', 'required|trim');
         $this->form_validation->set_rules('jabatan', 'Jabatan', 'required|trim');
         if ($this->form_validation->run() == false) {
 
@@ -214,7 +213,10 @@ class Personalia extends CI_Controller
             if (!$aktif) {
                 $aktif = 0;
             }
+            $a = $this->db->get('m_personil_pers')->num_rows();
+            $id = $a + 1;
             $data1 = [
+                'id' => $id,
                 'nip' => $nip,
                 'nama' => $nama,
                 'pangkat' => $pangkat,
