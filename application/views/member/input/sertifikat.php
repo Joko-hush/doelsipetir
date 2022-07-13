@@ -1,7 +1,7 @@
 <section id="hero" class="d-flex align-items-center justify-content-center">
     <div class="container" data-aos="fade-up">
 
-        <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+        <div class="row justify-content-center mt-3" data-aos="fade-up" data-aos-delay="150">
 
             <div class="mt-3">
                 <?= $this->session->flashdata('message'); ?>
@@ -37,6 +37,7 @@
                                 <th>Nama Sertifikat</th>
                                 <th>Tahun Perolehan</th>
                                 <th>Dokumen</th>
+                                <th>Option</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,6 +48,14 @@
                                     <td><?= $s['sertifikat']; ?></td>
                                     <td><?= $s['tgl']; ?></td>
                                     <td><?= $s['doc']; ?></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-warning" onclick="return confirm('Anda akan melakukan edit data?')" href="<?= base_url('sertifikat/edit') . '?id=' . $s['id']; ?>">
+                                            Edit
+                                        </a> |
+                                        <a class="btn btn-sm btn-danger" onclick="return confirm('Anda akan melakukan hapus data?')" href="<?= base_url('sertifikat/hapus') . '?id=' . $s['id']; ?>">
+                                            Hapus
+                                        </a>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

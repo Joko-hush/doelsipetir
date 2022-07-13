@@ -366,6 +366,7 @@ class Personalia extends CI_Controller
         $data['tugasLn'] = $this->dosier->getTugasLn($id);
         $data['TandaKh'] = $this->dosier->getTkh($id);
         $data['prestasi'] = $this->dosier->getPrestasi($id);
+        $data['sertifikat'] = $this->dosier->getSertifikat($id);
 
 
 
